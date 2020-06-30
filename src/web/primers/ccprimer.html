@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: ccprimer.html,v 1.6 2009/11/28 14:38:57 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>XINS - Calling Convention Primer</title>
+		<link rel="stylesheet" type="text/css" href="../style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<script src="../functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>XINS<span class="nodisplay"> - </span><span id="subtitle">Calling Convention Primer</span></h1>
+
+		<div id="root">
+			<div id="sidebar">
+				<script src="write_togglemenu.js" type="text/javascript"></script>
+				<ul id="menu">
+					<li                 ><a title="Front page of the XINS website"                                           href="../index.html">Home Page</a></li>
+					<li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+					<li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+					<li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+					<li class="active"  ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="../documentation.html">Documentation</a></li>
+					<li                 ><a title="Demonstration Page"                                                       href="../demo.html">Demo</a></li>
+					<li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+					<li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+					<li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+					<li class="newgroup"><a title="Various links"                                                            href="../links.html">Links</a></li>
+				</ul>
+			</div>
+
+			<div id="content">
+				<div class="section">
+					<h2 id="about">About this tutorial</h2>
+					<p>This tutorial shows how to extend XINS with your own custom protocol, step by step. The exercise should take you less than 15 minutes.</p>
+
+					<h3>Prerequisites</h3>
+					<p>You should have finished the <a href="primer.html">XINS Primer</a> as we will continue where the latter left off.</p>
+					<p>Use XINS %%STABLE_VERSION%%.</p>
+
+					<h3>Overview of contents</h3>
+					<p>This article is divided in the following sections:</p>
+					<ul>
+						<li><a href="#intro"         >1. Introduction</a></li>
+						<li><a href="#javafile"      >2. Create the Java file</a> (2 steps)</li>
+						<li><a href="#convertRequest">3. Analyze the incoming request</a> (1 step)</li>
+						<li><a href="#convertResult" >4. Produce the response</a> (1 step)</li>
+						<li><a href="#register"      >5. Register the calling convention</a> (1 step)</li>
+						<li><a href="#test"          >6. Test</a> (4 steps)</li>
+						<li><a href="#finally"       >7. Finally</a></li>
+					</ul>
+				</div>
+
+				<div class="section">
+					<h2 id="intro">1. Introduction</h2>
+					<p>The XINS framework supports different protocols, including <a title="Wikipedia page about the XML-RPC communication protocol" href="http://en.wikipedia.org/wiki/XML-RPC">XML-RPC</a>, <a title="Wikipedia page about the SOAP communication protocol" href="http://en.wikipedia.org/wiki/SOAP">SOAP</a> and <a title="" href="">POX-RPC</a>. In XINS terminology, these are called <em>calling conventions</em>. Different calling conventions live next to each other at run-time. When a request comes in, the framework determines which calling convention should handle the request:</p>
+					<div class="indent"><img src="cc1.png" /></div>
+					<p>XINS can be extended with <em>custom calling conventions</em>. Such a calling convention has the following responsibilities:</p>
+					<ol>
+						<li>indicate which HTTP methods it supports (defaults to <em>GET</em>, <em>HEAD</em> and <em>POST</em>);</li>
+						<li>indicate for a specific HTTP request whether it can handle it (<em>optional</em>);</li>
+						<li>interpret an HTTP request and convert it to a XINS request object;</li>
+						<li>convert a XINS response object to an HTTP response.</li>
+					</ol>
+				</div>
+
+				<div class="section">
+					<h2 id="minimal">2. Create the Java file</h2>
+					<p>Let's prepare to create the initial version of the Java source file. A minimal custom calling convention implementation must:</p>
+					<ul>
+						<li>extend class <code><a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/CustomCallingConvention.html">CustomCallingConvention</a></code>;</li>
+						<li>have a public no-argument constructor;</li>
+						<li>implement the <code><a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/CustomCallingConvention.html#convertRequestImpl(javax.servlet.http.HttpServletRequest)">convertRequestImpl</a></code> method;</li>
+						<li>implement the <code><a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/CustomCallingConvention.html#convertResultImpl(org.xins.server.FunctionResult, javax.servlet.http.HttpServletResponse, javax.servlet.http.HttpServletRequest)">convertResultImpl</a></code> method.</li>
+					</ul>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step1">
+							<td class="step">Step&nbsp;1.</td>
+							<td>Remember that the <a href="primer.html">XINS Primer</a> let you create a small XINS project? You need that now.
+								<p>Under the <code>apis/myapi/impl/com/mycompany</code> directory, create a new directory called <code>cc</code>.</td>
+						</tr>
+						<tr id="step2">
+							<td class="step">Step&nbsp;2.</td>
+							<td>In that <code>cc</code> directory, create a file called <code>MyCallingConvention.java</code> with the following contents:
+								<div class="indent"><pre class="javacode">package com.mycompany.cc;
+
+import java.io.IOException;
+import java.util.Iterator;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.xins.common.Log;
+import org.xins.common.collections.PropertyReader;
+import org.xins.common.servlet.ServletRequestPropertyReader;
+import org.xins.common.text.ParseException;
+import org.xins.server.CustomCallingConvention;
+import org.xins.server.FunctionNotSpecifiedException;
+import org.xins.server.FunctionRequest;
+import org.xins.server.FunctionResult;
+import org.xins.server.InvalidRequestException;
+
+public class MyCallingConvention extends <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/CustomCallingConvention.html">CustomCallingConvention</a> {
+
+   public MyCallingConvention() {
+      <span class="comment">// empty</span>
+   }
+}</pre></div></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="section">
+					<h2 id="convertRequest">3. Analyze the incoming request</h2>
+					<p>The <code><a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/CustomCallingConvention.html#convertRequestImpl(javax.servlet.http.HttpServletRequest)">convertRequestImpl</a></code> method gets an <code><a href="http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletRequest.html">HttpServletRequest</a></code> object as input, based on which it needs to determine:</p>
+					<ul>
+						<li>which function should be called;</li>
+						<li>which parameters, if any, should be passed to that function;</li>
+						<li>is there a data section to pass to the function?</li>
+					</ul>
+					<p>This information will then be used to invoke the correct function, with the appropriate arguments.</p>
+					<p>Visually:</p>
+					<div class="indent"><img src="cc2.png" /></div>
+					<p>This information then needs to be returned to the XINS server engine in a <code><a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/FunctionRequest.html">FunctionRequest</a></code> object.</p>
+					<p>Our example implementation expects the function in an HTTP parameter named <code>_function</code> and it uses the other HTTP parameters as parameters for the functions. For the sake of simplicity, it does not support an input data section.</p>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step3">
+							<td class="step">Step&nbsp;3.</td>
+							<td>Add the following code in your class:
+								<div class="indent"><pre class="javacode">protected <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/FunctionRequest.html">FunctionRequest</a> convertRequestImpl(<a href="http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletRequest.html">HttpServletRequest</a> httpRequest)
+throws <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/InvalidRequestException.html">InvalidRequestException</a>, <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/FunctionNotSpecifiedException.html">FunctionNotSpecifiedException</a> {
+
+   <span class="comment">// Trace this method call</span>
+   Log.log_1053("In MyCallingConvention.convertRequestImpl(...)");
+
+   <span class="comment">// Determine which function should be invoked</span>
+   String function = httpRequest.getParameter("_function");
+
+   <span class="comment">// The function name must be specified</span>
+   if (function == null || "".equals(function)) {
+      throw new <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/FunctionNotSpecifiedException.html">FunctionNotSpecifiedException</a>();
+   }
+
+   <span class="comment">// Directly convert the parameters to a PropertyReader object</span>
+   <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/common/collections/PropertyReader.html">PropertyReader</a> params;
+   try {
+      params = new <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/common/servlet/ServletRequestPropertyReader.html">ServletRequestPropertyReader</a>(httpRequest);
+   } catch (<a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/common/text/ParseException.html">ParseException</a> exception) {
+      throw new <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/InvalidRequestException.html">InvalidRequestException</a>("Failed to parse request.",
+                                        exception);
+   }
+
+   <span class="comment">// XXX: The input data section is not supported</span>
+
+   <span class="comment">// Return an appropriate XINS request object</span>
+   return new <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/FunctionRequest.html">FunctionRequest</a>(function, params, null);
+}</pre></div></td>
+						</tr>
+					</table>
+
+				</div>
+
+				<div class="section">
+					<h2 id="convertResult">4. Produce the response</h2>
+					<p>Once the function has processed the request, the framework hands the result to the <code><a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/CustomCallingConvention.html#convertResultImpl(org.xins.server.FunctionResult, javax.servlet.http.HttpServletResponse, javax.servlet.http.HttpServletRequest)">convertResultImpl</a></code> method in the calling convention. The latter converts it to an HTTP response, which is then returned to the client:</p>
+					<div class="indent"><img src="cc3.png" /></div>
+					<p>The result information comes in as a <code><a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/FunctionResult.html">FunctionResult</a></code> object.</p>
+					<p>Our example implementation will take the result and convert it to a simple HTML page that lists the output parameters with their respective values.</p>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step4">
+							<td class="step">Step&nbsp;4.</td>
+							<td>Now add the following code in your class:
+								<div class="indent"><pre class="javacode">protected void convertResultImpl(<a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/FunctionResult.html">FunctionResult</a>      xinsResult,
+                                 <a href="http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletResponse.html">HttpServletResponse</a> httpResponse,
+                                 <a href="http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletRequest.html">HttpServletRequest</a>  httpRequest)
+throws IOException {
+
+   <span class="comment">// Trace this method call</span>
+   Log.log_1053("In MyCallingConvention.convertResultImpl(...)");
+
+   <span class="comment">// Generate HTML</span>
+   String html = generateHTML(xinsResult);
+
+   <span class="comment">// Set HTTP status and add headers</span>
+   httpResponse.setStatus(HttpServletResponse.SC_OK);
+   httpResponse.setContentType("text/html; charset=UTF-8");
+   httpResponse.addIntHeader("Content-Length", html.length());
+
+   <span class="comment">// Write the body, except for HTTP HEAD requests</span>
+   if (! "HEAD".equals(httpRequest.getMethod())) {
+      httpResponse.getWriter().print(html);
+   }
+}
+
+private String generateHTML(<a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/FunctionResult.html">FunctionResult</a> result) {
+
+   <span class="comment">// Determine error code and output parameters</span>
+   String         error  = result.getErrorCode();
+   <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/common/collections/PropertyReader.html">PropertyReader</a> params = result.getParameters();
+
+   <span class="comment">// Top part</span>
+   String html = "&lt;html&gt;&lt;head&gt;&lt;body&gt;"
+               + "&lt;h3&gt;Error code&lt;/h3&gt;"
+               + "The error code is: "
+               + error
+               + "&lt;h3&gt;Output parameters&lt;/h3&gt;"
+               + "The following output parameters are set:"
+               + "&lt;table border=1&gt;&lt;tr&gt;"
+               + "&lt;th&gt;Name&lt;/th&gt;"
+               + "&lt;th&gt;Value&lt;/th&gt;"
+               + "&lt;/tr&gt;";
+
+   <span class="comment">// One table row per parameter</span>
+   Iterator names = params.getNames();
+   while (names.hasNext()) {
+      String name  = (String) names.next();
+      String value = params.get(name);
+      html += "&lt;tr&gt;&lt;td&gt;" + name + "&lt;/td&gt;&lt;td&gt;" + value + "&lt;/td&gt;&lt;/tr&gt;";
+   }
+
+   <span class="comment">// Bottom part</span>
+   html += "&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;";
+
+   return html;
+}</pre></div></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="section">
+					<h2 id="register">5. Register the calling convention</h2>
+					<p>Each calling convention needs to have a unique name. This name can be passed in a request, to explicitly specify that this is the one to be used. The name may contain letters, digits and underscores, but it should start with a letter.</p>
+					<p>For this exercise we will use the name:</p>
+					<ul>
+						<li><code>mycc</code></li>
+					</ul>
+
+					<h3>Edit impl.xml</h3>
+					<p>In order for the framework to know about a custom calling convention, it must be registered in the <code>impl.xml</code> file for the appropriate API.</p>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step5">
+							<td class="step">Step&nbsp;5</td>
+							<td>Under the <code>MyProject</code> directory, edit the <code>apis/myapi/impl/impl.xml</code> file and add a <code>&lt;calling-convention&gt;</code> tag as follows:</p>
+								<div class="indent"><pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE impl PUBLIC
+ "-//XINS//DTD Implementation 2.0//EN"
+ "http://www.xins.org/dtd/impl_2_0.dtd"&gt;
+
+&lt;impl&gt;
+   &lt;calling-convention
+   name="mycc"
+   class="com.mycompany.cc.MyCallingConvention"/&gt;
+&lt;/impl&gt;</pre></div></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="section">
+					<h2 id="test">6. Test</h2>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step6">
+							<td class="step">Step&nbsp;6</td>
+							<td>From the <code>MyProject</code> directory, start the internal server:
+								<div class="indent"><pre>xins -Dorg.xins.server.config=xins.properties run-myapi</pre></div>
+								<p>In the startup log, notice the following entry:</p>
+								<div class="indent"><pre>3245 INFO Default calling convention is "mycc".</pre></div>
+								<p class="note">Note: This log message is <a href="http://xins.sourceforge.net/logdoc/%%STABLE_VERSION%%/server/entry-3245.html">documented on-line</a>, along with all other log messages produced by XINS.</p></td>
+						</tr>
+						<tr id="step7">
+							<td class="step">Step&nbsp;7</td>
+							<td>With a browser visit the following URL (assuming you deployed the application on the local machine):
+								<div class="indent"><a href="http://127.0.0.1:8080/myapi/?_function=SayHello&amp;name=John&amp;_convention=_xins-std">http://127.0.0.1:8080/myapi/?_function=SayHello&amp;name=John&amp;_convention=_xins-std</a></div>
+								<p>Notice that the calling convention to use is explicitly set to <code>_xins-std</code>.</p>
+								<p>You should see an XML document as output.</p>
+								<p>Meanwhile, your log should show output similar to the following:</p>
+								<div class="indent"><code>3521 INFO Received HTTP GET request from 127.0.0.1, path is "/myapi/", query string is "_function=SayHello&amp;name=John&amp;_convention=_xins-std".
+<br />3540 INFO 20060904-223347654 127.0.0.1 SayHello 0 0 name=John greeting=Hello+John.</code></div></td>
+						</tr>
+						<tr id="step8">
+							<td class="step">Step&nbsp;8</td>
+							<td>Let's change the calling convention from <code>_xins-std</code> to <code>mycc</code>; with your browser visit:
+								<div class="indent"><a href="http://127.0.0.1:8080/myapi/?_function=SayHello&amp;name=John&amp;_convention=mycc">http://127.0.0.1:8080/myapi/?_function=SayHello&amp;name=John&amp;_convention=mycc</a></div>
+								<p>You should now see an HTML document, produced by your very own calling convention.</p></td>
+						</tr>
+						<tr id="step9">
+							<td class="step">Step&nbsp;9</td>
+							<td>Finally, let's see what XINS does when we do not explicitly indicate which calling convention should be used. Point your browser to:
+								<div class="indent"><a href="http://127.0.0.1:8080/myapi/?_function=SayHello&amp;name=John">http://127.0.0.1:8080/myapi/?_function=SayHello&amp;name=John</a></div>
+								<p>As indicated in the startup log (see <a href="#step6">step 6</a>), XINS defaults to the <code>mycc</code> calling convention, if that one is able to handle the request.</p></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="section">
+					<h2 id="finally">7. Finally</h2>
+					<p>For more information about custom calling conventions, study the <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/server/CustomCallingConvention.html">Javadoc API documentation for the CustomCallingConvention class</a>.</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="footer">
+			<div class="links"><a href="http://validator.w3.org/check/referer">Valid XHTML 1.1</a></div>
+			<a href="http://sourceforge.net/projects/xins"><img src="http://sourceforge.net/sflogo.php?group_id=71598" alt="Powered by SourceForge"/></a>
+		</div>
+	</body>
+</html>

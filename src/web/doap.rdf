@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:admin="http://webns.net/mvcb/" xml:lang="en">
+   <rdf:Description rdf:about="">
+      <admin:generatorAgent rdf:resource="http://doapy.bonjourlesmouettes.org/doap-a-matic"/>
+   </rdf:Description>
+   <doap:Project>
+      <doap:name>XML Interface for Network Services</doap:name>
+      <doap:shortname>XINS</doap:shortname>
+      <doap:homepage rdf:resource="http://xins.sourceforge.net/"/>
+      <doap:created>2003-01-15</doap:created>
+      <doap:description>XINS is a REST-style technology used to define, create and invoke remote APIs. XINS is specification-oriented. When API specifications are written (in XML), XINS will transform them to HTML-based documentation and Java code for both the client- and the server-side. The communication is based on HTTP.&#13;
+&#13;
+XINS competes with the overcomplex SOAP technology. Main design goals include simplicity, scalability and testability.&#13;
+&#13;
+XINS is not only a specification technology, but also an application development framework. It offers transaction logging, unique log documentation and active code generation.</doap:description>
+      <doap:shortdesc>REST-style RPC technology that competes with both SOAP and XML-RPC.</doap:shortdesc>
+      <doap:bug-database rdf:resource="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814"/>
+      <doap:mailing-list rdf:resource="http://sourceforge.net/mail/?group_id=71598"/>
+      <doap:screenshots rdf:resource="http://sourceforge.net/project/screenshots.php?group_id=71598"/>
+      <doap:programming-language>Java</doap:programming-language>
+      <doap:license rdf:resource="http://usefulinc.com/doap/licenses/bsd"/>
+      <doap:download-page rdf:resource="http://sourceforge.net/project/showfiles.php?group_id=71598"/>
+      <doap:maintainer>
+         <foaf:Person>
+            <foaf:name>Ernst de Haan</foaf:name>
+            <foaf:mbox_sha1sum>386247f306c5b0776971eefa463929eae29ea88a</foaf:mbox_sha1sum>
+         </foaf:Person>
+      </doap:maintainer>
+      <doap:release>
+         <doap:Version>
+            <doap:name>Stable</doap:name>
+            <doap:created>2007-09-28</doap:created>
+            <doap:revision>2.1</doap:revision>
+         </doap:Version>
+      </doap:release>
+      <doap:repository>
+         <doap:CVSRepository>
+            <doap:anon-root>:pserver:anonymous@xins.sourceforge.net:/cvsroot/xins</doap:anon-root>
+            <doap:module>xins</doap:module>
+            <doap:browse rdf:resource="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/xins"/>
+         </doap:CVSRepository>
+      </doap:repository>
+   </doap:Project>
+</rdf:RDF>

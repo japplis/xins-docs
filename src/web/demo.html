@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: demo.html,v 1.55 2009/06/30 13:01:08 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>XINS - Demonstration Page</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<meta name="description" content="XINS, Open Source Web Services Framework. Demo page." />
+		<meta name="keywords" content="XINS, demo, web services, framework, toolkit, RESTful, REST, SOAP, SOA, WSDL, free, open source, Java" />
+		<script src="functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>XINS<span class="nodisplay"> - </span><span id="subtitle">Demonstration Page</span></h1>
+
+		<div id="root">
+			<div id="sidebar">
+				<script src="write_togglemenu.js" type="text/javascript"></script>
+				<ul id="menu">
+					<li                 ><a title="Front page of the XINS website"                                           href="index.html">Home Page</a></li>
+					<li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+					<li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+					<li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+					<li                 ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="documentation.html">Documentation</a></li>
+					<li class="active"  >Demo</li>
+					<li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+					<li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+					<li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+					<li class="newgroup"><a title="Various links"                                                            href="links.html">Links</a></li>
+				</ul>
+			</div>
+
+         <div id="content">
+            <!--div class="section">
+               <h2>Pet Store Demo</h2>
+               <p>XINS 1.4 extends the possibility to have a Web Application
+               on top of your API. A blueprint example named 'petstore' is included in the
+               release and is visible online <a href="http://xins-petstore.appspot.com/">here</a></p>
+            </div-->
+            <div class="section">
+               <h2>Flash Demo</h2>
+               <p>This <a href="flashdemo.html">Flash demo</a> will show you
+               how to define, implement and run a XINS API using
+               NetBeans.</p>
+            </div>
+            <!--div class="section">
+               <h2>Ajax On-line demo</h2>
+               <p>An API example has been deployed on-line to the
+               <a href="http://code.google.com/appengine/">Google App Engine</a>. You
+               can access it by executing the
+               <a href="demo/specdocs/myproject/MyFunction-testform.html">test form</a>
+               or by using the <acronym title="Asynchronous JavaScript And XML">Ajax</acronym>
+               examples:</p>
+               <ul>
+                  <li><a href="http://xins-petstore.appspot.com/callMyFunction.html">Example 1</a> - Simple call to an API function.</li>
+                  <li><a href="http://xins-petstore.appspot.com/callMetaFunctions.html">Example 2</a> - Calls to various meta-functions</li>
+                  <li><a href="http://xins-petstore.appspot.com/callMyFunction2.html">Example 3</a> - Using the <a href="http://sarissa.sf.net/">Sarissa</a> JavaScript library for Ajax.</li>
+                  <li><a href="http://xins-petstore.appspot.com/callMyFunctionDojo.html">Example 4</a> - Using the <a href="http://dojotoolkit.org//">Dojo toolkit</a> for Ajax.</li>
+               </ul>
+            </div-->
+            <div class="section">
+               <h2>Example Specifications</h2>
+               <p>Below are some example specification files. Such files are
+               input to XINS, from which it generates its code and
+               documentation.</p>
+               <table class="demo">
+                  <tr>
+                     <th>File name</th>
+                     <th>Description</th>
+                  </tr>
+                  <tr>
+                     <td class="file"><a href="demo/xins-project.html">xins-project.xml</a></td>
+                     <td>Project definition, with a list of APIs.</td>
+                  </tr>
+                  <tr>
+                     <td class="file">apis/myproject/spec/<a href="demo/api.html">api.xml</a></td>
+                     <td>Definition of the API.</td>
+                  </tr>
+                  <tr>
+                     <td class="file">apis/myproject/spec/<a href="demo/MyFunction.html">MyFunction.fnc</a></td>
+                     <td>Definition of the function.</td>
+                  </tr>
+                  <tr>
+                     <td class="file">apis/myproject/spec/<a href="demo/lastName.html">lastName.typ</a></td>
+                     <td>Definition of a pattern type used by the function.</td>
+                  </tr>
+                  <tr>
+                     <td class="file">apis/myproject/spec/<a href="demo/gender.html">gender.typ</a></td>
+                     <td>Definition of an enumeration type used by the function.</td>
+                  </tr>
+                  <tr>
+                     <td class="file">apis/myproject/spec/<a href="demo/NoVowel.html">NoVowel.rcd</a></td>
+                     <td>Definition of a custom error code that can be returned by the function.</td>
+                  </tr>
+                  <tr>
+                     <td class="file">apis/myproject/<a href="demo/environments.html">environments.xml</a></td>
+                     <td>List of the environments running API implementations.</td>
+                  </tr>
+                  <tr>
+                     <td class="file">apis/myproject/impl/<a href="demo/impl.html">impl.xml</a></td>
+                     <td>Implementation-specific settings.</td>
+                  </tr>
+               </table>
+            </div>
+            <div class="section">
+               <h2>Commands</h2>
+               <p>Below is a list of example <em>xins</em> commands, with a
+               brief description of the effect. You may execute
+               <em>xins help</em> to get a descriptive list of all available
+               commands for your XINS project.</p>
+               <table class="demo">
+                  <tr>
+                     <th>Command</th>
+                     <th>Example output</th>
+                     <th>Description</th>
+                  </tr>
+                  <tr>
+                     <td class="command">xins specdocs</td>
+                     <td><a href="demo/specdocs/index.html">specdocs</a></td>
+                     <td>Documentation of the specification, in HTML.</td>
+                  </tr>
+                  <tr>
+                     <td class="command">xins wsdl-<em>myproject</em></td>
+                     <td><a href="demo/myproject.wsdl.html">myproject.wsdl</a></td>
+                     <td><acronym title="Web Services Description Language">WSDL</acronym>
+                         definition of the API, used in conjunction with a
+                         SOAP call.</td>
+                  </tr>
+                  <tr>
+                     <td class="command">xins jar-<em>myproject</em></td>
+                     <td><a href="demo/capis/myproject-capi.jar">myproject-capi.jar</a></td>
+                     <td>JAR file with generated client-side code (CAPI).
+                         Classes in this JAR file require
+                         <code>xins-client.jar</code> and
+                         <code>xins-common.jar</code>.</td>
+                  </tr>
+                  <tr>
+                     <td class="command">xins javadoc-capi-<em>myproject</em></td>
+                     <td><a href="demo/javadoc-capi/myproject/index.html">CAPI Javadoc</a></td>
+                     <td>Javadoc for the generated client-side code (CAPI).
+                         Matches what is in the JAR file.</td>
+                  </tr>
+                  <tr>
+                     <td class="command">xins client-<em>myproject</em></td>
+                     <td><a href="demo/specdocs/myproject/myproject-client.zip">myproject-client.zip</a></td>
+                     <td>ZIP file containing all of the above.</td>
+                  </tr>
+                  <tr>
+                     <td class="command">xins war-<em>myproject</em></td>
+                     <td><a href="demo/MyFunctionImpl-skeleton.html">MyFunctionImpl.java</a><br/>
+                     <a href="demo/webapps/myproject/myproject.war">myproject.war</a>
+                     </td>
+                     <td>A skeleton of the function to implement.<br/>
+                     The web application.
+                     </td>
+                  </tr>
+                  <tr>
+                     <td class="command">xins javadoc-api-<em>myproject</em></td>
+                     <td><a href="demo/javadoc-api/myproject/index.html">Javadoc API</a></td>
+                     <td>javadoc of the API.</td>
+                  </tr>
+                  <tr>
+                     <td class="command">xins run-<em>myproject</em></td>
+                     <td>none</td>
+                     <td>Runs the API implementation using an internal servlet
+                         container, for test-purposes.</td>
+                  </tr>
+                  <tr>
+                     <td class="command">xins test-<em>myproject</em></td>
+                     <td><a href="demo/test/">Unit tests code</a>
+                     <br/><a href="demo/test/testresults-myproject.html">Unit tests result</a></td>
+                     <td>Generates the unit tests from the examples and run the tests.</td>
+                  </tr>
+                  <tr>
+                     <td class="command">xins opendoc-<em>myproject</em></td>
+                     <td><a href="demo/opendoc/myproject/myproject-specs.odt">OpenDocument doc</a>
+                     <br/><a href="demo/opendoc/myproject/myproject-specs.pdf">same but in PDF</a></td>
+                     <td>Generates the documentation of the specification in OpenDocument format.
+                     The transformation to PDF has been done using <a href="http://www.openoffice.org">OpenOffice.org</a>.</td>
+                  </tr>
+               </table>
+               <p class="note">Note: To execute these commands for your own
+               API, replace <em>myproject</em> with the name of your
+               API.</p>
+            </div>
+
+            <div class="section">
+               <h2>Other Examples</h2>
+               <p>Below are various other examples:</p>
+               <ul>
+                  <li><a href="demo/TestMyFunction.html">Client-side Java call.</a></li>
+                  <li><a href="demo/MyFunctionImpl.html">Server-side Java implementation.</a></li>
+                  <li><a href="demo/result3.html">A successful result</a></li>
+                  <li><a href="demo/result1.html">A result with a standard error code</a></li>
+                  <li><a href="demo/result2.html">A result with a custom (user-defined) error code</a></li>
+               </ul>
+            </div>
+         </div>
+      </div>
+
+      <div id="footer">
+         <div class="links"><a href="http://validator.w3.org/check/referer">Valid XHTML 1.1</a></div>
+         <!--div class="fileversion">$Id: demo.html,v 1.55 2009/06/30 13:01:08 agoubard Exp $</div-->
+         <a href="http://sourceforge.net/projects/xins"><img src="http://sourceforge.net/sflogo.php?group_id=71598" alt="Powered by SourceForge"/></a>
+      </div>
+   </body>
+</html>

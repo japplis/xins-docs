@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: performance-feedback.html,v 1.2 2007/09/24 14:20:00 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>XINS - Performance comparaison</title>
+		<link rel="stylesheet" type="text/css" href="../style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<script src="../functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>XINS<span class="nodisplay"> - </span>
+			<span id="subtitle">Performance compared to other Web Services frameworks (by <a href="mailto:agoubard@users.sourceforge.net">Anthony Goubard</a>)</span>
+		</h1>
+
+		<div id="root">
+
+			<div id="sidebar">
+				<script src="../write_togglemenu.js" type="text/javascript"></script>
+				<ul id="menu">
+					<li                 ><a title="Front page of the XINS website"                                           href="../index.html">Home Page</a></li>
+					<li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+					<li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+					<li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+					<li class="active"  ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="../documentation.html">Documentation</a></li>
+					<li                 ><a title="Demonstration Page"                                                       href="../demo.html">Demo</a></li>
+					<li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+					<li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+					<li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+					<li class="newgroup"><a title="Various links"                                                            href="../links.html">Links</a></li>
+				</ul>
+			</div>
+
+			<div id="content">
+				<div class="section">
+					<h2 id="feedback">Feedback</h2>
+                                        <p>I have send an e-mail to Dan Diephouse (the developer of XFire) and 
+                                        Kohsuke Kawaguchi (A Sun guru involved in JAX-WS RI) about the performance document.
+                                        Here are their feedback.</p>                                        
+                                    </div>
+
+				<div class="section">
+					<h2 id="dan">Feedback from Dan Diephouse</h2>
+<pre>Frankly, that benchmark means nothing.
+
+Other things:
+* You need to let the VM warm up for at LEAST 30 seconds. I often see performance increases for up to a minute after.
+* What JVM params did you run with? See the wso2 benchmark for some good JVM params. 
+* Only 100 requests? You're taking a sample size of a fraction of a second. GC could kick in and throw that all off.
+* A calculator example really means nothing, try some more advanced data types and xml 
+* Comparing REST to SOAP is apples to oranges. At least try comparing the CXF or RI RESTful stuff 
+
+- Dan</pre>
+<p>I tried to reexecute the tests with a warm up to a minute but had 100% errors back.
+Anyway I think that on the tests I executed, I let the VM warm up at least 30 seconds.</p>
+<p>I also removed all the REST tests.</p>
+				</div>
+
+				<div class="section">
+					<h2 id="Kohsuke">Feedback from Kohsuke Kawaguchi</h2>
+<pre>I've installed NetBeans 6.0 beta1 freshly and created a sample 
+calculator app as described in your web site. I then downloaded your 
+calculator-jaxws.jmx and used it with JMeter 2.3RC4, which I just 
+downloaded, too.
+
+To get a quick experiment done, I then started Glassfish and run JMeter 
+all on my laptop. This is a 2.8GHz HT-enabled Pentium 4 machine with 2GB 
+memory, with two Java IDEs, browser, mail client, etc., opened.
+
+The thing I immediately noticed is that you are measuring the latency, 
+and not the throughput. This is a very bad idea when you got multiple 
+threads (whose number is far larger than your physical processors) 
+sending requests concurrently. You'd either want to measure the 
+throughput (which is normally considered more useful), or measure the 
+latency with a single thread.
+
+When I opened your jmeter project file, I noticed that you are sending 
+the request to localhost. This agrees with your document where you only 
+list one system as your environment. I suppose this makes sense if you 
+are measuring a single-thread latency, but if you want to measure 
+throughput, you should really run the client and the server on separate 
+machines.
+
+One more thing to note is that JMeter doesn't use HTTP keep-alive, so 
+each request involves in TCP connection set up and tear down. With a 
+trivial payload like this, this makes a big difference.
+
+
+
+Anyway, I run it nevertheless. I executed the test once as a warm up 
+(predictably this one was slow, because of JIT and everything), and did 
+it one more time. The average turn around time I got was 3ms.
+
+Because the machine is different, I can't readily compare this with the 
+numbers you reported in your documentation. However, I hope this result 
+is enough to make you look twice about your measurement.
+
+Another observation in looking at the result is that JMeter doesn't have 
+a timer with good precision. The turn around time is either reported as 
+0, 15, or 16, which suggests that the timer it's using only got 15ms 
+precision. Given that your test run completes in something like 500ms 
+total, this timer precision is unacceptably inaccurate. (And for reasons 
+I'll explain later you'd have intermediate pause every 10 requests, 
+which makes this precision issue even worse.)
+
+Also, you set up the ramp up time as 1 second, which means 100ms delay 
+before another thread gets created. But since you only send 10 requests 
+each, as long as the avg. processing time is less than 10ms, you'll 
+never actually send two concurrent requests --- it's effectively using a 
+single thread to drive the test (which in some sense fixes the problem 
+your benchmark.)
+
+Yet if for whatever reason one processing takes a long time to run (a GC 
+activity, another application doing some work, etc), then it causes an 
+avalanche affect, which is the consequence of running multiple threads 
+and measure the latency.
+
+
+So in conclusion, I think your benchmark is highly questionable in its 
+goal (i.e., what are you trying to measure?), its methodology (i.e., are 
+you setting up things to measure what you want to measure and not 
+something else), and its result.</pre>
+			</div>
+		</div>
+	</body>
+</html>

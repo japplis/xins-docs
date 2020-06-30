@@ -1,0 +1,373 @@
+/* $Id: style.css,v 1.1 2006/03/01 22:05:11 znerd Exp $ */
+
+/* ------------------------------------- Generic element type-based rules --*/
+
+body {
+   font-family: Verdana, sans-serif, Arial, Helvetica;
+   font-size: 9pt;
+   color: #000000;
+   background-color: #ffffff;
+   margin: 0;
+   padding: 0;
+}
+
+h1 {
+   margin: 0;
+   padding: 0;
+   text-align: center;
+   font-weight: bold;
+   font-size: 280%;
+   color: #55a;
+}
+
+h2 {
+   color: #ffffff;
+   background-color: #55a;
+   margin: 0;
+   padding: 0.2em;
+   font-size: 100%;
+   font-weight: bold;
+   text-align: left;
+}
+
+h3 {
+   border-top: 1px dotted #8888dd;
+   color: #55a;
+   margin-top: 1.5em;
+   margin-bottom: 0.7em;
+   font-size: 100%;
+   font-weight: bold;
+}
+
+li {
+   margin-left: 1em;
+   padding-left: 1em;
+}
+
+img {
+   border-style: none;
+}
+
+table tr td, table tr th {
+   margin: 0;
+   padding: 0.3em;
+   vertical-align: top;
+   text-align: left;
+}
+
+ul {
+   list-style-type: square;
+}
+
+code,
+pre {
+   color: #880000;
+}
+
+
+/* ---------------------------------------------------- ID-Specific rules --*/
+
+#subtitle {
+   display: block;
+   font-weight: normal;
+   font-size: 9pt;
+   margin-bottom: 1em;
+   color: #808080;
+}
+
+#root {
+}
+
+#sidebar {
+   float: left;
+   position: absolute;
+   left: 0px;
+}
+
+#togglemenu a,
+#togglemenu a:link,
+#togglemenu a:visited,
+#togglemenu a:hover {
+   margin: 0;
+   width: 1em;
+   padding: 0.2em 0 0.2em 0;
+   font-weight: bold;
+   text-decoration: none;
+   z-index: 1;
+   border: 0px solid #ffffff;
+}
+
+#showmenu {
+   display: none;
+}
+
+#menu {
+   float: left;
+   clear: left;
+   margin: 0;
+   width: 12em;
+   padding: 1em 0 1em 0;
+   background-color: #eef;
+   border-width: 1px 1px 1px 0;
+   border-style: solid;
+   border-color: #bbb;
+   -moz-border-radius-bottomright: 1em; /* Mozilla-specific */
+   -moz-border-radius-topright:    1em; /* Mozilla-specific */
+}
+
+#menu li {
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   white-space: nowrap;
+   line-height: 1.3;
+}
+
+#menu li a {
+   margin: 0;
+   padding: 0 0.2em 0 1em;
+}
+
+#menu li.active,
+#menu li.active:hover {
+   background-color: #55a;
+   color: #ffffff;
+   padding: 0 0.2em 0 1em;
+   margin: 0 2px 0 0;
+}
+
+#menu li.activeng,
+#menu li.activeng:hover {
+   background-color: #55a;
+   color: #ffffff;
+   padding: 0 0.2em 0 1em;
+   border-top: 1px solid #bbb;
+   margin: 0.6em 2px 0 0;
+}
+
+#menu li a:link,
+#menu li a:visited,
+#menu li a:hover {
+   color: #55a;
+   text-decoration: none;
+}
+
+#menu li a:hover {
+   background-color: #aad;
+   color: #ffffff;
+}
+
+#menu .newgroup {
+   border-top: 1px solid #bbb;
+   margin-top: 0.6em;
+}
+
+#content {
+   margin: 0 0.5em 0 13em;
+}
+
+#content dl dt {
+   margin: 0;
+   font-style: italic;
+}
+
+#content dl dd {
+   margin: 0 0 0.4em 2.0em;
+   padding: 0;
+}
+
+#content a:link,
+#content a:visited,
+#content a:hover {
+   color: #55a;
+   text-decoration: none;
+}
+
+#content a:hover {
+   border-bottom: 1px solid #55a;
+}
+
+#footer {
+   margin-top: 2em;
+   clear: both;
+   border-width: 1px;
+   border-style: solid none none none;
+   border-color: #888;
+   font-style: italic;
+   text-align: right;
+   font-size: 80%;
+   color: #888;
+}
+
+#footer .links {
+   display: inline;
+   float: left;
+   text-align: left;
+   margin-right: 2em;
+}
+
+#footer .fileversion {
+   display: inline;
+   text-align: right;
+}
+
+#footer a:link,
+#footer a:visited,
+#footer a:hover {
+   color: #888;
+}
+
+#footer tr td.right {
+   text-align: right;
+}
+
+#counter img {
+	width: 1px;
+}
+
+
+/* ------------------------------------------------- Class-Specific rules --*/
+
+.nodisplay {
+   display: none;
+}
+
+.indent {
+   padding-left: 4em !important;
+}
+
+.section {
+   margin: 0 0 1em 0;
+   padding: 0.2em;
+   border: 1px solid #bbb;
+   -moz-border-radius-bottomleft: 1em;  /* Mozilla-specific */
+   -moz-border-radius-bottomright: 1em; /* Mozilla-specific */
+}
+
+.section table,
+.section div,
+.section ul,
+.section dl,
+.section p {
+   margin-top: 0.3em;
+   margin-bottom: 0.3em;
+   padding: 0;
+}
+
+.section ul {
+   margin-left: 1em;
+}
+
+.submissionform label {
+   padding-right: 1em;
+}
+
+.submissionform input {
+   font-family: Verdana, sans-serif, Arial, Helvetica;
+   font-size: 9pt;
+   border-width: 1px;
+   border-style: solid;
+}
+
+.submissionform input[type="text"],
+.submissionform input[type="password"] {
+   border-color: #aaa;
+   background: #ffd;
+}
+
+.submissionform input[type="submit"] {
+   border-color: #bbb;
+   background: #aaa;
+   color: #fff;
+   font-weight: bold;
+}
+
+table.todo {
+   text-decoration: none;
+   margin: 0 1em 1em 1em;
+   border: 1px solid #8888dd;
+   width: auto;
+   border-collapse: collapse;
+}
+
+tr.todo {
+   height: 2em;
+   line-height: 2em;
+   color: #000000;
+   background: #ddddff;
+}
+
+table.todo td,
+table.todo th {
+   padding: 0em 0.3em 0em 0.3em;
+   border-top: 1px solid #bbb;
+}
+
+table.todo th {
+   font-weight: normal;
+   font-style: italic;
+}
+
+tr.todo-title td,
+tr.todo-title th {
+   height: 2em;
+   line-height: 2em;
+   color: #000000;
+   border-top: 1px solid #8888dd !important;
+   background: #eeeeff;
+   font-weight: normal;
+   font-style: italic;
+}
+
+tr.todo-title td {
+   font-weight: bold;
+}
+
+table.demo {
+   border: 0px solid #f00;
+   width: 97%;
+   background-color: #ffffff;
+   border-collapse: collapse;
+   margin: 0 0em 0.3em 1em;
+}
+
+table.demo tr td, table.demo tr th {
+   font-weight: normal;
+   border: 1px solid #bbb !important;
+   padding: 0 0.2em 2px 0.2em;
+}
+
+table.demo tr th {
+   font-style: italic;
+   background-color: #eee;
+}
+
+table.demo tr td.file, table.demo tr td.command {
+   font-family: monospace;
+   white-space: nowrap;
+}
+
+.note, .comment {
+   color: #888;
+   font-style: italic;
+}
+
+.note em, .comment em {
+   font-style: normal;
+}
+
+.note a, .comment a {
+   color: #888 !important;
+}
+
+.quote {
+   font-style: italic;
+   color: #828;
+}
+
+/* ----------------------------------------- Clearly mark forbidden tags ---*/
+
+i, b {
+   color: #f00 !important;
+   background: #00f !important;
+}

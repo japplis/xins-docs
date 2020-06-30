@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY dollar "$">
+]>
+<?xml-stylesheet href="style.css" type="text/css"?>
+<article>
+  <title>XINS Protocol</title>
+
+  <articleinfo>
+    <author>
+      <personname>
+        <firstname>Anthony</firstname>
+
+        <surname>Goubard</surname>
+      </personname>
+
+      <email>anthony.goubard@japplis.com</email>
+    </author>
+
+    <firstname>Anthony</firstname>
+
+    <surname>Goubard</surname>
+
+    <date>2004-12-07</date>
+  </articleinfo>
+
+  <sect1>
+    <title>Introduction</title>
+
+    <para>This document describe the requirements to write a XINS compliant
+    API.</para>
+
+    <sect2>
+      <title>Input requirements</title>
+
+      <para>XINS is a framework for invoking functions remotely using
+      HTTP.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><literal>HTTP GET</literal> must be supported</para>
+        </listitem>
+
+        <listitem>
+          <para><literal>HTTP POST</literal> must be supported</para>
+        </listitem>
+
+        <listitem>
+          <para>The query must have a <literal>_function</literal> parameter
+          which is not empty and which contains the name of the function
+          invoked. If this parameter is missing, or has an invalid value, or
+          the value is not a name of a defined function, a <literal>HTTP
+          404</literal> code must be returned.</para>
+        </listitem>
+
+        <listitem>
+          <para>If a parameter is sent without value, it should be considered
+          as missing.</para>
+        </listitem>
+
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Output requirements</title>
+
+      <para>XINS returns an XML document as output.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>The root element of the returned XML must be
+          <literal>result</literal>.</para>
+        </listitem>
+
+        <listitem>
+          <para>If a result code is returned, the result element must have a
+          <literal>errorcode</literal> attribute.</para>
+        </listitem>
+
+        <listitem>
+          <para>If the result element doesn't have any attributes, the result
+          is considered as successful.</para>
+        </listitem>
+
+        <listitem>
+          <para>Returned parameters should be returned with sub-elements
+          <literal>&lt;param
+          name="name1"&gt;value1&lt;/param&gt;</literal>.</para>
+        </listitem>
+
+        <listitem>
+          <para>The returned XML may contain a <literal>data</literal> element
+          with sub-elements.</para>
+        </listitem>
+
+        <listitem>
+          <para>If some parameters are missing or the value of a parameter
+          does not match the type, an <literal>_InvalidRequest</literal> error
+          code should be returned.</para>
+        </listitem>
+
+        <listitem>
+          <para>If a generic error is generated in the implementation of the
+          function an <literal>_InternalError</literal> error code should be
+          returned.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Default error code</title>
+
+      <para>XINS includes standard error codes for common errors.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>_InternalError</para>
+
+          <para>This error code is returned when the implementation of the
+          function has thrown an error.</para>
+        </listitem>
+
+        <listitem>
+          <para>_InvalidRequest</para>
+
+          <para>This error code is returned when the given parameters do not
+          comply with the specification of the input. The cases where this
+          could happen is when a required parameter is missing, the value of a
+          parameter does not match the type or the combination of a
+          <literal>param-combo</literal> set in the specification.</para>
+        </listitem>
+
+        <listitem>
+          <para>_InvalidResponse</para>
+
+          <para>This error code is returned when the returned parameters do
+          not comply with the specification of the output.</para>
+        </listitem>
+
+        <listitem>
+          <para>_DisabledFunction</para>
+
+          <para>This error code is returned when a function has been disabled.
+          You can only have this error code if the framework has implemented
+          the <literal>_DisableFunction</literal> (and
+          <literal>_EnableFunction</literal>) meta function.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>For more information about what the elements should contain when a
+      standard error code is returned, look at the examples.</para>
+    </sect2>
+
+    <sect2>
+      <title>Conventions</title>
+
+      <para>Result codes, function names and parameters starting with an
+      underscore are reserved for XINS.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Result codes are written with the hungarian convention and
+          starting with an uppercase (e.g. DisabledAccount).</para>
+        </listitem>
+
+        <listitem>
+          <para>Function names uses the hungarian convention and starting with
+          an uppercase (e.g. CheckMIP15, GetSessionDetails).</para>
+        </listitem>
+
+        <listitem>
+          <para>Parameters for the request are in lowercase (e.g.
+          zipcode).</para>
+        </listitem>
+
+        <listitem>
+          <para>Returned elements and attributes are in lowercase. e.g.</para>
+
+          <screen>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;result&gt;
+  &lt;param name="csr"&gt;anne8&lt;/param&gt;
+  &lt;param name="loggedIn"&gt;false&lt;/param&gt;
+  &lt;data&gt;
+    &lt;property name="upgrade" value="true" /&gt;
+  &lt;/data&gt;
+&lt;/result&gt;</screen>
+        </listitem>
+
+        <listitem>
+          <para>Returned parameter names use the hungarian convention starting
+          with a lowercase (e.g. loggedIn, mainAccount, accountID).</para>
+        </listitem>
+
+        <listitem>
+          <para>The values of the parameters or of the attribute values for
+          the data elements can be anything you want.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+
+  <sect1 id="xins.properties">
+    <title>Examples</title>
+
+    <sect2>
+      <title>Successful result</title>
+
+      <para><screen>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;result/&gt;</screen></para>
+
+      <screen>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;result&gt;
+  &lt;param name="java.version"&gt;1.4.1_02&lt;/param&gt;
+  &lt;param name="xins.version"&gt;1.0.0&lt;/param&gt;
+  &lt;param name="xmlenc.version"&gt;0.43&lt;/param&gt;
+&lt;/result&gt;</screen>
+
+      <screen>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;result&gt;
+  &lt;param name="startup"&gt;2004.11.30 07:08:13.296&lt;/param&gt;
+  &lt;param name="availableProcessors"&gt;1&lt;/param&gt;
+  &lt;param name="now"&gt;2004.12.07 14:31:51.559&lt;/param&gt;
+  &lt;data&gt;
+    &lt;heap total="531628032" used="80881976" free="450746056" max="603979776"/&gt;
+  &lt;/data&gt;
+&lt;/result&gt;</screen>
+    </sect2>
+
+    <sect2>
+      <title>Unsuccessful result</title>
+
+      <para>If the error code starts with an underscore, the error code is a
+      standard error code.</para>
+
+      <screen>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;result errorcode="_InvalidRequest"&gt;
+  &lt;data&gt;
+    &lt;missing-param param="zipcode"/&gt;
+  &lt;/data&gt;
+&lt;/result&gt;</screen>
+
+      <screen>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;result errorcode="UnknownSessionID"/&gt;</screen>
+
+      <screen>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;result errorcode="BackendFailure"&gt;
+  &lt;param name="number"&gt;11&lt;/param&gt;
+&lt;/result&gt;</screen>
+    </sect2>
+  </sect1>
+</article>

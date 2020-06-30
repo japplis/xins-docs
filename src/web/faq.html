@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: faq.html,v 1.92 2009/03/23 16:04:27 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>XINS - Frequently Asked Questions</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<meta name="description" content="XINS, Open Source Web Services Framework. FAQ page." />
+		<meta name="keywords" content="XINS, FAQ, web services, framework, toolkit, RESTful, REST, SOAP, SOA, WSDL, free, open source, Java" />
+		<script src="functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>XINS<span class="nodisplay"> - </span><span id="subtitle">Frequently Asked Questions</span></h1>
+
+		<div id="root">
+			<div id="sidebar">
+				<script src="write_togglemenu.js" type="text/javascript"></script>
+				<ul id="menu">
+					<li                 ><a title="Front page of the XINS website"                                           href="index.html">Home Page</a></li>
+					<li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+					<li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+					<li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+					<li class="active"  ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="documentation.html">Documentation</a></li>
+					<li                 ><a title="Demonstration Page"                                                       href="demo.html">Demo</a></li>
+					<li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+					<li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+					<li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+					<li class="newgroup"><a title="Various links"                                                            href="links.html">Links</a></li>
+				</ul>
+			</div>
+
+		<div id="content">
+				<div class="section" id="sec-general">
+
+					<h2>General Questions</h2>
+
+					<h3 class="question">What is XINS?</h3>
+					<div class="answer">
+						<p>A technology for specification and implementation of internet applications, which enforces a <em>definition-driven</em> approach:</p>
+						<ul>
+							<li>first definitions need to written</li>
+							<li>then documentation and code is automatically generated from these definitions</li>
+							<li>then the testing and implementation can start.</li>
+						</ul>
+					</div>
+
+					<h3>Why this definition-driven approach?</h3>
+					<div class="answer">
+						<p>To stimulate that thinking happens before the coding and to enable rapid application development.</p>
+						<p>From the definitions, numerous things can be automatically generated, including:</p>
+						<ul>
+							<li><acronym title="HyperText Markup Language">HTML</acronym> and <acronym title="OpenDocument format">ODF</acronym> documentation</li>
+							<li>test forms</li>
+							<li><acronym title="Web Services Description Language">WSDL</acronym></li>
+							<li>a basic web application</li>
+							<li>test code, for automated unit- or integration-testing</li>
+							<li>stubs, for automated unit testing</li>
+							<li>client-side code</li>
+							<li>etc.</li>
+						</ul>
+					</div>
+
+					<h3>Can the testing really start even right after some definitions are written?</h3>
+					<div class="answer">
+						<p>Yes, some testing can indeed start after some initial definitions are written.</p>
+						<p>This requires that XINS is instructed to generate code, build a package and run the application from within an internal server. All of this can be done with a single command (<code>xins run-<em>apiname</em></code>).</p>
+						<p>With this -basically empty- implementation of the API you can confirm that all functions are in place, and test the input error conditions. These conditions include missing parameters and type violations.</p>
+					</div>
+
+					<h3 class="question">Which technologies does XINS rely on?</h3>
+					<div class="answer">
+						<p>On the following:</p>
+						<ul>
+							<li><strong>XML</strong>: For all definitions and for the default output from a XINS <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a>.</li>
+							<li><strong>XSLT</strong>: Underlying the code generation technologies. Also, XSLT-support is available at runtime for converting the result XML to text, HTML or other forms.</li>
+							<li><strong>Java</strong>: All generated code is in the Java programming language.</li>
+							<li><strong>Apache Ant</strong>: XINS uses Ant internally for building XINS self. Additionally, XINS generates Ant build files at runtime so it can delegate most of the build process to Ant.</li>
+						</ul>
+					</div>
+
+					<h3 class="question">What is XINS composed of, technically?</h3>
+					<div class="answer">
+						<p>Of the following:</p>
+						<ul>
+							<li>An <a href="http://en.wikipedia.org/wiki/XML"><acronym title="Extensible Markup Language">XML</acronym></a>-based <strong>definition format</strong> for projects, <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a>s, functions, types and error codes (<a href="demo/api.html">example</a>).</li>
+							<li>A <a href="http://en.wikipedia.org/wiki/POX"><acronym title="Plain Old XML">POX</acronym></a>-style <a href="http://en.wikipedia.org/wiki/Remote_procedure_call"><acronym title="Remote procedure call">RPC</acronym></a> <strong>protocol</strong> (called the <em>XINS Standard Calling Convention</em>), compatible with web browsers (<a href="http://en.wikipedia.org/wiki/HTTP"><acronym title="HyperText Transfer Protocol">HTTP</acronym></a> parameters in, XML out).</li>
+							<li>A tool for generating <strong>human-readable documentation</strong>, from the definitions (<a href="demo/specdocs/myproject/index.html">example</a>).</li>
+							<li>A tool for generating <strong><a href="http://en.wikipedia.org/wiki/WSDL"><acronym title="Web services description language">WSDL</acronym></a></strong>, from the definitions (<a href="demo/myproject.wsdl">example</a>).</li>
+							<li>A <a href="http://logging.apache.org/log4j/">Log4J</a>-based technology for <strong>logging</strong> (called <em>Logdoc</em>), offering a definition format, internationalization of log messages, generation of <a href="http://en.wikipedia.org/wiki/HTML"><acronym title="HyperText Markup Language">HTML</acronym></a> documentation and generation of code (<a href="http://xins.sourceforge.net/logdoc/%%STABLE_VERSION%%/server/index.html">example of generated HTML documentation</a>).</li>
+							<li>A Java <strong>client-side library</strong> for calliing XINS functions: the <a href="javadoc/%%STABLE_VERSION%%/org/xins/client/package-summary.html">XINS/Java Client Framework</a>; in <code>xins-client.jar</code>.</li>
+							<li>A <strong>server-side container</strong> for Java-based XINS <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a> implementations: <a href="javadoc/%%STABLE_VERSION%%/org/xins/server/package-summary.html">XINS/Java Server Framework</a>; in <code>xins-server.jar</code>. This is like a <a href="http://en.wikipedia.org/wiki/Servlet_container">servlet container</a> for XINS <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a>s. It supports not only POX-style calls, but also SOAP and <a href="http://en.wikipedia.org/wiki/XMLRPC">XML-RPC</a>. And it supports conversion using <a href="http://en.wikipedia.org/wiki/XSLT"><acronym title="XSL Transformations">XSLT</acronym></a>.</li>
+							<li>A Java library with some <strong>common functionality</strong>, used by both the XINS/Java Client Framework and the XINS/Java Server Framework: the <a href="javadoc/%%STABLE_VERSION%%/org/xins/common/package-summary.html">XINS/Java Common Library</a>, in <code>xins-common.jar</code>.</li>
+						</ul>
+					</div>
+
+					<h3 class="question">Are there any tutorials on XINS?</h3>
+					<p class="answer">Yes, there is the <a href="primer.html">XINS Primer</a>. If you want to learn more after following this 15-minute introduction, have a look at the <a href="docs/index.html">user guide</a>.</p>
+
+					<h3 class="question">Is XINS stable?</h3>
+					<div class="answer">
+						<p>Yes. XINS is actively used in a variety of production systems with no problems whatsoever. Most deployments are running XINS 1.3.0 on multi-processor Sun Solaris/SPARC systems, with the Sun JVM 1.4.2_10 HotSpot Server VM. Some of these have an uptime of several months, and handle more than 350,000 calls a day.</p>
+						<p>XINS %%STABLE_VERSION%% is considered the most stable release so far.</p>
+					</div>
+
+					<h3 class="question">Are there any memory leaks in XINS?</h3>
+					<p class="answer">No. There were memory leaks in older versions of XINS, especially in XINS 1.0.0, but extensive memory profiling and testing on XINS 1.3.0 and later has shown there are no memory leaks left.</p>
+
+					<h3 class="question">Does XINS support transport protocols other than HTTP?</h3>
+					<p class="answer">No.</p>
+
+					<h3 class="question">How do I interact with a XINS <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a>?</h3>
+					<div class="answer">
+						<p>For manual testing, you can use the HTML test forms XINS generates from the definitions. These can be used with any browser.</p>
+						<p>If your program is written in Java, you can generated a client-side JAR file or you can use the underlying <a href="http://xins.sourceforge.net/javadoc/%%STABLE_VERSION%%/org/xins/client/XINSServiceCaller.html">XINSServiceCaller</a> class directly. Support for load-balancing, fail-over and time-out handling is included.</p>
+						<p>If you use a different programming language: just call the correct URL with appropriate parameters and parse the returned XML.</p>
+					</div>
+
+					<h3 class="question" id="public-apis">Are there any public XINS <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a>s I can test with?</h3>
+					<div class="answer">
+						<p>Yes, a test API is available at <code>netarray.com</code>. It's running on the Sun <acronym title="Java Virtual Machine">JVM</acronym> 1.5.0_06 on Linux 2.4/<acronym title="Intel 32-bit architecture">x86</acronym>. This API offers one defined function, called <em>MyFunction</em>, along with all the standard meta-functions.</p>
+						<p>To invoke the <code>MyFunction</code> function, use <a href="http://xins.sourceforge.net/demo/specdocs/myproject/MyFunction-testform.html">the on-line testform</a> for testing this function with your browser.</p>
+						<p>To invoke the <code>_GetSettings</code> meta-function, for example, call <a href="http://xins.users.mcs2.netarray.com/myproject/xins/?_function=_GetSettings">http://xins.users.mcs2.netarray.com/myproject/xins/?_function=_GetSettings</a>.</p>
+					</div>
+
+					<h3 class="question">What is a XINS project?</h3>
+					<p class="answer">Basically just a set of XINS <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a>s.</p>
+
+					<h3 class="question">What is a XINS <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a>?</h3>
+					<p class="answer">Basically a group of related functions, which are deployed together. An <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a> may also define types and error codes.</p>
+
+					<h3 class="question">What is a XINS function?</h3>
+					<p class="answer">A single function that can be invoked remotely. There are meta-functions and defined functions. Meta-functions, such as <code>_GetStatistics</code> and <code>_GetSettings</code> come with XINS, while defined functions are defined specifically within a certain <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a>.</p>
+
+					<h3 class="question">What do I need in order to implement a XINS <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a> in a programming language other than Java?</h3>
+					<p class="answer">Basically, you just need to be able to accept HTTP requests (HEAD, GET and POST) and return appropriate XML. All should be in accordance with the rules for the <em>XINS Standard Calling Convention</em>, of course.</p>
+
+					<h3 class="question">How can I improve performance?</h3>
+					<p class="answer">The performance of XINS self is typically very good, especially since XINS 1.3.0.
+					If you have a performance problem, then use the <a href="http://profiler.netbeans.org">NetBeans profiler</a> with the profile target. You will find it in the demo/nbbuild.xml file.<br/>
+					You can also change the logging level of Log4j to WARN.
+					If you really believe XINS is a bottleneck in your situation, please send an e-mail to the <a href="https://lists.sourceforge.net/lists/listinfo/xins-users"><em>xins-users</em> mailing list</a> with some details and, if possible, a reproducible testcase.</p>
+
+					<h3 class="question">How can I debug the ACLs?</h3>
+					<div class="answer">
+						<p>Rejection of requests due to the configured ACLs is logged at the INFO level. Make sure you either log all messages at the INFO level, or alteratively at least for messages 3551 and 3553.</p>
+						<p>If you also want to see why requests are accepted, also enable log messages 3550 and 3552, which are at the DEBUG level.</p>
+						<p>For details, see documentation on the <a href="logdoc/latest/server/group-runtime.acl.html">log entry group 'Access rule matching'</a></p>
+					</div>
+				</div>
+
+				<div class="section" id="sec-installation">
+					<h2>Installation</h2>
+
+					<h3 class="question">How do I install XINS?</h3>
+					<div class="answer">
+						<p>By following these steps:</p>
+						<ol>
+							<li>Install a Java <acronym title="Software Development Kit">SDK</acronym>, preferably version 1.4.2 or later.</li>
+							<li>Install Apache Ant, preferably version 1.6.5.</li>
+							<li>Install XINS, preferably version %%STABLE_VERSION%%.</li>
+						</ol>
+						<p>See the <a href="install.html">Installation Guide</a> for more detailed instructions.</p>
+					</div>
+				</div>
+
+				<div class="section" id="sec-competition">
+					<h2>Competitors</h2>
+
+					<h3 class="question">Does XINS have any competitors?</h3>
+					<div class="answer">
+						<p>In theory, no. Although there are numerous other technologies related to web services and RPC, none of them is a complete framework like XINS, providing an integrated approach to the various aspects of software development. And XINS is unique in it's definition-driven approach.</p>
+						<p>In practice, the following technologies are considered as alternatives to XINS:</p>
+						<ul>
+							<li><a href="http://en.wikipedia.org/wiki/Apache_Axis">Apache Axis</a></li>
+							<li><a href="http://en.wikipedia.org/wiki/JWSDP">Sun <acronym title="Java Web Services Development Pack">JWSDP</acronym></a></li>
+						</ul>
+					</div>
+
+					<h3 class="question">What are the main differences between XINS and Apache Axis?</h3>
+					<div class="answer">
+						<p>Axis is a technology from the <a href="http://www.apache.org/">Apache Software Foundation</a> for exposing Java code as SOAP services. XINS is a generic Java-based framework for RPC-oriented communication, which supports various protocols, including POX-RPC, XML-RPC and SOAP.</p>
+						<p>For more information on Axis, see the <a href="http://en.wikipedia.org/wiki/Apache_Axis">Apache Axis Wikipedia page</a> or the <a href="http://ws.apache.org/axis/">Apache Axis homepage</a>.</p>
+					</div>
+
+					<h3 class="question">What are the main differences between XINS and <acronym title="Java Web Services Development Pack">JWSDP</acronym>?</h3>
+					<div class="answer">
+						<p>JWSDP is a technology from <a href="http://www.sun.com">Sun MicroSystems</a> which combines various technologies related to Web services development in a single toolkit. While XINS is focused on an integrated definition-driven development approach, providing a selected subset of what JWSDP includes.</p>
+						<p>For more information on JWSDP, see the <a href="http://en.wikipedia.org/wiki/JWSDP">JWSDP Wikipedia page</a> or the <a href="http://java.sun.com/webservices/jwsdp/">JWSDP homepage</a>.</p>
+					</div>
+				</div>
+
+				<div class="section" id="sec-licensing">
+					<h2>Open source and Licensing</h2>
+
+					<h3 class="question">Who is the owner of the XINS source code?</h3>
+					<p class="answer"><a href="http://www.online.nl/over_ons/">Online Breedband B.V.</a>, previously known as Orange Nederland Breedband B.V.</p>
+
+					<h3 class="question">Is XINS open-source?</h3>
+					<p class="answer">Yes. XINS is distributed under the terms of a customized <a href="http://en.wikipedia.org/wiki/BSD_license">BSD license</a>.</p>
+
+					<h3 class="question">Then can I get the source code for XINS?</h3>
+					<p class="answer">Yes. You may either download a XINS distribution or get the source code from CVS.</p>
+
+					<h3 class="question">Am I allowed to use XINS in my commercial application?</h3>
+					<p class="answer">Yes, the license permits that redistribution and use in source and binary forms, with or without modification, are permitted provided that the conditions defined in the license are met.</p>
+
+					<h3 class="question">What is the license for XINS, exactly?</h3>
+					<div class="answer">
+						<p>As follows:</p>
+						<p class="indent"><code>Copyright 2003-2008, Online Breedband B.V.
+							<br />All rights reserved.
+							<br />
+							<br />Redistribution and use in source and binary forms, with or without
+							<br />modification, are permitted provided that the following conditions are met:
+							<br />
+							<br />1. Redistributions of source code must retain the above copyright notice, this
+							<br />list of conditions and the following disclaimer.
+							<br />
+							<br />2. Redistributions in binary form must reproduce the above copyright notice,
+							<br />this list of conditions and the following disclaimer in the documentation
+							<br />and/or other materials provided with the distribution.
+							<br />
+							<br />3. Neither the name of the copyright holder nor the names of its contributors
+							<br />may be used to endorse or promote products derived from this software
+							<br />without specific prior written permission.
+							<br />
+							<br />THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
+							<br />AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+							<br />IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+							<br />DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+							<br />FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+							<br />DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+							<br />SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+							<br />CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+							<br />OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+							<br />OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</code></p>
+					</div>
+					<p>You may download it from this site: <a href="COPYRIGHT">license as plain text file</a>. It is also part of the distributions.</p>
+				</div>
+
+				<div class="section" id="sec-soap">
+					<h2>SOAP-support</h2>
+
+					<h3 class="question">What do I need to do to make SOAP calls to a XINS application?</h3>
+					<div class="answer">
+						<p>You need XINS 1.3 at least, but you are advised to use XINS 2.0:</p>
+						<ul>
+							<li>First of all, make a SOAP request. XINS can generate the WSDL for this request, using the command <code>xins wsdl-<em>api</em></code> (where <em>api</em> is the name of your API).</li>
+							<li>Secondly, with XINS 1.3, you need to add <code>_convention=_xins-soap</code> to the URL. This is not needed with XINS 1.4+, since XINS 1.4+ will automatically detect the SOAP request.</li>
+						</ul>
+					</div>
+
+					<h3 class="question">Can I use a browser to make SOAP calls to a XINS application?</h3>
+					<p class="answer">No, normally not, unless you manage to write some JavaScript code that will perform a SOAP call. However, you are advised to use the normal test forms instead.</p>
+
+					<h3 class="question">Why does XINS not use <acronym title="Web Services Description Language">WSDL</acronym> as the definition format?</h3>
+					<p class="answer">WSDL assumes the use of various complex technologies that XINS does not require, such as XML Namespaces, XML Schema and UDDI. XINS started from scratch and introduces a very simple format which avoids complexity such as that found in WSDL.</p>
+
+					<h3 class="question">Does XINS support UDDI?</h3>
+					<p class="answer">No. XINS does not require a broker. Instead, XINS supports client-side load-balancing and fail-over.</p>
+				</div>
+
+				<div class="section" id="sec-xmlrpc">
+					<h2>XML-RPC support</h2>
+					<h3 class="question">What is the relation between XINS and XML-RPC?</h3>
+					<p class="answer"><a href="http://www.xmlrpc.com/">XML-RPC</a> is a protocol for client-server communication. XINS is a set of technologies for client-server communication. XML-RPC is one of the communication protocols supported by XINS.</p>
+
+					<h3 id="xmlrpc_how_call" class="question">How can I make an XML-RPC call to my XINS implementation?</h3>
+					<div class="answer">
+						<p>With the current stable version of XINS, %%STABLE_VERSION%%, just send your XML-RPC request using HTTP POST.</p>
+						<p>For example:</p>
+						<p class="indent"><code>POST /RPC2?_convention=_xins-xmlrpc HTTP/1.0
+							<br />User-agent: Frontier/5.1.2 (WinNT)
+							<br />Host: betty.userland.com
+							<br />Content-type: text/xml
+							<br />Content-length: 171
+							<br />
+							<br />
+							<br />&lt;?xml version="1.0"?&gt;
+							<br />&lt;methodCall&gt;
+							<br />&nbsp;&nbsp;&nbsp;&lt;methodName&gt;GetStateName&lt;/methodName&gt;
+							<br />&nbsp;&nbsp;&nbsp;&lt;params&gt;
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;param&gt;
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;value&gt;&lt;i4&gt;41&lt;/i4&gt;&lt;/value&gt;
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/param&gt;
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/params&gt;
+							<br />&nbsp;&nbsp;&nbsp;&lt;/methodCall&gt;</code></p>
+					</div>
+				</div>
+
+				<div class="section" id="sec-deployment">
+					<h2>Deployment</h2>
+
+					<h3 class="question">Which version of XINS should I use for deployment?</h3>
+					<p class="answer">The same one as the one you tested with. We advise XINS %%STABLE_VERSION%%.</p>
+
+					<h3 class="question">Which Java version should I use with XINS?</h3>
+					<p class="answer">We advise using Java <acronym title="Standard Edition">SE</acronym> 1.4.2 or higher. Java 1.3 should work mostly, but we do not advise using it. Always make sure you have the latest revision of the <acronym title="Java Virtual Machine">JVM</acronym> of your choice.</p>
+
+					<h3 class="question">Does XINS require a full-blown Java Enterprise Edition environment?</h3>
+					<p class="answer">No. XINS requires a Java <acronym title="Standard Edition">SE</acronym> <acronym title="Software Development Kit">SDK</acronym> during development and additionally a servlet container for deployment.</p>
+
+					<h3 class="question">What operating system should I use with XINS on?</h3>
+					<div class="answer">
+						<p>In theory, any operating system that supports Java Standard Edition, version 1.4 or higher should work with no problems.</p>
+						<p>In practise, XINS has been tested successfully on the following operating systems:</p>
+						<ul>
+							<li>Solaris</li>
+							<li>Linux</li>
+							<li>Windows</li>
+						</ul>
+						<p>We advise using either Solaris 8 (or higher), Linux 2.6 or Windows 2000 (or higher).</p>
+					</div>
+
+					<h3 class="question">On which configurations did you test XINS 1.5.0?</h3>
+					<div class="answer">See the <a href="notes-1.5.0.html">XINS 1.5.0 release notes</a> for details on which combinations of JVMs and platforms we used.</div>
+
+					<h3 class="question">Which OS should I run XINS on?</h3>
+					<div class="answer">
+						<p>In theory, any OS that runs Java 1.4, 1.5 or 1.6. In practice, some are 'more equal than others'; recommended is one of the following:</p>
+						<ul>
+							<li>Solaris 8, 9 or 10</li>
+							<li>Linux 2.6/x86</li>
+							<li>Mac OS X 10.4.<em>x</em></li>
+							<li>Windows 2000 or XP</li>
+						</ul>
+					</div>
+
+					<h3 class="question">Which functionality in XINS does not work on Java 1.3?</h3>
+					<p class="answer">Without an appropriate library, HTTPS will not work. It may work <em>with</em> one, but this has not been tested.</p>
+
+					<h3 class="question">How do I know whether my <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a> started correctly?</h3>
+					<p class="answer">By calling the <code>_GetSettings</code> function. This function will return an overview of build-time, system and runtime configuration settings and some other information, including a timestamp that indicates when the <a href="http://en.wikipedia.org/wiki/API"><acronym title="Application programming interface">API</acronym></a> was started.</p>
+				</div>
+
+				<div class="section" id="sec-troubleshooting">
+					<h2>Troubleshooting</h2>
+					<h3 class="question">I have not found the answer to my problem in this list, what should I do?</h3>
+					<p class="answer">First make sure that the solution is not in the <a href="http://www.xins.org/docs/index.html">documentation</a>, then you can mail the <a href="mailto:xins-users@lists.sourceforge.net">XINS user mailing list</a>. If you think that your problem is a bug you can submit it in the <a title="XINS bug database" href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug database</a>.</p>
+
+					<h3 class="question">I have a <em>putDocumentInCache</em> or <em>'project_node' is mandatory</em> error message, what should I do?</h3>
+					<p class="answer">You encountered a known Eclipse issue. Don't use the Ant version of Eclipse or download the <a href="http://www.ibiblio.org/maven/xerces/jars/xercesImpl-2.6.2.jar">xercesImpl-2.6.2.jar</a> file to the <em>eclipse\plugins\org.apache.ant_1.6.5\lib</em> directory.</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="footer">
+			<div class="links"><a href="http://validator.w3.org/check/referer">Valid XHTML 1.1</a></div>
+			<a href="http://sourceforge.net/projects/xins"><img src="http://sourceforge.net/sflogo.php?group_id=71598" alt="Powered by SourceForge"/></a>
+		</div>
+	</body>
+</html>

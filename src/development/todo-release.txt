@@ -1,0 +1,61 @@
+List of things to be done for XINS release.
+$Id: todo-release.txt,v 1.64 2013/02/22 09:31:29 agoubard Exp $
+
+Beta stage:
+
+ [X] Profile the beta release.
+ [X] Run tools like PMD, JLint, japitools, checkstyle, code coverage and FindBugs.
+ [X] Execute performance tests, and start a spreadsheet for comparaison
+     with other XINS releases.
+ [X] Run unit tests with Sun JDK 1.5, Sun JDK 1.6.
+ [X] Tests on Windows XP / Vista / 7.
+ [X] Tests on Tomcat, Jetty, JBoss (unpack, no unpack), GlassFish.
+ [X] Update user guide with new features.
+ [X] Update examples with new features.
+ [X] Make presentation about new features.
+ [X] Check that added method are marked with @since x.y.
+ [-] Run the manual tests described in the manual-tests.txt.
+ [X] Look for // TODO and // FIXME
+ [ ] Create roapmap for the next release
+ [X] Review the release notes file.
+ [X] Change Maven to point to this new release.
+ [X] Remove $Date: 2013/02/22 09:31:29 $ from user guide.
+
+Release candidate stage:
+ [ ] Prepare announcement (text/web sites).
+
+Version control:
+ [X] 1. Create tag BRANCH_2_1_x_BP (branch point); make sure empty directories
+       are not included
+ [X] 2. Create branch BRANCH_2_1_x on BRANCH_2_1_x_BP (after 1)
+ [X] 3. Empty CHANGES file on BRANCH_2_1_x            (after 2)
+ [ ] 4. Create RELEASE_2_1_RC1 tag on BRANCH_2_1_x    (after 3)
+
+
+Advertising:
+ [X] Update http://xins.sourceforge.net/ web site
+ [X] XINS users mailing list: xins-users@lists.sourceforge.net
+ [X] Freshmeat: http://freshmeat.net/
+ [X] Sun forum: http://forum.java.sun.com/forum.jspa?forumID=331
+ [X] Java WS and XML Community news: http://forums.java.net/jive/forum.jspa?forumID=49
+ [X] Post in announcement forum: http://sourceforge.net/forum/forum.php?forum_id=669312
+ [ ] Spring forum: http://forum.springframework.org/forumdisplay.php?f=39
+ [X] http://www.webservices.org/index.php/contact_us
+ [ ] Announcement in microsoft.public.webservices
+ [X] Announcement on JavaLobby.org site
+ [X] Announcement on theserverside.com site
+ [ ] Announcement in comp.java.announce newsgroup
+ [ ] (Yahoo Groups) XML-RPC Group: http://groups.yahoo.com/group/xml-rpc/
+ [ ] Article on JavaWorld site (series of articles?)
+ [ ] Enterprise OpenSource http://opensource.sys-con.com/
+ [ ] WebSphere Journal http://websphere.sys-con.com/
+ [ ] JDJ http://java.sys-con.com/
+ [ ] AjaxWorld Magazine http://ajax.sys-con.com/
+ [ ] SOAWorld Magazine http://webservices.sys-con.com/
+ [ ] InfoWorld http://www.infoworld.com/
+ [ ] WLDJ http://weblogic.sys-con.com/
+ [ ] JRoller
+ [ ] http://swik.net/ (WSDL SOAP Java REST JSON Ajax)
+ [ ] GWT group http://groups.google.com/group/Google-Web-Toolkit
+ [ ] Dojo toolkit group http://dojotoolkit.org/forums/forums/general/news-and-announcements
+ [X] PAD File and submit

@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: scripting.html,v 1.1 2007/09/20 11:47:22 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>XINS - Scripting the Web Service</title>
+		<link rel="stylesheet" type="text/css" href="../style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<script src="../functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>XINS<span class="nodisplay"> - </span>
+			<span id="subtitle">Scripting the Web Service (by <a href="mailto:agoubard@users.sourceforge.net">Anthony Goubard</a>)</span>
+		</h1>
+
+		<div id="root">
+
+			<div id="sidebar">
+				<script src="../write_togglemenu.js" type="text/javascript"></script>
+				<ul id="menu">
+					<li                 ><a title="Front page of the XINS website"                                           href="../index.html">Home Page</a></li>
+					<li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+					<li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+					<li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+					<li class="active"  ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="../documentation.html">Documentation</a></li>
+					<li                 ><a title="Demonstration Page"                                                       href="../demo.html">Demo</a></li>
+					<li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+					<li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+					<li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+					<li class="newgroup"><a title="Various links"                                                            href="../links.html">Links</a></li>
+				</ul>
+			</div>
+
+			<div id="content">
+				<div class="section">
+					<h2 id="intro">Introduction</h2>
+<p>This article will show you how to implement a Web Service using a script language.</p>
+<br/>
+<p>The advantages of using a script language to implement your Web Services are:
+<ul>
+<li>Reduce code size</li>
+<li>Can be modified at runtime</li>
+<li>No need to learn the Java language</li>
+<li>Could be useful for writing a mock or a stub API</li>
+</ul>
+<p/>
+<br/>
+<p>You can use different APIs to call a script:
+<ul>
+<li>Using the script API: Probably the easiest way but specific to the script language you are using.</li>
+<li>JavaSE 6 scripting API: Simple, generic to any languages but requires JavaSE 6 and an extra JAR file.</li>
+<li>Bean Scripting Framework: Generic, works with Java 1.4 but more difficult to use.</li>
+</ul>
+</p>
+<br/>
+<p><a href="http://groovy.codehaus.org">Groovy</a> will be used as script language in our examples.</p>
+<p>A XINS API using Groovy to implement the Web Services is provided in the demo\xins-project\apis\toobox
+directory of the release. To compile and run this example, copy the needed Groovy JAR files in the
+demo\xins-project\apis\toobox\lib directory and uncomment the API in the demo\xins-project\xins-project.xml file.</p>
+
+				</div>
+
+				<div class="section">
+					<h2 id="setup">Setting up the environment</h2>
+<ul>
+<li>Download <a href="http://groovy.codehaus.org">Groovy</a>.</li>
+<li>Copy groovy-1.0\embeddable\groovy-all-1.0.jar to &lt;project home&gt;\apis\&lt;api name&gt;\lib</li>
+<li>Add to the impl.xml file of the API:
+<div class="indent">
+&lt;dependency dir="apis/&lt;api name&gt;/lib" includes="groovy-all-1.0.jar" /&gt;
+</div></li>
+</ul>
+<br/>
+					<h2 id="example1">Example 1: Hello World! using Groovy API</h2>
+<p>In this example, we will adapt the myproject demo to implement it with Groovy.</p>
+<p>Using the script means passing the values of the Request object to the script and getting the result
+from the script to put in the SuccessfulResult object.</p>
+<br/>
+Here is the Java implementation of the Result call(Request request) method:
+<div class="indent"><pre>// The classes are in the groovy.lang package
+// Put the request values in the script
+Binding binding = new Binding(BeanUtils.getParametersAsString(request));
+GroovyShell shell = new GroovyShell(binding);
+
+Object value = shell.evaluate("def salutation = gender == 'male' ? 'Mister' : 'Miss'; return 'Hello ' + gender + ' ' + personLastName;");
+result.setMessage((String) value);</pre></div></li>
+
+					<h2 id="example2">Example 2: Script in an external file using the Java scripting API</h2>
+For this example, we will use <a href="http://java.sun.com/javase/downloads/index.jsp">JavaSE 6</a>
+and the <a href="http://java.sun.com/javase/6/docs/api/javax/script/package-summary.html">javax.script</a> package.
+A list of languages supported for this library is available <a href="https://scripting.dev.java.net/">here</a>.
+					<ul>
+						<li>First download the <a href="http://jcp.org/en/jsr/detail?id=223">JSR-223</a> engine for Groovy at <a href="https://scripting.dev.java.net/servlets/ProjectDocumentList">https://scripting.dev.java.net/</a>.</li>
+						<li>Open the Zip file and extract groovy\build to the &lt;project home&gt;\apis\&lt;api name&gt;\lib directory.</li>
+						<li>Add also to the impl.xml file of the API:
+							<div class="indent">
+								&lt;dependency dir="apis/&lt;api name&gt;/lib" includes="groovy-engine.jar" /&gt;
+						</div></li>
+					</ul>
+<br/>
+Here is the Java implementation of the Result call(Request request) method:
+<div class="indent"><pre>// The classes are in the javax.script package
+// Put the request values in the script
+ScriptEngineManager scriptingManager = new ScriptEngineManager();
+ScriptEngine groovyEngine = manager.getEngineByExtension("groovy");
+Bindings bindings = new SimpleBindings(BeanUtils.getParameters(request));
+
+// You may also want to catch the possible exceptions thrown
+Reader matchScript = new InputStreamReader(getClass().getResourceAsStream("/WEB-INF/classes/com/mycompany/apiname/api/match.groovy"));
+Map&lt;String, Object&gt; values = groovyEngine.eval(matchScript, bindings);
+matchScript.close();
+
+// Put the result returned by the script in the result object
+BeanUtils.setParameters(values, result);
+return result;
+</pre></div>
+Here is the Groovy implementation of the function:
+					<div class="indent"><pre>// Check that a text matches a regular expression
+["match": entry ==~ regexp]</pre></div>
+
+					<h2 id="example3">Example 3: Script using the Bean Scripting Framework (BSF)</h2>
+          The Bean Scripting Framework (BSF) is similar to the javax.script API integrated in JavaSE 6.
+          The advantage of BSF is the ability to be used in Java 1.4 or 1.5 and to be loosely coupled
+          to the script language. If you just want to compile using Java 1.4 or 1.5 you may prefer to
+          use the class provided by Groovy used in example 1.
+					More details <a href="http://groovy.codehaus.org/Bean+Scripting+Framework">here</a>.
+					<ul>
+						<li>You need to download BSF at <a href="http://jakarta.apache.org/bsf/">http://jakarta.apache.org/bsf/</a>.</li>
+						<li>Copy the bsf.jar file to the &lt;project home&gt;\apis\&lt;api name&gt;\lib directory.</li>
+						<li>Add to the impl.xml:
+							<div class="indent">
+								&lt;dependency dir="apis/&lt;api name&gt;/lib" includes="bsf.jar" /&gt;
+						</div></li>
+					</ul>
+<br/>
+Here is the Java implementation of the Result call(Request request) method:
+<div class="indent"><pre>// Shuffle any given list
+BSFManager manager = new BSFManager();
+manager.registerBean("request", request);
+Integer doubleId = (Integer) manager.eval("groovy", "double.groovy", 0, 0, "request.getIntputNumber() * 2");
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

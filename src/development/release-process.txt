@@ -1,0 +1,78 @@
+XINS RELEASE PROCESS
+--------------------
+
+Requirements for full release:
+-----------------------------
+JDK 1.5
+Ant 1.6.5 or later + jsch.jar should be in ant/lib
+XSLT DOCBOOK (http://sourceforge.net/project/showfiles.php?group_id=21935&package_id=16608)
+Ant, Java, cvs should be in the PATH
+
+Ant the following environment variables set:
+ANT_HOME, JAVA_HOME, DOCBOOK_XSLT_HOME and XINS_HOME should be pointing to the CVS XINS directory.
+
+For Windows you may have to have pageant.exe started with your sf.net key added, have CVS_RSH set to plink.exe and execute putty on xins.cvs.sourceforge.net + web.sourceforge.net (to accept the server).
+
+You should have a .sourceforge.properties file in your HOME directory with
+sf.user=<sourceforge username>
+sf.password=<sourceforge password>
+
+xins, xins-docs and xins-examples should be in the same directory.
+Think about doing a cvs update of the 3 directories.
+
+You should have a public key installed on Sourceforge for automatic password connection.
+
+With putty try to connect to xins.cvs.sourceforge.net and web.sourceforge.net and accept both servers.
+
+For the Windows installer, have InnoSetup 5.1.8 installed in c:\program files\Inno Setup 5
+
+For a final release to be uploaded in the central Maven repository you need to install gnupg
+have GnuGP in your PATH and have a public key uploaded at hkp://pgp.mit.edu.
+Note that the passphrase for the private key should not have a password.
+A repository has been created for XINS: https://issues.sonatype.org/browse/OSSRH-921
+Then https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
+
+Making the release:
+------------------
+Update xins-docs/src/web/index.html for the announcement of the new release.
+Edit xins-docs/build.xml with new development version.
+
+In xins-docs, execute ant clean homepage manuals.
+
+cd %XINS_HOME%
+ant -Dno-upload=true -lib lib release
+
+Note that the moment the Shell service is disabled so sshexec functions won't work (javadoc checkstyle and logdoc are not uploaded).
+If upload doesn't work (it should) -Dno-ftp=true option should be used and the following files should be SFTP: homepage CHANGES and VERSION
+
+Go to https://sourceforge.net/projects/xins/files/xins/
+Click on the gray icon next to the xins folder and create a new folder.
+Select this folder
+Click on the gray icon and choose Upload File Here and upload the release file
+Click on the file to specify the name and supported platforms
+
+ant -lib lib installer
+
+Go to https://sourceforge.net/projects/xins/files/xins%20installer/
+Do the same thing on the web site as for the .tgz file.
+
+Post new release on freecode.com (was freshmeat.net) https://freecode.com/projects/xins/releases/new
+Send e-mail to the xins-users mailing list
+Post in Forum announcement https://sourceforge.net/projects/xins/forums/forum/669312
+
+If something fails after the tests were run succesfully, you may want to
+use the -Dforce=true option to rebuild the package.
+
+For final release
+------------------
+https://oss.sonatype.org/index.html#welcome
+Staging upload
+Select Artifact bundle
+Upload the different bundle files
+
+SCP Javadoc, logdoc, java2html
+Updated lastest links.
+
+Requirements for distribution release:
+-------------------------------------
+ant -lib lib package

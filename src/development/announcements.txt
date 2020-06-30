@@ -1,0 +1,237 @@
+================================================== for Javalobby =============
+
+*** SUMMARY ***
+
+XINS 1.4.0 has been released. XINS is a Java-based Web Services framework that generates Java from XML definitions. Main features in the 1.4 release include:
+* Automatic communication protocol detection (SOAP, POX-RPC, XML-RPC, etc.)
+* Possibility to add individual files to the generated WAR file
+* Support for asynchronous requests
+* Extensive 'Pet Store' demo
+
+
+*** BODY ***
+
+After 5 months of development, tuning and testing, <a href="http://xins.sourceforge.net/">XINS</a> 1.4.0 has been released. XINS is an open-source Java-based Web Services framework. It offers a simple tool for the development of distributed applications.
+
+One of the key features that differentiates XINS from other technologies is the definition-driven approach. Write simple XML definitions and XINS will generate lots for you:
+
+* Documentation of the specifications and implementations
+* Test forms, for testing your applications with a browser
+* Client-side Java code, supporting load-balancing, fail-over and time-out handling
+* Web application (WAR file), compatible with servlet containers
+* WSDL, for SOAP-interoperability
+* Unit test code, based on JUnit
+* Stubs, typically used for testing
+* etc.
+
+Another key feature is protocol independence. XINS supports several communication protocols, including SOAP, XML-RPC and POX-RPC. For each incoming request XINS automatically determines which protocol to use. With XSLT the results can be transformed to HTML or other content types. Custom protocols can be added by added a single Java class.
+
+XINS 1.4 offers various new features over release 1.3, as well as some bug fixes. The main new features are:
+
+* Automatic communication protocol detection.
+* <a href="http://xins.sf.net/asynchronous.html">Asynchronous requests</a>
+* Generation of documentation in OpenDocument format, for use by OpenOffice.org, for example.
+* Support for including files (e.g. HTML) in the WAR file
+* Extensive <a href="http://xins.users.mcs2.netarray.com/petstore/store/">Pet Store</a> demo
+
+Additionally, both the compile-time performance and the runtime performance of XINS have been tuned further.
+
+XINS is used in production systems since the end of 2002. As a stable release, XINS 1.4.0 is backwards compatible with all previous stable releases. It has been tested extensively on various Java and OS platforms, including Solaris, Linux and Windows.
+
+Download XINS 1.4.0, either as a Windows installer or as a platform-independent TAR GZ file:
+
+* <a href="http://prdownloads.sf.net/xins/xins-1.4.0.exe?download">Windows installer</a>
+* <a href="http://prdownloads.sf.net/xins/xins-1.4.0.tgz?download">TAR GZ archive</a>
+
+More information is available here:
+
+* <a href="http://xins.sf.net/">XINS website</a>
+* <a href="http://xins.sf.net/notes-1.4.0.html">XINS 1.4.0 release notes</a>
+* User guide: <a href="http://xins.sf.net/docs/">HTML</a>, <a href="http://xins.sf.net/docs/XINSGuide.pdf">PDF</a>
+* <a href="http://xins.sf.net/primer.html">XINS Primer</a> - A 15-minute introduction tutorial
+* Presentation: <a href="http://xins.sf.net/presentation_200604_v4.pdf">Frameworks in general and XINS in particular</a> (PDF)
+* <a href="http://en.wikipedia.com/wiki/XINS">Wikipedia page</a>
+
+
+============================================== for TheServerSide =============
+
+*** SUMMARY ***
+
+XINS 1.4.0 has been released. XINS is an open-source Web Services framework. Main features in the 1.4 release include:
+* Automatic communication protocol detection (SOAP, POX-RPC, XML-RPC, etc.)
+* Possibility to add individual files to the generated WAR file
+* Support for asynchronous requests
+* Extensive 'Pet Store' demo
+
+
+*** BODY ***
+
+After 5 months of development, tuning and testing, <a href="http://xins.sourceforge.net/">XINS</a> 1.4.0 has been released. XINS is an open-source Web Services framework. It offers a simple tool for the development of distributed applications.
+
+One of the key features that differentiate XINS from other technologies is the definition-driven approach. Write simple XML definitions and XINS will generate lots for you:
+
+* Documentation of the specifications and implementations
+* Test forms, for testing your applications with a browser
+* Client-side code, supporting load-balancing, fail-over and time-out handling
+* Web application, compatible with Java servlet containers
+* WSDL, for SOAP-interoperability
+* Unit test code, based on JUnit
+* Stubs, typically used for testing
+* etc.
+
+Another key feature is protocol independence. XINS supports several communication protocols, including SOAP, XML-RPC and POX-RPC. For each incoming request XINS automatically determines which protocol to use. With XSLT the results can be transformed to HTML or other content types. Custom protocols can be added.
+
+XINS 1.4 offers various new features over release 1.3, as well as some bug fixes. The main new features are:
+
+* Automatic communication protocol detection.
+* <a href="http://xins.sf.net/asynchronous.html">Asynchronous requests</a>
+* Generation of documentation in OpenDocument format, for use by OpenOffice.org and other text processors.
+* Support for including files (e.g. HTML) in the WAR file
+* Extensive <a href="http://xins.users.mcs2.netarray.com/petstore/store/">Pet Store</a> demo
+
+Additionally, both the compile-time performance and the runtime performance of XINS have been tuned further.
+
+XINS is used in production systems since the end of 2002. As a stable release, XINS 1.4.0 is backwards compatible with all previous stable releases. It has been tested extensively on various platforms, including Solaris, Linux and Windows.
+
+Download XINS 1.4.0, either as a Windows installer or as a platform-independent TAR GZ file:
+
+* <a href="http://prdownloads.sf.net/xins/xins-1.4.0.exe?download">Windows installer</a>
+* <a href="http://prdownloads.sf.net/xins/xins-1.4.0.tgz?download">TAR GZ archive</a>
+
+More information is available here:
+
+* <a href="http://xins.sf.net/">XINS website</a>
+* <a href="http://xins.sf.net/notes-1.4.0.html">XINS 1.4.0 release notes</a>
+* User guide: <a href="http://xins.sf.net/docs/">HTML</a>, <a href="http://xins.sf.net/docs/XINSGuide.pdf">PDF</a>
+* <a href="http://xins.sf.net/primer.html">XINS Primer</a>, A 15-minute introduction tutorial
+* Presentation: <a href="http://xins.sf.net/presentation_200604_v4.pdf">Frameworks in general and XINS in particular</a> (PDF)
+* <a href="http://en.wikipedia.com/wiki/XINS">Wikipedia page</a>
+
+--- Web Services forums
+
+[ANN] XINS 1.4.0 released: Web Services development framework
+
+After 5 months of development, tuning and testing, XINS 1.4.0 has been released. XINS is an open-source Java-based Web Services framework. It offers a simple tool for the development of distributed applications.
+
+One of the key features that differentiates XINS from other technologies is the definition-driven approach. Write simple XML definitions and XINS will generate lots for you:
+
+* Documentation of the specifications and implementations
+* Test forms, for testing your applications with a browser
+* Client-side Java code, supporting load-balancing, fail-over and time-out handling
+* Web application (WAR file), compatible with servlet containers
+* WSDL, for SOAP-interoperability
+* Unit test code, based on JUnit
+* Stubs, typically used for testing
+* etc.
+
+Another key feature is protocol independence. XINS supports several communication protocols, including SOAP, XML-RPC and POX-RPC. For each incoming request XINS automatically determines which protocol to use. With XSLT the results can be transformed to HTML or other content types. Custom protocols can be added by added a single Java class.
+
+XINS 1.4 offers various new features over release 1.3, as well as some bug fixes. The main new features are:
+
+* Automatic communication protocol detection.
+* Asynchronous requests (http://xins.sf.net/asynchronous.html)
+* Generation of documentation in OpenDocument format, for use by OpenOffice.org, for example.
+* Support for including files (e.g. HTML) in the WAR file
+* Extensive Pet Store demo
+
+Additionally, both the compile-time performance and the runtime performance of XINS have been tuned further.
+
+XINS is used in production systems since the end of 2002. As a stable release, XINS 1.4.0 is backwards compatible with all previous stable releases. It has been tested extensively on various Java and OS platforms, including Solaris, Linux and Windows.
+
+Download XINS 1.4.0, either as a Windows installer or as a platform-independent TAR GZ file:
+
+* Windows installer: http://prdownloads.sf.net/xins/xins-1.4.0.exe?download
+* TAR GZ archive: http://prdownloads.sf.net/xins/xins-1.4.0.tgz?download
+
+More information is available here:
+
+* XINS website: http://xins.sf.net/
+* XINS 1.4.0 release notes: http://xins.sf.net/notes-1.4.0.html
+* User guide: http://xins.sf.net/docs/
+* XINS Primer: http://xins.sf.net/primer.html - A 15-minute introduction tutorial
+* Presentation Frameworks in general and XINS in particular: http://xins.sf.net/presentation_200604_v4.pdf
+* Wikipedia page: http://en.wikipedia.com/wiki/XINS
+
+-- Java.net and freshmeat.
+
+XINS 1.4.0 has been released. XINS is an open-source Web Services development framework. The main new features are automatic communication protocol detection, asynchronous requests, generation of documentation in OpenDocument format, support for including files (e.g. HTML) in the WAR file
+ and extensive Pet Store demo. Additionally, both the compile-time performance and the runtime performance of XINS have been tuned further. Some bugs were also fixed.
+
+-- XINS 2.0
+Hello,
+<p/>
+XINS 2.0 has been released.
+XINS is an open-source Web Services development framework.
+<p/>
+XINS accepts the following protocols: REST, SOAP, XML-RPC, XML, Yahoo! JSON and JSON-RPC.
+<p/>
+From the specification of the API written in simple XML, XINS generates:
+* Documentation of the specifications and implementations in HTML and OpenDocument format
+* Test forms, for testing your applications with a browser
+* Client-side Java code, supporting load-balancing, fail-over and time-out handling
+* Server-side Java skeleton
+* Web application (WAR file), compatible with servlet containers
+* WSDL, for SOAP-interoperability
+* SMD, for the Dojo toolkit
+* Unit test code, based on JUnit
+* Stubs, typically used for testing
+<ul>
+<li>Documentation of the specifications and implementations in HTML and in OpenDocument format</li>
+<li>Test forms, for testing your applications with a browser</li>
+<li>Client-side Java code, supporting load-balancing, fail-over and time-out handling</li>
+<li>Server-side Java skeleton</li>
+<li>Web application (WAR file), compatible with servlet containers</li>
+<li>WSDL, for SOAP-interoperability</li>
+<li>SMD, for the Dojo toolkit</li>
+<li>Unit test code, based on JUnit</li>
+<li>Stubs, typically used for testing</li>
+</ul>
+
+The 2.0 release adds the following features:
+* New protocols: Yahoo! JSON (with callbacks) and JSON-RPC (1.0 and 1.1)
+* Import of WSDL and XML Schema.
+* _WSDL and _SMD meta functions
+* Better integration with the Spring Framework, the Dojo toolkit and GWT
+* Examples with REST implementation, implementation in Groovy and with Dojo toolkit
+<ul>
+<li>New protocols: Yahoo! JSON (with callbacks) and JSON-RPC (1.0 and 1.1)</li>
+<li>Import of WSDL and XML Schema.</li>
+<li>_WSDL and _SMD meta functions</li>
+<li>Better integration with the Spring Framework, the Dojo toolkit and GWT</li>
+<li>Examples with REST implementation, implementation in Groovy and with Dojo toolkit</li>
+</ul>
+
+Links:
+<ul>
+  <li><a href="http://xins.sourceforge.net/">XINS website</a></li>
+  <li><a href="http://xins.sourceforge.net/features.html">XINS features</a></li>
+  <li><a href="http://xins.sourceforge.net/demo.html">XINS demo</a></li>
+  <li>User guide: <a href="http://xins.sourceforge.net/docs/">HTML</a>, <a href="http://xins.sourceforge.net/docs/XINSGuide.pdf">PDF</a></li>
+  <li><a href="http://xins.sourceforge.net/primer.html">XINS Primer</a> - A 15-minute introduction tutorial</li>
+</ul>
+
+* Web site: http://xins.sourceforge.net/
+* Features: http://xins.sourceforge.net/features.html
+* Demo: http://xins.sourceforge.net/demo.html
+* User guide: http://xins.sourceforge.net/docs/
+* Primer: http://xins.sourceforge.net/primer.html
+
+-- XINS Web Service Framework 3.1 released
+
+I've just released the version 3.1 of XINS, an open source web services framework that support REST, SOAP, XML-RPC, JSON-RPC and many other protocols.
+From the specification of the API (in simple XML), XINS generates the client side code, the server side templates, the API documentation in HTML, including the test forms and in open document format (ODF).
+Based the examples defined in the specification, XINS generates the unit tests, the mock and the JMeter tests.
+
+What's new in 3.1:
+<ul>
+    <li>Added support for caching of the result.</li>
+    <li>Added possibility to return not modified (304) with no data.</li>
+    <li>Improved performance.</li>
+    <li>Added JSON-RPC 2.0 calling convention.</li>
+    <li>Added the result codes: _FunctionNotSpecified, _FunctionNotFound, _InvalidRequestFormat, _NotAllowed, _DisabledAPI</li>
+    <li>Added possibility to handle compressed (gzip) result data.</li>
+    <li>Added example with jQuery.</li>
+    <li>Various bug fixes</li>
+</ul>
+
+XINS is available at <a href="http://xins.sourceforge.net">http://xins.sourceforge.net</a>.

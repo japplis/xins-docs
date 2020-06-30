@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: install.html,v 1.6 2009/04/16 11:52:19 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>XINS - Installation Guide</title>
+		<link rel="stylesheet" type="text/css" href="../style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<script src="../functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>XINS<span class="nodisplay"> - </span><span id="subtitle">Installation Guide</span></h1>
+
+		<div id="root">
+			<div id="sidebar">
+				<script src="write_togglemenu.js" type="text/javascript"></script>
+				<ul id="menu">
+					<li                 ><a title="Front page of the XINS website"                                           href="../index.html">Home Page</a></li>
+					<li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+					<li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+					<li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+					<li class="active"  ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="../documentation.html">Documentation</a></li>
+					<li                 ><a title="Demonstration Page"                                                       href="../demo.html">Demo</a></li>
+					<li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+					<li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+					<li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+					<li class="newgroup"><a title="Various links"                                                            href="../links.html">Links</a></li>
+				</ul>
+			</div>
+
+			<div id="content">
+				<div class="section">
+					<h2 id="intro">Introduction</h2>
+					<p>This document guides you in installing XINS on a computer.</p>
+					<p>In total this should cost you no more than 10 minutes.</p>
+
+					<h3>Prerequisites</h3>
+					<p>In order to install XINS successfully, you must:</p>
+					<ul>
+						<li>be able to install software on your machine</li>
+						<li>know how to configure environment variables on your machine</li>
+						<li>have experience with using a command line interface</li>
+					</ul>
+
+					<h3>Overview of contents</h3>
+					<p>This document is divided in the following short sections:</p>
+					<ul>
+						<li><a href="#install_jdk">1. Installing a Java SDK</a> (3 steps)</li>
+						<li><a href="#install_ant">2. Installing Apache Ant</a> (3 steps)</li>
+						<li><a href="#install_xins">3. Installing XINS</a> (3 steps)</li>
+						<li><a href="#issues">4. Issues</a></li>
+					</ul>
+					<p>No assumption is made on the operating system you are using. XINS has been tested successfully on different combinations of operating systems, hardware architectures and Java implementations.</p>
+				</div>
+
+				<div class="section">
+					<h2 id="install_jdk">1. Installing a Java SDK</h2>
+					<p>If you already have a Java <acronym title="Java Development Kit">JDK</acronym> installed, skip to <a href="#install_ant">section 2 "Installing Apache Ant"</a>.</p>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step1">
+							<td class="step">Step&nbsp;1.</td>
+							<td>For Windows, Linux and Solaris systems, you are advised to <a href="http://java.sun.com/javase/downloads/index.jsp">download the latest Java JDK from Sun</a> and install it.
+								<p>On other platforms, find and install a Java 1.4 or later JDK for your OS.</p></td>
+						</tr>
+						<tr id="step2">
+							<td class="step">Step&nbsp;2.</td>
+							<td>Make sure the <code>bin</code> directory of your Java <acronym title="Java Development Kit">JDK</acronym> is in your execution path.<br />
+								<p>How this is done differs per operating system:</p>
+								<ul>
+									<li>On Windows systems, right-click on 'My Computer', select 'Properties', 'Advanced' and 'Environment Variables...' and then edit the variable named <code>PATH</code> in the section with user variables. Do not change the system settings. The paths are separated by a semi-colon character (<code>';'</code>).</li>
+									<li>On other systems, edit your <code>PATH</code> setting in one of your startup scripts, typically in your home directory and called <code>.profile</code> or <code>.bashrc</code>. The separation character is a colon (<code>':'</code>).</li>
+								</ul>
+							</td>
+						</tr>
+						<tr id="step3">
+							<td class="step">Step&nbsp;3.</td>
+							<td>Validate that your Java JDK is installed correctly by running the command <code>javac -J-version</code>. The result should be something like this:
+								<div class="indent"><pre>java version "1.5.0_06"
+Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0_06-b05)
+Java HotSpot(TM) Client VM (build 1.5.0_06-b05, mixed mode, sharing)</pre></div>
+								If you get an unexpected result, make sure you have correctly followed steps 1 and 2.</td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="section">
+					<h2 id="install_ant">2. Installing Apache Ant</h2>
+					<p>If you have Apache Ant (1.6.2 or later) installed, skip to <a href="#install_xins">section 3, "Installing XINS"</a>.</p>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step4">
+							<td class="step">Step&nbsp;4.</td>
+							<td><a href="http://ant.apache.org/bindownload.cgi">Download the latest Apache Ant</a> and install it.</td>
+						</tr>
+						<tr id="step5">
+							<td class="step">Step&nbsp;5.</td>
+							<td>Make sure the Apache Ant <code>bin</code> directory is in your path (see <a href="#step2">step 2</a>).</td>
+						</tr>
+
+						<tr id="step6">
+							<td class="step">Step&nbsp;6.</td>
+							<td>Validate that Apache Ant is installed correctly by running the command <code>ant -version</code>. The result should be something like this:
+								<div class="indent"><pre>Apache Ant version 1.6.5 compiled on June 2 2005</pre></div>
+								If you get an error, make sure you correctly followed steps 4 and 5.</td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="section">
+					<h2 id="install_xins">3. Installing XINS</h2>
+					<p>Finally you need to install XINS self.</p>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step7">
+							<td class="step">Step&nbsp;7.</td>
+							<td>On Windows systems, download the <a href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">XINS %%STABLE_VERSION%% installer</a>. Run it and accept the default installation settings.
+							<p>On other systems, download the platform-independent <a href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">XINS %%STABLE_VERSION%% TAR GZ file</a>. Just unpack it in your home directory.</p></td>
+						</tr>
+						<tr id="step8">
+							<td class="step">Step&nbsp;8.</td>
+							<td>Make sure the XINS <code>bin</code> directory is in your path (see the note with step 2).</td>
+						</tr>
+						<tr id="step9">
+							<td class="step">Step&nbsp;9.</td>
+							<td>Validate that XINS is correctly installed by running the command <code>xins -version</code>. The result should be something like this:
+								<div class="indent"><pre>[echo] Java 1.5.0_06
+[echo] Apache Ant version 1.6.5 compiled on June 2 2005
+[echo] XINS %%STABLE_VERSION%%</pre></div>
+								If you get an error, make sure you have correctly followed the previous steps.</td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="section">
+					<h2 id="issues">4. Issues</h2>
+					<p>If you have an issue installing XINS, please <a href="http://sourceforge.net/tracker/?func=add&amp;group_id=71598&amp;atid=531814">file a bug report</a>.</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="footer">
+			<div class="links"><a href="http://validator.w3.org/check/referer">Valid XHTML 1.1</a></div>
+			<a href="http://sourceforge.net/projects/xins"><img src="http://sourceforge.net/sflogo.php?group_id=71598" alt="Powered by SourceForge"/></a>
+		</div>
+	</body>
+</html>
