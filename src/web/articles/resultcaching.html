@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: resultcaching.html,v 1.2 2009/03/23 16:04:27 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>XINS - Result Caching</title>
+		<link rel="stylesheet" type="text/css" href="../style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<script src="../functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>XINS<span class="nodisplay"> - </span><span id="subtitle">Result Caching</span></h1>
+
+		<div id="root">
+			<div id="sidebar">
+				<script src="../write_togglemenu.js" type="text/javascript"></script>
+				<ul id="menu">
+					<li                 ><a title="Front page of the XINS website"                                           href="../index.html">Home Page</a></li>
+					<li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+					<li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+					<li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+					<li class="active"  ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="../documentation.html">Documentation</a></li>
+					<li                 ><a title="Demonstration Page"                                                       href="../demo.html">Demo</a></li>
+					<li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+					<li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+					<li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+					<li class="newgroup"><a title="Various links"                                                            href="../links.html">Links</a></li>
+				</ul>
+			</div>
+
+			<div id="content">
+
+				<div class="section">
+					<h2 id="definition">What is result caching?</h2>
+					<p>Result caching offers the possibility to store the result returned
+					for a given request for a limited period of time
+					so that if a similar request is sent over this period of time the same result
+					is sent without having to compute it.</p>
+				</div>
+
+				<div class="section">
+					<h2 id="benefits">What are the benefits/drawback of result caching?</h2>
+					<p>Benefits:
+					<ul>
+						<li>Faster responses.</li>
+						<li>Reduces resources usage (CPU, network, database, ...)</li>
+						<li>May reduce cost, if the API calls another API that is charged per call.</li>
+					</ul>
+					</p>
+
+					<p>Brawbacks:
+					<ul>
+						<li>Uses more memory.</li>
+						<li>Accurency of the cached result may not be valid anymore.</li>
+						<li>Only useful for functions that return information and does not perform actions.</li>
+					</ul>
+					</p>
+				</div>
+
+				<div class="section">
+					<h2 id="implementation">How to implement result caching in a XINS API?</h2>
+					<p>XINS provides classes in the <a title="Javadoc"
+					href="http://xins.sourceforge.net/javadoc/latest/org/xins/common/collections/expiry/package-summary.html">org.xins.common.collections.expiry</a>
+					package which allow to cache object for a specified time.</p>
+					<div class="indent"><pre>
+ /**
+  * The collection that will keep the results.
+  * The key of this map is a {@link Request} object and the value is a
+  * {@link Result} object.
+  */
+ private ExpiryFolder _functionCache;
+
+ /**
+  * Initializes the cache.
+  */
+ public void initImpl(PropertiesReader properties) {
+
+    // The strategy of the cache is keep the result for maximum 30 seconds with
+    // a precision of 2 seconds.
+    ExpiryStategy cacheStrategy = new ExpiryStrategy(30 * 1000, 2000);
+
+    // Create the cache with this strategy
+    _functionCache = new ExpiryFolder("MyFunction", cacheStrategy);
+ }
+
+ public Result call(Request request) throws Exception {
+
+    // Directly return the result if available in the cache.
+    Result cachedResult = (Result) _functionCache.find(request);
+    if (cachedResult != null) {
+       return cachedResult;
+    }
+
+    SuccessfulResult result = new SuccessfulResult();
+
+    // Fill the result object with data
+
+		// Store the result in the cache before returning it
+    _functionCache.put(request, result);
+
+    return result;
+ }</pre></div>
+				</div>
+
+				<div class="section">
+					<h2>Advanced caching</h2>
+					<ul>
+						<li>The ExpiryFolder class has 2 methods to find the result, <em>find</em> and <em>get</em>. If you call
+						the <em>get</em> method, the cached object time will be reseted whereas the <em>find</em> method
+						will no reset the time for the object.
+						In our example, if the object is accessed once after 10 seconds, using the <em>get</em> method,
+						the object will be stored 10 + 30 = 40 seconds in the cache, using the <em>find</em> method,
+						it would have been stored 30 seconds.</li>
+						<li>SuccessfulResult and UnsuccessfulResult may be stored, nevertheless it is
+						advisable to only store the UnsuccessfulResult related to functional error codes.</li>
+						<li>It is also possible to manage the cache from another function.
+						To do this, the cache needs to be accessible for both function.
+						The best way to do it, is to put the cache in a shared instance.</li>
+						<li>It is recommended to have the cache time as a runtime property and
+						have the precision to 10% of the cache time.</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div id="footer">
+			<div class="links"><a href="http://validator.w3.org/check/referer">Valid XHTML 1.1</a></div>
+			<a href="http://sourceforge.net/projects/xins"><img src="http://sourceforge.net/sflogo.php?group_id=71598" alt="Powered by SourceForge"/></a>
+		</div>
+	</body>
+</html>

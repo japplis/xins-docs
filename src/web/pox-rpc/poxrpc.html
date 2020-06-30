@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: poxrpc.html,v 1.3 2007/09/14 11:19:25 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>POX-RPC - Simple platform-independent communication protocol</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+
+<!-- TODO FIXME: Remove the following line -->
+<link rel="stylesheet" type="text/css" href="http://xins.sourceforge.net/style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<script src="functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>POX-RPC<span class="nodisplay"> - </span><span id="subtitle">Simple platform-independent communication protocol</span></h1>
+
+		<div id="root">
+			<div id="sidebar">
+				<script src="write_togglemenu.js" type="text/javascript"></script>
+				<ul id="menu">
+					<li                 ><a title="Front page of the XINS website"                                           href="index.html">Home Page</a></li>
+					<li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+					<li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+					<li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+					<li class="active"  ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="documentation.html">Documentation</a></li>
+					<li                 ><a title="Demonstration Page"                                                       href="demo.html">Demo</a></li>
+					<li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+					<li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+					<li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+					<li class="newgroup"><a title="Various links"                                                            href="links.html">Links</a></li>
+				</ul>
+			</div>
+
+			<div id="content">
+				<div class="section">
+					<h2 id="contents">Contents</h2>
+					<p>This document describes POX-RPC by means of a set of questions and corresponding answers. The contents are divided in the following sections:</p>
+					<ul id="contents">
+						<li><a href="#overview">1. Overview</a></li>
+						<li><a href="#functions">2. Functions</a></li>
+						<li><a href="#data_types">3. Data types</a></li>
+						<li><a href="#errors">4. Error handling</a></li>
+						<li><a href="#other_approaches">5. Comparison with other approaches</a></li>
+					</ul>
+				</div>
+
+				<div class="section">
+					<h2 id="overview">1. Overview</h2>
+					<h3>What is POX-RPC&nbsp;?</h3>
+					<p>A simple method for platform-independent <acronym title="remote procedure calls">RPC</acronym>, based on ubiquitous technologies:
+					<ul>
+						<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html"><acronym title="Hypertext Transfer Protocol">HTTP</acronym> 1.1</a></li>
+						<li><a href="http://www.w3.org/TR/REC-xml/"><acronym title="Extensible Modelling Language">XML</acronym> 1.0</a></li>
+						<li><a href="http://www.unicode.org/">Unicode</a></li>
+					</ul>
+
+					<h3>Can you give an example of a POX-RPC request and response&nbsp;?</h3>
+					<p>Sure:</p>
+					<div class="indent"><img src="restrpc-browser1.png" /></div>
+					<p>This screenshot shows a request in the location bar and the corresponding XML response in the body.</p>
+
+					<h3>Nice screenshot. But what goes over the line&nbsp;?</h3>
+					<p>To invoke a function called <code>GetCart</code> at <code>test.rest-rpc.org</code> with the parameter <code>cart</code> set to <code>1563</code> this is all a POX-RPC client needs to send:</p>
+					<div class="indent"><pre>GET /?_function=GetCart&amp;cart=1563 HTTP/1.1
+Host: test.rest-rpc.org
+Accept: text/xml
+Connection: close</pre></div>
+					<p>This request is for a function named <code>GetCart</code>. The parameter <code>cart</code> is set to the value <code>1563</code>.</p>
+					<p>The response that goes over the line may be as follows:</p>
+					<div class="indent"><pre>HTTP/1.1 200 OK
+Content-Length: 114
+Content-Type: text/xml
+Connection: Close
+
+&lt;result&gt;
+   &lt;param name="creation"&gt;20050923T123507+0100&lt;/param&gt;
+   &lt;param name="priceAmount"&gt;60.5&lt;/param&gt;
+   &lt;param name="priceUnits"&gt;EUR&lt;/param&gt;
+   &lt;param name="itemCount"&gt;4&lt;/param&gt;
+   &lt;data&gt;
+      &lt;item product="8923" price="12" amount="3"/&gt;
+      &lt;item product="2108" price="24.5" amount="1"/&gt;
+   &lt;/data&gt;
+&lt;/result&gt;</pre></div>
+
+					<h3>Hey! No XML in the input&nbsp;?</h3>
+					<p>No. The input is a simple set of HTTP parameters. This is key to compatibility with web browsers, such as <a href="http://www.apple.com/macosx/features/safari/">Safari</a>, <a href="http://www.konqueror.org/">Konqueror</a>, <a href="http://www.opera.com/">Opera</a>, <a href="http://browser.netscape.com/">Netscape</a>, <a href="http://www.mozilla.org/products/firefox/">Mozilla Firefox</a> and <a href="http://www.microsoft.com/windows/ie/">Internet Explorer</a>.</p>
+
+					<h3>Which libraries do I need in order to apply POX-RPC&nbsp;?</h3>
+					<p>Depending on your programming language preference, typically none.  Unlike SOAP, you are not required to install additional libraries or toolkits in order to easily send and receive data.  Instead, everything you need is already available if you use a modern programming language, such as <a href="http://www.perl.org/">Perl</a>, <a href="http://www.php.net/">PHP</a>, <a href="http://www.ruby-lang.org/">Ruby</a>, <a href="http://java.sun.com/">Java</a>, <a href="http://en.wikipedia.org/wiki/C_programming_language">C</a>, <a href="http://en.wikipedia.org/wiki/C_Plus_Plus">C++</a>, etc.</p>
+					<p>To be more precise, you need the following functionality:</p>
+					<ul>
+						<li>On the client: Ability to construct URLs and send HTTP requests.
+						<li>On the server: Ability to receive an HTTP request, construct a minimal XML document and return an HTTP response.
+					</ul>
+					<p>These days it's hard to find a programming language that does not provide these features.</p>
+					<p>Read the "<a href="http://www.onlamp.com/pub/a/php/2003/10/30/amazon_rest.html">PHP Web Services Without SOAP</a>" article at ONLamp.com for some more background information.</p>
+
+					<h3>There is no type information! Where is it&nbsp;?</h3>
+					<p>The meta-information is assumed to be shared by the client and the server. So it is not passed forth and back with each individual request and every response. This severely reduces the overhead of each call, compared to approaches like XML-RPC and SOAP.</p>
+
+					<h3><span class="num">1.7</span> Is there a format for the definition of this meta-data&nbsp;?</h3>
+					<p>Yes. We will come to that later.</p>
+
+					<h3><span class="num">1.8</span> Do you support Unicode strings&nbsp;?</h3>
+					<p>In principle, all Unicode characters are supported. However, the XML 1.0 specification marks certain specific characters as invalid, such as character 0. Consequently, these are not allowed in the output. See the <a href="http://www.w3.org/TR/REC-xml/#charsets">XML 1.0 specification, section 2.2: "Characters."</a></p>
+
+					<h3>How are Unicode characters supported in the input&nbsp;?</h3>
+					<p>By extended URLs.</p>
+
+					<h3><span class="num">1.11</span> Can you give an example of special characters in the response&nbsp;?</h3>
+					<p>How special characters are displayed in the response depends on the encoding. If certain characters are not supported by the encoding, they will be escaped. For example:</p>
+
+					<div class="indent"><pre>HTTP/1.1 200 OK
+Content-Length: 114
+Content-Type: text/xml
+Connection: Close
+Date: Fri 28 Jul 2005 11:16:22 GMT+1
+
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;result&gt;
+   &lt;param name="formula"&gt;&amp;#0394;T=3&lt;/param&gt;
+&lt;/result&gt;</pre></div>
+
+					<h3><span class="num">1.12</span> How can I set a parameter to null&nbsp;?</h3>
+					<p>By either not sending the parameter or by setting it to an empty string (i.e. specifying no value). This allows you to send a null value using a browser.</p>
+
+					<h3><span class="num">1.13</span> But then how can I set a parameter to an empty string&nbsp;?</h3>
+					<p>By setting the special parameter <code>_empty</code>. It contains the parameters that should have an empty value, separated by a comma. For example:</p>
+					<div class="indent"><pre>GET /test/?_function=AddPerson&amp;name=John&amp;surname=Doe&amp;_empty=middleName%2ChouseExt HTTP/1.1
+Host: tst.rest-rpc.org:8080
+Accept: text/xml
+Connection: close</pre></div>
+					<p>This calls the function <code>AddPerson</code> with <code>name=John</code>, <code>surname=Doe</code> and both <code>middleName</code> and <code>houseExt</code> set to null.</p>
+
+					<h3><span class="num">1.14</span> Are XML Namespaces supported&nbsp;?</h3>
+					<p>No, <a href="http://www.w3.org/TR/REC-xml-names/">XML Namespaces</a> are not supported.</p>
+
+					<h3><span class="num">1.15</span> Which HTTP methods must a POX-RPC service implement&nbsp;?</h3>
+					<p>The following:</p>
+					<ul>
+						<li><code>GET</code> - Used to invoke a function. Should return a compliant XML document.</li>
+						<li><code>POST</code> - Used to invoke a function. Should return a compliant XML document.</li>
+						<li><code>HEAD</code> - Used to invoke a function. Should, however, not return any content. So no XML document is returned.</li>
+						<li><code>OPTIONS</code> - Used to determine which HTTP methods are supported, in accordance with the <a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">HTTP specification</a>. Can never be used to invoke a function.</li>
+					</ul>
+					<p>Other methods may be implemented, but this is optional. The complete list of supported methods should be returned from an <code>OPTIONS</code> call.</p>
+
+					<h3><span class="num">1.16</span> Should a POX-RPC service always return <code>200 OK</code>&nbsp;?</h3>
+					<p>In normal situations, yes. In special situations, different HTTP status codes can be returned, in accordance with the <a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">HTTP specification</a>. For example:</p>
+					<ul>
+						<li><code>500 Internal Server Error</code> - If the function cannot be invoked due to a server-side error.</li>
+						<li><code>503 Service Unavailable</code> - If the function cannot be invoked due to a temporary server-side error or unavailability.</li>
+						<li>etc.</li>
+					</ul>
+				</div>
+
+				<div class="section">
+					<h2 id="functions"><a href="#functions">2. Functions</a><a title="Top of the page" class="totop" href="#top">^</a></h2>
+
+					<h3><span class="num">2.1</span> What is a function in POX-RPC terminology&nbsp;?</h3>
+					<p>TODO.</p>
+
+					<h3><span class="num">2.2</span> How should I name my function&nbsp;?</h3>
+					<p>TODO.</p>
+
+					<h3><span class="num">2.3</span> What is a meta-function&nbsp;?</h3>
+					<p>TODO.</p>
+
+					<h3><span class="num">2.3</span> What is a meta-function&nbsp;?</h3>
+					<p>TODO.</p>
+				</div>
+
+				<div class="section">
+					<h2 id="data_types"><a href="#data_types">3. Data types</a><a title="Top of the page" class="totop" href="#top">^</a></h2>
+
+					<h3><span class="num">3.1</span> What kind of data types does POX-RPC support&nbsp;?</h3>
+					<p>It comes with standard data types and it also supports custom data types.  The standard types are separated in two groups, the simple types and the complex types.</p>
+
+					<h3><span class="num">3.2</span> So why define types and their formats if they are not specified in the request and response&nbsp;?</h3>
+					<p>To allow format checking. Although the type-information is not transmitted from client to server and vice-versa, the information is known on both sides and both can and should perform validations.</p>
+
+					<h3><span class="num">3.3</span> So what are these simple standard types&nbsp;?</h3>
+					<p>These are:</p>
+					<dl>
+						<dt><code>_text</code></dt>
+						<dd>Unicode character string.</dd>
+
+						<dt><code>_boolean</code></dt>
+						<dd>Boolean, either <code>true</code> or <code>false</code>.</dd>
+
+						<dt><code>_int8</code>, <code>_int16</code>, <code>_int32</code> and <code>_int64</code></dt>
+						<dd>Signed integer types in decimal format, ranging from 8-bit (one byte) to 64-bit (8 bytes). For example <code>-15</code>, <code>0</code>, <code>5</code> or <code>+5</code>.</dd>
+
+						<dt><code>_float32</code> and <code>_float64</code></dt>
+						<dd><a href="http://216.239.59.104/search?q=cache:uilX6XVw5AQJ:www.math.uic.edu/%7Ejan/mcs471/Lec3/ieee754.pdf"><acronym title="Institute of Electrical and Electronic Engineers">IEEE</acronym> 754</a> floating-point numbers, supporting the special values <code>NaN</code>, <code>-Inf</code> and <code>+Inf</code>. Other examples include <code>-17</code>, <code>1.3</code>, <code>-0</code> and <code>1.3E-3</code>.</dd>
+
+						<dt><code>_date</code></dt>
+						<dd>Timestamp with day-precision and optional time-zone indicator. For example <code>19991231+0000</code> for the last day of the year 1999 in the GMT time-zone.</dd>
+
+						<dt><code>_timestamp</code></dt>
+						<dd>Timestamp with second-precision and optional time-zone indicator. For example <code>19991231T235959+0100</code> for the last second of the year 1999 in the time-zone GMT + 1 hour.</dd>
+
+						<dt><code>_base64</code></dt>
+						<dd><a href="http://www.faqs.org/rfcs/rfc3548.html">Base64</a>-encoded binary value. For example, the Base64-encoded version of the character string <code>XML</code> is: <code>WE1M</code>.</dd>
+
+						<dt><code>_hex</code></dt>
+						<dd>Hex-encoded binary value. This is an alternative for the <code>_base64</code> type. For example <code>584D4C</code> for the hexadecimal representation of the characters <code>XML</code> in ASCII.</dd>
+					</dl>
+
+					<h3><span class="num">3.4</span> Why are there 2 types for binary values&nbsp;?</h3>
+					<p>So there is something to choose from. In some situations you may want to use the <code>_base64</code> type, while in other situations <code>_hex</code> may be the preferred choice.</p>
+
+					<h3><span class="num">3.5</span> And what are the complex standard types&nbsp;?</h3>
+					<p>These are the following:</p>
+					<dl>
+						<dt><code>_set</code></dt>
+						<dd>Ordered set of values, not allowing duplicates.</dd>
+
+						<dt><code>_list</code></dt>
+						<dd>Ordered list of values, allowing duplicates.</dd>
+
+						<dt><code>_properties</code></dt>
+						<dd>Ordered set of key/value pairs. Duplicates are not allowed.</dd>
+					</dl>
+				</div>
+
+				<div class="section">
+					<h2 id="errors"><a href="#errors">4. Error handling</a><a title="Top of the page" class="totop" href="#top">^</a></h2>
+
+					<h3><span class="num">4.1</span> How does a POX-RPC implementation return an error&nbsp;?</h3>
+					<p>By setting the attribute <code>error</code> in the <code>result</code> element to the name of the error code. For example:</p>
+					<div class="indent"><pre>HTTP/1.1 500 Internal Server Error
+Content-Length: 73
+Content-Type: text/xml
+Connection: Close
+Date: Sat 29 Jul 2005 11:16:23 GMT+1
+
+&lt;?xml version="1.0" encoding="US-ASCII"?&gt;
+&lt;result error="_InternalError"/&gt;</pre></div>
+
+					<h3><span class="num">4.2</span> What if no <code>_function</code> parameter is specified&nbsp;?</h3>
+					<p>Then the service should return an HTTP response with the status <code>200 OK</code> and the error code <code>_FunctionNotSpecified</code>.</p>
+
+					<h3><span class="num">4.3</span> What if the <code>_function</code> parameter is specified multiple times&nbsp;?</h3>
+					<p>TODO.</p>
+
+					<h3><span class="num">4.4</span> What if the specified function does not exist&nbsp;?</h3>
+					<p>TODO.</p>
+
+					<h3><span class="num">4.5</span> What if some other parameter is specified multiple times&nbsp;?</h3>
+					<p>TODO.</p>
+
+					<h3><span class="num">4.6</span> What if a function invocation fails&nbsp;?</h3>
+					<p>TODO.</p>
+				</div>
+
+				<div class="section">
+					<h2 id="other_approaches"><a href="#other_approaches">5. Comparison with other approaches</a><a title="Top of the page" class="totop" href="#top">^</a></h2>
+
+					<h3><span class="num">5.1</span> Is SOAP not good enough&nbsp;?</h3>
+					<p>No. <a href="http://www.w3.org/TR/soap/"><acronym title="Simple Object Access Protocol">SOAP</acronym></a> was designed for complex document-centric multi-tier applications and not primarily for RPC applications. It is extremely complex, it involves a huge overhead on requests and responses and it is not usable with plain web browsers.</p>
+
+					<h3><span class="num">5.2</span> Then what about XML-RPC&nbsp;?</h3>
+					<p><a href="http://www.xmlrpc.org/">XML-RPC</a> is nice and simple. That's good. But it has shortcomings that need to be addressed:</p>
+					<ul>
+						<li>no extensibility, so not future-proof;</li>
+						<li>not usable with plain web browsers;</li>
+						<li>no support for Unicode character strings;</li>
+						<li>no support for null values;</li>
+						<li>no standardized fault handling;</li>
+						<li>overhead on both requests and responses because meta-data is transferred with each call;</li>
+						<li>no support for functions that return no parameters;</li>
+						<li>no support for functions that return two or more parameters;</li>
+						<li>no timezone support for date values;</li>
+						<li>no standard format for floating-point numbers;</li>
+						<li>no support for the special floating-point numbers NaN, -Inf and +Inf.</li>
+					</ul>
+					<p>And yes, POX-RPC resolves all these issues.</p>
+
+					<h3><span class="num">5.3</span> Does not XML-RPC have standardized fault handling&nbsp;?</h3>
+					<p>Although it does specify <i>how</i> a fault should be indicated, each framework or application has to define it's own error codes.</p>
+					<p>POX-RPC defines a number of standard error codes and it allows a framework or an application to define it's own.</p>
+
+					<h3><span class="num">5.4</span> Is POX-RPC backwards compatible with XML-RPC&nbsp;?</h3>
+					<p>No, although it has been considered. But XML-RPC is by definition not browser-compatible.  POX-RPC is now designed in a clean and extensible manner.</p>
+
+					<h3><span class="num">5.5</span> Does POX-RPC introduce a new approach&nbsp;?</h3>
+					<p>No, it is a common approach used by frameworks (such as <a href="http://xins.sourceforge.net/">XINS</a>) and by different public APIs (such as the <a href="http://developer.ebay.com/rest/">eBay REST API</a>, <a href="http://www.flickr.com/services/api/">Yahoo Flickr</a> and <a href="http://www.amazon.com/gp/aws/sdk/002-2878576-6286469?s=AlexaWebInfoService&amp;v=1%2d0">Amazon Alexa</a>). Although SOAP gets most of the press, it seems REST actually attracts more developers.</p>
+					<p>Amazon offer both a SOAP and a REST-compliant API. Tim O'Reilly expects as much as 85% of the usage to go via the REST interface; see his blog entry "<a href="http://www.oreillynet.com/pub/wlg/3005">REST vs. SOAP at Amazon</a>".</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="counter">
+			<a href="http://www.webstats4u.com/stats?ADvN+QZRQSBjHHgfmeWJTE26fknQ"><img src="http://m1.webstats4u.com/n?id=ADvN+QZRQSBjHHgfmeWJTE26fknQ" alt="Statistics" /></a>
+    	</div>
+	</body>
+</html>

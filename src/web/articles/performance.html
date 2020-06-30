@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: performance.html,v 1.5 2007/09/24 12:35:36 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>XINS - Performance comparaison of Web Services frameworks</title>
+		<link rel="stylesheet" type="text/css" href="../style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<meta name="description" content="Performance comparaison of open-source Web Services frameworks" />
+		<meta name="keywords" content="performance, benchmark, fastest, web services, framework, SOAP, XINS, Axis, XFire, CFX, JAX-WS" />
+		<script src="../functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>XINS<span class="nodisplay"> - </span>
+			<span id="subtitle">Feedback on performance tests</span>
+		</h1>
+
+		<div id="root">
+
+			<div id="sidebar">
+				<script src="../write_togglemenu.js" type="text/javascript"></script>
+				<ul id="menu">
+					<li                 ><a title="Front page of the XINS website"                                           href="../index.html">Home Page</a></li>
+					<li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+					<li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+					<li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+					<li class="active"  ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="../documentation.html">Documentation</a></li>
+					<li                 ><a title="Demonstration Page"                                                       href="../demo.html">Demo</a></li>
+					<li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+					<li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+					<li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+					<li class="newgroup"><a title="Various links"                                                            href="../links.html">Links</a></li>
+				</ul>
+			</div>
+
+			<div id="content">
+				<div class="section">
+					<h2 id="intro">Introduction</h2>
+<p>This article will compare the performance of XINS Web Services vs JAX-WS RI and XFire (renamed as CFX).</p>
+<br/>
+<p>The tests have been performed on September 20, 2007.</p>
+
+				</div>
+
+				<div class="section">
+					<h2 id="setup">The test data and environment</h2>
+<p>The following version have been used:</p>
+<ul>
+<li>XINS 2.1-beta3</li>
+<li>CFX 2.0.1</li>
+<li>NetBeans 6.0 Beta 1 (The version which has Glassfish V2 and Java EE, JAX-WS 2.1.2)</li>
+</ul>
+<br/>
+<p>My environment:</p>
+<ul>
+<li>Windows 2000</li>
+<li>JDK 1.6.0_02</li>
+<li>Pentium IV 3.0 GHz</li>
+<li>768 MB of memory</li>
+<li>Software started: NetBeans 6.0 B1, Ant Commander, Outlook, Firefox, OpenOffice Tray icon</li>
+</ul>
+<br/>
+<p>Tests:</p>
+<ul>
+<li>The SOAP request have been created with <a href="http://www.soapui.org">SOAP UI 1.7.5</a> from the WSDL provided in the example.</li>
+<li>The tests have been executed with <a href="http://jakarta.apache.org/jmeter/">Apache JMeter</a> 2.1.1.</li>
+<li>The test consist of 10 threads sending 10 requests (so 100 requests in total) with a ramp-up period of 1 second.</li>
+<li>The test is executed once without taking the results into account.</li>
+<li>I executed then 3 times the test, took for XFire and JAX-WS RI the best result and for XINS the worst result.</li>
+<li>Between each test, a Clear all is performed in JMeter.</li>
+<li>I used as result the average of the Aggregate Report (The averarge time that a request took).</li>
+<li>The results are in milli seconds.</li>
+<li>Axis 2 1.3 didn't work. I first had to swith to JDK 1.5 and to deploy under Tomcat 5.5, then SOAP UI worked but <a href="stock-axis2.jmx">stock-axis2.jmx</a> didn't.
+<a href="https://wstest.dev.java.net/">Tests</a> performed by Sun Micorsystem suggest that 
+<a href="http://weblogs.java.net/blog/kohsuke/archive/2007/02/jaxws_ri_21_ben.html">Axis2 is slower than JAX-WS</a>.
+Other tests suggest that <a href="http://wso2.org/library/588">Axis2 is faster than XFire</a>.</li>
+<li>Because of limited time I have decided not to benchmark JBoss WS or Spring Web Services.</li>
+</ul>
+<p>XINS Tests:</p>
+<ul>
+	<li>cd demo\xins-project</li>
+	<li>xins run-myproject</li>
+</ul>
+<p>CFX Tests:</p>
+<ul>
+	<li>cd samples\hello_world</li>
+	<li>ant server</li>
+</ul>
+<p>JAX-WS RI Tests:</p>
+<ul>
+	<li>NetBeans File -> New Project -> Samples -> Web Services -> Calculator</li>
+	<li>Select CalculatorApp as main project and hit the run button (and wait)</li>
+</ul>
+					<br/>
+				</div>
+
+				<div class="section">
+					<h2 id="results">The results</h2>
+					<table>
+						<tr>
+						<th>XINS SOAP</th><td>5 ms</td>
+						</tr>
+						<tr>
+						<th>XFire (CFX)</th><td>15 ms</td>
+						</tr>
+						<tr>
+						<th>JAX-WS RI</th><td>152 ms</td>
+						</tr>
+					</table>
+					<img src="xins-perf1.png" alt="XINS performance" />
+				</div>
+
+				<div class="section">
+					<h2 id="analisys">Analisys</h2>
+					<ul>
+						<li>There is a large difference factor between the different frameworks, meaning that if performance matters to you, 
+						you should consider using XINS.</li>
+						<li>XINS SOAP was 3 to 8 times faster than XFire. The best XINS SOAP result was 4 ms and the worst XFire result was 31 ms.</li>
+						<li>XINS was at INFO logging level which logs 3 times per request and slows down XINS (about 1 ms).</li>
+						<li>Using Stax XML parser and specific data binding does not determine the speed of the WS framework.</li>
+                                                <li>Try to code not with performance in mind but with code quality. Then benchmark and profile the application in the last beta stage.</li>
+                                                <li>At the end the performance depends more on the hardware, the network, the Servlet container and if used the database.</li>
+					</ul>
+				</div>
+
+				<div class="section">
+					<h2 id="further">Pushing further</h2>
+               <p>Now I'm at the point of thinking how to damage more XINS in order to perform slower.
+               First thing is to choose another function. I decided to go for the SimpleTypes of the allinone.
+               It contains 14 input parameters of different types (timestamp, binary, double, properties, list, ...)
+               and returns also a few output parameters.<br/>
+               Worst result: 7 ms.
+               </p>
+               <p>As it's not slow enough I decide to move to JDK 1.5 and Tomcat 5.5.
+               (Still SimpleTypes with SOAP at INFO level)<br/>
+                Worst result: 3 ms.
+               </p>
+               <p>In the following graph, I also added Axis 2 results got from the 10 times average call with SOAP UI (after 15 calls)</p>
+                                        <p>Here I'm almost out of ideas (except Thread.sleep() or Thread.wait() or JDK 1.3) to slow down XINS even further.</p>
+					<table>
+						<tr>
+						<th>JAX-WS RI</th><td>152 ms</td>
+						</tr>
+						<tr>
+						<th>XFire (CFX)</th><td>15 ms</td>
+						</tr>
+						<tr>
+						<th>Axis2 (SOAP UI)</th><td>11 ms</td>
+						</tr>
+						<tr>
+						<th>XINS SOAP</th><td>5 ms</td>
+						</tr>
+						<tr>
+						<th>XINS SOAP, 14 parameters, JDK 1.5, Tomcat</th><td>3 ms</td>
+						</tr>
+					</table>
+					<img src="xins-perf2.png" alt="XINS performance final result" />
+				</div>
+
+				<div class="section">
+					<h2 id="feedback">Feedback</h2>
+                                        <p>I have send e-mail to Dan Diephouse and Kohsuke Kawaguchi in order for them
+                                        to have their say about the tests and the results. You can read their feedback in this <a href="performance-feedback.html">document</a></p>
+                                        <p>Koshushe noticed a few points:
+                                          <ul>
+                                            <li>On his laptop (2.8GHz HT-enabled Pentium 4 machine with 2GB), his results for JAX-WS RI are 3 ms.</li>
+                                            <li>JMeter doesn't use HTTP keep-alive which can make a big difference for a trivial payload.</li>
+                                            <li>JMeter doesn't have a timer with good precision.</li>
+                                            <li>With a ramp up of 1 second, if the request time is less than 10 ms you will never have 2 concurent requests for 100 requests.</li>
+                                          </ul>
+                                        </p>
+                                      </div>
+                                
+                                <div class="section">
+               <h2 id="links">Links</h2>
+					<ul>
+					   <li>The JMeter tests: <a href="myproject.jmx">myproject.jmx</a>, 
+					   <a href="myproject-soap.jmx">myproject-soap.jmx</a>,
+					   <a href="hellocfx.jmx">hellocfx.jmx</a>,
+					   <a href="calculator-jaxws.jmx">calculator-jaxws.jmx,
+					   <a href="allinone-soap.jmx">allinone-soap.jmx</a>.
+                                           </a>
+                                           </li>
+					   <li><a href="http://incubator.apache.org/cxf/">CFX Web site</a></li>
+					   <li><a href="https://jax-ws.dev.java.net/">JAX-WS Web site</a></li>
+					   <li><a href="http://www.xins.org/">XINS Web site</a></li>
+					   <li><a href="http://weblogs.java.net/blog/kohsuke/archive/2007/02/jaxws_ri_21_ben.html">JAX-WS RI vs Axis 2</a> benchmark</li>
+					   <li><a href="https://wstest.dev.java.net/">WSTest</a>: Web Services micro-benchmark</li>
+					   <li><a href="http://wso2.org/library/588">XFire vs Axis2</a> benchmark</li>
+					</ul>
+				     </div>
+			</div>
+		</div>
+	</body>
+</html>

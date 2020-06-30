@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY dollar "$">
+]>
+<?xml-stylesheet href="style.css" type="text/css"?>
+<article>
+  <title>XINS Front-end Framework</title>
+
+  <articleinfo>
+    <author>
+      <personname>
+        <firstname>Anthony</firstname>
+
+        <surname>Goubard</surname>
+      </personname>
+
+      <email>anthony.goubard@japplis.com</email>
+    </author>
+
+    <firstname>Anthony</firstname>
+
+    <surname>Goubard</surname>
+
+    <date>2006-09-11</date>
+  </articleinfo>
+
+  <sect1>
+    <title>Introduction</title>
+
+    <para>This document describe the XINS Front-end Framework. The XINS
+    Front-end Framework is based on the XINS Framework and included in the
+    releases of XINS (since version 1.5.0). This document supposes that you
+    already know the basis of the XINS framework. If you want to know how to
+    install XINS and create an API, read the primer or the user guide.</para>
+
+    <sect2>
+      <title>Presentation</title>
+
+      <para>The XINS Front-end Framework is a web application framework. As
+      most of modern web application frameworks it separates the business
+      logic layer which is using XINS and the presentation layer which is
+      written in XSLT.</para>
+
+      <para>Here is a list of advantages compared to the others web
+      application frameworks:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>You can run your application even if you don't have any XSLT
+          yet. Just ask for the XML in the browser and you will see the values
+          returned by your function. You can in some cases even use the
+          generated XINS test forms.</para>
+        </listitem>
+
+        <listitem>
+          <para>The presentation layer doesn't need to be included in the WAR
+          file, so that deploy it when you want. Is there an error in a page?
+          just copy the new XSLT file, no need to package and deploy
+          again.</para>
+        </listitem>
+
+        <listitem>
+          <para>No need to write components for common things, just write a
+          XSL template, then use <literal>xsl:include</literal> to import the
+          XSLT file and <literal>xsl:call-template</literal> or
+          <literal>xsl:apply-template</literal> to call your XSL template with
+          the parameters you want.</para>
+        </listitem>
+
+        <listitem>
+          <para>You win at the same time all XINS features: statistics,
+          security, runtime properties, Java Client API, HTML specifications.
+          Your web application is also accessible using SOAP. The WSDL for
+          your web app can be generated as well as the unit tests and stubs.
+          And much more (logging, Open Source, performance, version
+          management, ...).</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>A demo of the web application using the XINS Front-end Framework
+      is available <ulink type=""
+      url="http://xins.users.mcs2.netarray.com/petstore/">here</ulink>.</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>The framework</title>
+
+    <sect2>
+      <title>The calling convention</title>
+
+      <para>The XINS Front-end Framework is based on a calling convention. You
+      will need to declare this calling convention in the impl.xml file to be
+      able to use the framework:</para>
+
+      <screen>&lt;calling-convention name="xinsff" class="org.xins.server.frontend.FrontendCallingConvention" /&gt;</screen>
+    </sect2>
+
+    <sect2>
+      <title>Templates</title>
+
+      <para>Templates are used for the presentation layer. The templates (also
+      refered as XSLT) transform the XML returned by the function in HTML (or
+      XHTML, WAP, iHTML).</para>
+
+      <para>The location of the templates is specified using the
+      <property>templates.&lt;api name&gt;.xinsff.source</property> runtime
+      property. The value must be a URL (file URL or http URL).</para>
+
+      <para>Examples:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>templates.petstore.xinsff.source=file:///${user.dir}/apis/petstore/xslt/</para>
+        </listitem>
+
+        <listitem>
+          <para>templates.helloworld.xinsff.source=http://intranet.mycompany.com/templates/helloworld/</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Special parameters</title>
+
+      <para>The requests can accept special parameters.</para>
+
+      <table>
+        <title>Special parameters</title>
+
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Parameter with value</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>mode=source</entry>
+
+              <entry>Returns the XML produced by the function before it is
+              transformed using the template.</entry>
+            </row>
+
+            <row>
+              <entry>mode=template</entry>
+
+              <entry>Returns the XSLT source code used to transform the
+              function return</entry>
+            </row>
+
+            <row>
+              <entry>command=Control</entry>
+
+              <entry>Shows information about the API such as the list of the
+              functions, the value of the sessionproperties, the version of
+              XINS and of the API.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </sect2>
+
+    <sect2>
+      <title>Caching</title>
+
+      <para>XINS FF includes the possibility to cache the templates. Caching
+      the templates will increase the response time as the XSLT file doesn't
+      need to be parsed again and compiled (in case you use XSLTC). On the
+      other side caching the templates will increase the memory usage of your
+      web application.</para>
+
+      <para>I would advice to disable the cache during the development of the
+      application and to enable it when deploying the application on
+      production.</para>
+
+      <para>Enabling/disabling the cache is done by the
+      <property>templates.cache</property> runtime property. The value can be
+      true or false. If the value is not set, the cache is enabled by
+      default.</para>
+
+      <para>If you execute the Control command, you have at the bottom of the
+      page a few links to manage the cache. The flush link will clear the
+      cache. The cache will be filled as the pages are used. The second link
+      will clear the cache and reload all the templates in the cache.</para>
+    </sect2>
+
+    <sect2>
+      <title>Login</title>
+
+      <para>XINS Front-end Framework includes some settings to help you having
+      a secure web application.</para>
+
+      <para>You first need to specify the login page. This is done be defining
+      the xinsff.login.page bootstrap property.</para>
+
+      <para>Once this property set, all pages except the login page and the
+      Control command will redirect to this page if the user is not logged in.
+      If you have other pages that you would like to be accessible to
+      everybody, you will need to specify them as a comma separated list in
+      the value of the xinsff.unrestricted.pages bootstrap property.</para>
+
+      <para>There can be some case where you want the user to have certain
+      privileges to access a specific page, so you want to check for the
+      access to this page inside the function. For this purpose, if you create
+      an error code named <literal>NotLoggedIn</literal> and you return this
+      error code from the function, the framework will redirect it to the
+      login page.</para>
+
+      <para>To indicate that the a customer is logged in is done by putting
+      the session ID as session property with the value
+      <literal>Boolean.TRUE</literal>. The session ID is put as a cookie in
+      your browser using the <literal>SessionId</literal> cookie name.</para>
+    </sect2>
+
+    <sect2>
+      <title>Workflow</title>
+
+      <para>The workflow is the redirection between pages.</para>
+
+      <para>You can specify the default command by setting the
+      <property>xinsff.default.page</property> bootstrap property. The browser
+      will be redirected to this page when no command is specify in the
+      request.</para>
+
+      <para>You can specify the redirection by returning a output parameter
+      named <parameter>redirect</parameter> to your function. Note that the
+      parameter will need to be declared in your function
+      specification.</para>
+
+      <para>You can redirect a command to another page by setting the
+      <property>xinsff.redirect.&lt;function name&gt;</property> bootstrap
+      property. If the function exists, the function is executed and if the
+      result of the function is successful, the browser is redirected to the
+      value of the property. If the function does not exist, the browser is
+      directly redirected to the value of the property.</para>
+
+      <para>It is also possible to specify conditional redirection. The
+      conditions are defined using XPath using the generated XML source as XML
+      to evaluate the XPath. The bootstrap property looks like
+      <property>xinsff.redirect.&lt;function name&gt;[xpath]</property>. If
+      none of the condition matches, the page is redirected to the
+      <property>xinsff.redirect.&lt;function name&gt;</property> bootstrap
+      property value. And if this property is not set the page is not
+      redirected.</para>
+
+      <para>The function name is the concatenation of the command name with
+      the action name. For example if the command is <literal>Login</literal>
+      and the action is <literal>okay</literal>, the front-end framework will
+      try to execute the <literal>LoginOkay</literal> function. The show
+      action is the default action, so the Login command with the show action
+      will try to execute the Login function.</para>
+    </sect2>
+
+    <sect2>
+      <title>Session management</title>
+
+      <para>The session is used to stored information about the user or about
+      the state of the application for this user. The session needs to be
+      declared as a shared object so that the session can be accessible from
+      every function.<screen>&lt;instance name="_session" getter="getSessionManager" class="org.xins.server.frontend.SessionManager" /&gt;</screen></para>
+
+      <para>Then you can use the session by calling
+      <methodname>_session.setProperty(propertyName,
+      propertyValue)</methodname> or
+      <methodname>_session.getProperty(propertyName)</methodname>. Session
+      property names should be in lowercases. All session properties are put
+      in the XML using <literal>&lt;param
+      name="session.propertyName"&gt;propertyValue&lt;/param&gt;</literal>.
+      Also all input parameters are stored automatically in the session. The
+      session also contains a <property>_inputs</property> property which
+      contains a <classname>Map</classname> with the input parameters and
+      their values of the request.</para>
+
+      <para>If you put in the session an object which is of type
+      <classname>org.xins.common.xml.Element</classname> or a
+      <classname>java.util.List</classname> of <classname>Element</classname>
+      objects, then this (or these) object(s) will be put in the data section
+      of the generated XML.</para>
+
+      <note>
+        <para>The session manager uses <classname>ThreadLocal</classname>
+        to keep the <classname>HttpSession</classname>. This means that it
+        assumes 1 thread = 1 request. The Servlet container should be configured
+        for it. Tomcat for example needs the property
+        <literal>protocol=org.apache.coyote.http11.Http11Protocol</literal>.</para>
+      </note>
+
+      <note>
+        <para>The session manager can be overridden so that you can use your
+        own session system if you want to.</para>
+      </note>
+    </sect2>
+
+    <sect2>
+      <title>XML and XSLT</title>
+
+      <para>Let's have a look of what the XML produce by the front-end calling
+      convention is.</para>
+
+      <screen>&lt;commandresult command="SearchPet"&gt;
+  &lt;parameter name="session.petName"&gt;test&lt;/parameter&gt;
+  &lt;parameter name="input.command"&gt;SearchPet&lt;/parameter&gt;
+  &lt;parameter name="input.mode"&gt;source&lt;/parameter&gt;
+  &lt;parameter name="input.action"&gt;Okay&lt;/parameter&gt;
+  &lt;parameter name="input.petName"&gt;test&lt;/parameter&gt;
+&lt;/commandresult&gt;</screen>
+
+      <para>Here is an example of the of result when the request is
+      invalid:</para>
+
+      <screen>&lt;commandresult command="Login"&gt;
+  &lt;parameter name="input.password"/&gt;
+  &lt;parameter name="input.command"&gt;Login&lt;/parameter&gt;
+  &lt;parameter name="input.mode"&gt;source&lt;/parameter&gt;
+  &lt;parameter name="input.email"&gt;testtest.com&lt;/parameter&gt;
+  &lt;parameter name="input.action"&gt;Okay&lt;/parameter&gt;
+  &lt;parameter name="error.type"&gt;FieldError&lt;/parameter&gt;
+  &lt;data&gt;
+    &lt;errorlist&gt;
+      &lt;fielderror type="mand" field="password"/&gt;
+      &lt;fielderror type="format" field="email"/&gt;
+    &lt;/errorlist&gt;
+  &lt;/data&gt;
+&lt;/commandresult&gt;</screen>
+
+      <para>From it, the XML can be translated to anything (WAP, iHTML, text)
+      using XSLT. We will more focus in this part in transforming the XML to
+      XHTML and using cascading style sheets (css).</para>
+
+      <para>For an example, I suggest you have a look at the Pet store demo
+      XSLT files located in the demo\xins-project\apis\petstore\xslt
+      directory.</para>
+    </sect2>
+  </sect1>
+
+  <appendix>
+    <title>Properties</title>
+
+    <para><table>
+        <title>XINS FF bootstrap properties</title>
+
+        <tgroup cols="3">
+          <thead>
+            <row>
+              <entry>Property name</entry>
+
+              <entry>Description</entry>
+
+              <entry>Example</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>xinsff.login.page</entry>
+
+              <entry>The login page of the web application. If this parameter
+              is not set, this mean that the application doesn't require a
+              login.</entry>
+
+              <entry>Login</entry>
+            </row>
+
+            <row>
+              <entry>xinsff.unrestricted.pages</entry>
+
+              <entry>The list of the pages that don't need to be redirected to
+              the login page if the user is not logged in.</entry>
+
+              <entry>RegisterCustomer,ThankYouRegistration</entry>
+            </row>
+
+            <row>
+              <entry>xinsff.error.page</entry>
+
+              <entry>The page to redirect to if an XSLT error occurs.</entry>
+
+              <entry>Error</entry>
+            </row>
+
+            <row>
+              <entry>xinsff.default.command</entry>
+
+              <entry>The default command to redirect the user when no command
+              is specify in the request.</entry>
+
+              <entry>SearchPet</entry>
+            </row>
+
+            <row>
+              <entry>xinsff.error.page</entry>
+
+              <entry>The command the user should be redirected if an XSLT
+              error occurs.</entry>
+
+              <entry>Failure</entry>
+            </row>
+
+            <row>
+              <entry>xinsff.redirect.&lt;function name&gt;</entry>
+
+              <entry>If the function is successful, redirect the browser to
+              another page.<para>If the value of this property is "-", no
+              direction will be done.</para><para>If the value of this
+              property is "/", the browser will be redirected to the default
+              command.</para></entry>
+
+              <entry>&lt;bootstrap-property
+              name="xinsff.redirect.LoginOkay"&gt;SearchPet&lt;/bootstrap-property&gt;</entry>
+            </row>
+
+            <row>
+              <entry>xinsff.redirect.&lt;function name&gt;[xpath
+              expression]</entry>
+
+              <entry>If the function is successful, redirect the browser to
+              another page if the XML result fullfill the xpath
+              expression.</entry>
+
+              <entry>&lt;bootstrap-property
+              name="xinsff.redirect.LoginOkay[param[@name="admin"] =
+              'true']&gt;Console&lt;/bootstrap-property&gt;</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table><table>
+        <title>XINS FF runtime properties</title>
+
+        <tgroup cols="3">
+          <thead>
+            <row>
+              <entry>Property name</entry>
+
+              <entry>Description</entry>
+
+              <entry>Example</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>templates.&lt;api name&gt;.xinsff.source</entry>
+
+              <entry>This property indicates the location of the XSLT pages.
+              The value must be a URL (file URL or http URL). You can also
+              have system properties in the value by using ${system property}.
+              Don't forget to end the URL with a '/'.</entry>
+
+              <entry>templates.petstore.xinsff.source=file:///${user.dir}/apis/petstore/xslt/</entry>
+            </row>
+
+            <row>
+              <entry>templates.cache</entry>
+
+              <entry>Specify if the XSLT should be cached. The value can be
+              true or false. If the value is not set, the cache is enabled by
+              default.</entry>
+
+              <entry>templates.cache=false</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table></para>
+  </appendix>
+</article>

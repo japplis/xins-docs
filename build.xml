@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<!--
+ $Id: build.xml,v 1.190 2013/02/22 09:25:31 agoubard Exp $
+-->
+
+<project name="xins-docs" default="upload-homepage" basedir=".">
+
+	<target name="-init">
+		<property name="sf.file" value="${user.home}/.sourceforge.properties" />
+		<property file="${sf.file}" />
+		<property name="project.name"   value="xins" />
+		<property name="stable-version" value="3.1" />
+		<property name="version"        value="3.1" />
+		<property name="www.user"       value="${sf.user},${project.name}" />
+		<property name="project"        value="${project.name}" />
+		<property name="cvs.module"     value="${project.name}" />
+		<property name="www.host"       value="web.sourceforge.net" />
+		<property name="www.dir"        value="/home/groups/x/xi/xins/htdocs" />
+		<property name="www.target"     value="${www.user}@${www.host}:${www.dir}" />
+		<property name="includes"       value="*.rdf,*.css,*.html,*.gif,*.jpg,*.png,*.pdf,*.java,VERSION,STABLE_VERSION,pox-rpc/*.html,pox-rpc/*.css,primers/*.html,primers/*.png,articles/*.html,articles/*.png,articles/*.jmx" />
+		<property name="excludes"       value="" />
+	</target>
+
+	<target name="-prepare" depends="-init">
+		<mkdir dir="build" />
+	</target>
+
+	<target name="-prepare-docbook" depends="-prepare">
+		<property environment="env" />
+		<available property="docbook.xslt.dir" value="${env.DOCBOOK_XSLT_HOME}"
+		           file="${env.DOCBOOK_XSLT_HOME}" type="dir" />
+		<fail unless="env.DOCBOOK_XSLT_HOME">
+Please set the environment variable DOCBOOK_XSLT_HOME to the correct directory.
+If not install, download docbook-xsl at
+http://sourceforge.net/project/showfiles.php?group_id=21935&amp;package_id=16608
+		</fail>
+		<taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
+			<classpath>
+				<pathelement location="lib/fop.jar"/>
+				<pathelement location="lib/avalon.jar"/>
+				<pathelement location="lib/batik.jar"/>
+				<pathelement location="lib/commons-io.jar"/>
+				<pathelement location="lib/commons-logging.jar"/>
+				<pathelement location="lib/xmlgraphics-commons.jar"/>
+			</classpath>
+		</taskdef>
+	</target>
+
+	<target name="guide" depends="-prepare-docbook" description="Transforms the guide to HTML and PDF">
+		<mkdir dir="build/guide" />
+		<xslt basedir="src/guide"
+		       destdir="build/guide"
+		       style="${env.DOCBOOK_XSLT_HOME}/html/chunk.xsl"
+		       includes="XINSGuide.xml">
+			<param name="html.stylesheet" expression="style.css"/>
+		</xslt>
+		<copy
+		file="src/guide/style.css"
+		todir="build/guide"
+		overwrite="true" />
+
+		<!-- Generate the PDF file. -->
+		<xslt basedir="src/guide"
+		       destdir="build/guide"
+		       style="${env.DOCBOOK_XSLT_HOME}/fo/docbook.xsl"
+		       includes="XINSGuide.xml"
+					 extension=".fo">
+		</xslt>
+		<fop format="application/pdf"
+		     fofile="build/guide/XINSGuide.fo"
+		     outfile="build/guide/XINSGuide.pdf" />
+	</target>
+
+	<target
+	name="do-upload-guide"
+	depends="-load-sfproperties,-init"
+	description="Uploads the guide to the webserver">
+		<echo message="Uploading guide to ${www.host}" />
+
+		<echo level="verbose" message="Copying files to ${www.dir}/guide on ${www.host}" />
+		<scp
+		todir="${www.target}/guide/"
+		password="${sf.password}"
+		trust="true">
+			<fileset dir="build/guide/" />
+		</scp>
+	</target>
+
+	<target name="upload-guide" depends="guide,do-upload-guide" description="Builds and uploads the guide to the webserver" />
+
+	<target name="protocol" depends="-prepare-docbook" description="Transform the protocol document in HTML and PDF">
+		<mkdir dir="build/protocol" />
+		<xslt basedir="src/guide"
+		       destdir="build/protocol"
+		       style="${env.DOCBOOK_XSLT_HOME}/html/chunk.xsl"
+		       includes="XINSProtocol.xml">
+			<param name="html.stylesheet" expression="style.css"/>
+		</xslt>
+		<copy	file="src/guide/style.css"
+		      todir="build/protocol"
+		      overwrite="true" />
+
+		<!-- Generate the PDF file. -->
+		<xslt basedir="src/guide"
+		       destdir="build/protocol"
+		       style="${env.DOCBOOK_XSLT_HOME}/fo/docbook.xsl"
+		       includes="XINSProtocol.xml"
+					 extension=".fo">
+		</xslt>
+		<fop format="application/pdf"
+		     fofile="build/protocol/XINSProtocol.fo"
+		     outfile="build/protocol/XINSProtocol.pdf" />
+	</target>
+
+	<target name="frontend" depends="-prepare-docbook" description="Transform the front-end document in HTML and PDF">
+		<mkdir dir="build/frontend" />
+		<xslt basedir="src/guide"
+		       destdir="build/frontend"
+		       style="${env.DOCBOOK_XSLT_HOME}/html/chunk.xsl"
+		       includes="XINSFrontend.xml">
+			<param name="html.stylesheet" expression="style.css"/>
+		</xslt>
+		<copy	file="src/guide/style.css"
+		      todir="build/frontend"
+		      overwrite="true" />
+
+		<!-- Generate the PDF file. -->
+		<xslt basedir="src/guide"
+		       destdir="build/frontend"
+		       style="${env.DOCBOOK_XSLT_HOME}/fo/docbook.xsl"
+		       includes="XINSFrontend.xml"
+					 extension=".fo">
+		</xslt>
+		<fop format="application/pdf"
+		     fofile="build/frontend/XINSFrontend.fo"
+		     outfile="build/frontend/XINSFrontend.pdf" />
+	</target>
+
+	<target name="manuals" depends="guide, protocol, frontend" unless="nomanuals" description="Build the manuals">
+	</target>
+
+	<target name="homepage" depends="-prepare" description="Prepares the homepage">
+		<condition property="version.isset">
+			<isset property="version" />
+		</condition>
+		<fail unless="version.isset" message="Version is not set. Please specify." />
+		<delete dir="build/web/homepage" />
+		<mkdir dir="build/web/homepage" />
+		<copy todir="build/web/homepage">
+			<fileset dir="src/web" includes="${includes}" excludes="${excludes}" />
+		</copy>
+		<replace dir="build/web/homepage">
+			<replacefilter token="%%VERSION%%"        value="${version}" />
+			<replacefilter token="%%STABLE_VERSION%%" value="${stable-version}" />
+		</replace>
+		<replace dir="build/web/homepage" includes="*.css" propertyfile="src/web/css.properties">
+			<replacefilter token="$color0" property="color0" />
+			<replacefilter token="$color1" property="color1" />
+			<replacefilter token="$color2" property="color2" />
+			<replacefilter token="$color3" property="color3" />
+			<replacefilter token="$color4" property="color4" />
+			<replacefilter token="$color5" property="color5" />
+		</replace>
+	</target>
+
+	<!--
+	Determines the SourceForge account with the corresponding password by
+	reading the properties 'sf.user' and 'sf.password' from a file.
+	-->
+	<target name="-load-sfproperties">
+		<property name="sf.file" value="${user.home}/.sourceforge.properties" />
+		<available property="sf.file.exists" file="${sf.file}" />
+		<fail message="The file ${sf.file} does not exists" unless="sf.file.exists" />
+		<property file="${sf.file}" />
+		<condition property="sf.isset">
+			<and>
+				<isset property="sf.user" />
+				<isset property="sf.password" />
+			</and>
+		</condition>
+		<fail unless="sf.isset">
+Properties 'sf.user' and 'sf.password' must be set. These are normally read
+from the SourceForge properties file.
+
+Please do either of the following:
+1) add the missing properties to the file;
+2) specify what file to read from instead by setting the 'sf.file'
+   property on the command line;
+3) specify the missing properties manually, on the command line.
+
+The current SourceForge properties file used is:
+${sf.file}</fail>
+	</target>
+
+	<target name="upload-homepage" depends="-load-sfproperties,homepage" description="Uploads the homepage to the webserver">
+		<echo message="Uploading homepage to ${www.target}" />
+		<scp todir="${www.target}"
+		     password="${sf.password}" trust="true">
+			<fileset dir="build/web/homepage">
+				<exclude name="pox-rpc" />
+			</fileset>
+		</scp>
+	</target>
+
+	<target name="clean" depends="-init" description="Cleans everything">
+		<delete dir="build" />
+    </target>
+
+	<target name="upload-all" depends="upload-guide,upload-homepage" description="Uploads everything" />
+
+	<target name="all" depends="guide" description="Generates everything" />
+
+</project>

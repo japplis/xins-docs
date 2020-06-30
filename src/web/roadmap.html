@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: roadmap.html,v 1.80 2013/02/22 09:25:31 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>XINS - Road Map</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+        <meta name="description" content="XINS, Open Source Web Services Framework. Road map page." />
+        <meta name="keywords" content="XINS, roadmap, web services, framework, toolkit, RESTful, REST, SOAP, SOA, WSDL, free, open source, Java" />
+        <script src="functions.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <h1>XINS<span class="nodisplay"> - </span><span id="subtitle">Road Map</span></h1>
+
+        <div id="root">
+            <div id="sidebar">
+                <script src="write_togglemenu.js" type="text/javascript"></script>
+                <ul id="menu">
+                    <li                 ><a title="Front page of the XINS website"                                           href="index.html">Home Page</a></li>
+                    <li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+                    <li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+                    <li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+                    <li class="active"  ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="documentation.html">Documentation</a></li>
+                    <li                 ><a title="Demonstration Page"                                                       href="demo.html">Demo</a></li>
+                    <li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+                    <li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+                    <li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+                    <li class="newgroup"><a title="Various links"                                                            href="links.html">Links</a></li>
+                </ul>
+            </div>
+
+            <div id="content">
+                <div class="section">
+                    <h2>Road map for XINS 3.2</h2>
+                    <p>Here is the list of the possible features for XINS 3.2:</p>
+                    <ul>
+                        <li>Add support for JSONP.</li>
+                    </ul>
+                    <p>'X' means that the feature is already available in the alpha or beta version of XINS 3.2</p>
+                    <p>Suggestions are welcome at the <a href="https://sourceforge.net/tracker/?group_id=71598&atid=531817">Request for Enhancement system</a>.</p>
+
+                    <h2>Road map for XINS 3.1</h2>
+                    <p>Here is the list of the possible features for XINS 3.1:</p>
+                    <ul>
+                        <li>Switch to logdoc-<a href="http://www.slf4j.org/">slf4j</a> and <a href="http://logback.qos.ch/">logback</a> or <a href="http://logging.apache.org/log4j/2.x/">Log4j 2</a> for default logging.</li>
+                        <li>X Netty service caller.</li>
+                        <li>X Easy configuration for sending data compressed (gz).</li>
+                        <li>X Client default with Accept-Encoding: gzip</li>
+                        <li>X Easy caching of requests/response.</li>
+                        <li>X Define response Caching in the BackPack and/or in function definition.</li>
+                        <li>BackPack for not modified.</li>
+                        <li>X More documentation for Spring integration.</li>
+                        <li>Improve maven pom for APIs.</li>
+                        <li>X Example with jQuery call to XINS API.</li>
+                        <li>Generate API from database.</li>
+                        <li>Async package subscription to a function</li>
+                        <li>X Remove the logdoc package</li>
+                        <li>Separate the log properties from xins properties</li>
+                        <li>X Add notice for possible Java &amp; server improvements on start-up</li>
+                        <li>X JSON calling conventions to return error status code when failed</li>
+                        <li>X Upgrade libraries (Spring, X Netty, X HttpClient, ...)</li>
+                        <li>X Support for JSON-RPC 2.0</li>
+                        <li>X Remove logdoc &amp; translation logging dtd as no longer used. Also check create-logdoc target.</li>
+                        <li>X Correct log4j filtering for http client.</li>
+                        <li>X New error codes _FunctionNotSpecified, _FunctionNotFound, _NotAllowed, _InvalidRequestFormat, _DisabledAPI.</li>
+                    </ul>
+                    <p>'X' means that the feature is already available in the alpha or beta version of XINS 3.1</p>
+                    <p>Suggestions are welcome at the <a href="https://sourceforge.net/tracker/?group_id=71598&atid=531817">Request for Enhancement system</a>.</p>
+
+                    <h2>Road map for XINS 3.0</h2>
+                    <p>Here is the list of the possible features for XINS 3.0:</p>
+                    <ul>
+                        <li>X Migration to Java 5</li>
+                        <li>X Use of HttpClient 4.1</li>
+                        <li>X Generation of client mock based on examples</li>
+                        <li>X Interceptors before and after calling convention and/or function call.</li>
+                        <li>X Load balancer calling convention that forwards with extra parameter</li>
+                        <li>X Possibility to pass a context to the function (Backpack, Map&lt;String, ?&gt;)</li>
+                        <li>X Properties for NDC & setting Log4j</li>
+                        <li>Introduce IDs and classes in the specdocs HTML, for easy styling</li>
+                        <li>Shared data element</li>
+                        <li>X Possiblity to add Servlet filters</li>
+                        <li>X Possibility to define/configure the HttpClient</li>
+                        <li>X Support other transport mechanisms, such as Google Protocol Buffers or Netty</li>
+                        <li>X Replacement of PropertyReader with Map&lt;String, String&gt;</li>
+                        <li>X Replacement Element with org.w3c.dom.Element</li>
+                        <li>Provide XSD for result in specdocs</li>
+                        <li>Upgrade tools versions</li>
+                        <li>Generated tests will use JUnit 4</li>
+                        <li>X Default reload to 5 seconds</li>
+                        <li>X Library class now loads version from JAR manifest, once, at class init.</li>
+                        <li>? Use XPath in FrontendCallingConvention</li>
+                        <li>Improve integration with Spring</li>
+                        <li>Improve integration with Maven</li>
+                        <li>X Migrate links in documentation to Java 1.6 documentation</li>
+                        <li>XINSCallExceptions put methods in common</li>
+                        <li>X Map serializer, converter/builder</li>
+                        <li>Configuration impl & apis directories</li>
+                        <li>X Define XSD for _xml type</li>
+                        <li>_decimal type</li>
+                        <li>X Log init time</li>
+                        <li>X Separation of Logdoc as appart library</li>
+                        <li>X Client side transaction logging</li>
+                        <li>Validation of XML using XSD</li>
+                        <li>X DocumentBuilderProvider</li>
+                        <li>Create WADL based on XINS</li>
+                        <li>X Support for PUT and DELETE</li>
+                        <li>Possibility to set it's own web.xml file</li>
+                    </ul>
+                    <p>'X' means that the feature is already available in the alpha or beta version of XINS 3.0</p>
+                    <p>Suggestions are welcome at the <a href="https://sourceforge.net/tracker/?group_id=71598&atid=531817">Request for Enhancement system</a>.</p>
+                </div>
+
+                <div class="section">
+                    <h2>Road map for XINS 2.1</h2>
+                    <p>Here is the list of the possible features for XINS 2.1:</p>
+                    <ul>
+                        <li>java -jar &lt;api name&gt;.war *</li>
+                        <li>Bean Binding or Data Binding</li>
+                        <li>Selection of the possible calling conventions *</li>
+                        <li>SOAP calling convention matching the wsdl-to-api mapping *</li>
+                        <li>Winstone as internal Servlet container</li>
+                        <li>More documentation / articles *</li>
+                    </ul>
+                    <p>Here is the list of the possible features for XINS 2.1:</p>
+                    <ul>
+                        <li>NetBeans plug-in</li>
+                        <li>Eclipse plug-in</li>
+                        <li>JBI Component</li>
+                        <li>Integration with ServiceMix, Mule, Open ESB</li>
+                        <li>Java binding API</li>
+                    </ul>
+                    <p>Suggestions are welcome at the <a href="https://lists.sourceforge.net/lists/listinfo/xins-users">xins-users mailing list</a>.</p>
+                </div>
+
+                <div class="section">
+                    <h2>Road map for XINS 2.0</h2>
+                    <p>Here is the list of the planned features for XINS 2.0:</p>
+                    <ul>
+                        <li>XML Schema to types *</li>
+                        <li>WSDL to API specification *</li>
+                        <li>Integration with Spring Framework *</li>
+                        <li>?_function=_Wsdl *</li>
+                        <li>Map&lt;String, ?&gt; BeanUtils.getParameters(Object) *</li>
+                        <li>BeanUtils.setParameters(Map&lt;String, ?&gt;, Object) *</li>
+                        <li>Remove old calling convention, alpha DTD, old directory structure *</li>
+                        <li>JSON calling convention *</li>
+                        <li>Javascript keep the environment in test-forms *</li>
+                    </ul>
+                    <p>Here is the list of the possible features for XINS 2.0:</p>
+                    <ul>
+                        <li>REST example *</li>
+                        <li>XINS FF improvements *</li>
+                        <li>Call API with Flex</li>
+                        <li>Command line call of an API</li>
+                        <li>Integration with scripting API *</li>
+                        <li>Auto fill of the forms *</li>
+                        <li>Shared error code *</li>
+                        <li>Integration with Ajax toolkits (Google, DOJO) *</li>
+                    </ul>
+                    <p>* indicates that the feature is done.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer">
+            <div class="links"><a href="http://validator.w3.org/check/referer">Valid XHTML 1.1</a></div>
+            <a href="http://sourceforge.net/projects/xins"><img src="http://sourceforge.net/sflogo.php?group_id=71598" alt="Powered by SourceForge"/></a>
+        </div>
+    </body>
+</html>

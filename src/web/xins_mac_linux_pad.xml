@@ -1,0 +1,164 @@
+<?xml version="1.0" ?>
+<XML_DIZ_INFO>
+	<MASTER_PAD_VERSION_INFO>
+		<MASTER_PAD_VERSION>2.01</MASTER_PAD_VERSION>
+		<MASTER_PAD_EDITOR>PADGen 2.0.1.22 http://www.padgen.org</MASTER_PAD_EDITOR>
+		<MASTER_PAD_INFO>Portable Application Description, or PAD for short, is a data set that is used by shareware authors to disseminate information to anyone interested in their software products. To find out more go to http://www.asp-shareware.org/pad</MASTER_PAD_INFO>
+	</MASTER_PAD_VERSION_INFO>
+	<Company_Info>
+		<Company_Name>xins.org</Company_Name>
+		<Address_1 />
+		<Address_2 />
+		<City_Town>Amsterdam</City_Town>
+		<State_Province />
+		<Zip_Postal_Code />
+		<Country>The Netherlands</Country>
+		<Company_WebSite_URL>http://xins.sourceforge.net</Company_WebSite_URL>
+		<Contact_Info>
+			<Author_First_Name>Anthony</Author_First_Name>
+			<Author_Last_Name>Goubard</Author_Last_Name>
+			<Author_Email>agoubard@users.sourceforge.net</Author_Email>
+			<Contact_First_Name>Anthony</Contact_First_Name>
+			<Contact_Last_Name>Goubard</Contact_Last_Name>
+			<Contact_Email>agoubard@users.sourceforge.net</Contact_Email>
+		</Contact_Info>
+		<Support_Info>
+			<Sales_Email>agoubard@users.sourceforge.net</Sales_Email>
+			<Support_Email>agoubard@users.sourceforge.net</Support_Email>
+			<General_Email>agoubard@users.sourceforge.net</General_Email>
+			<Sales_Phone />
+			<Support_Phone />
+			<General_Phone />
+			<Fax_Phone />
+		</Support_Info>
+	</Company_Info>
+	<Program_Info>
+		<Program_Name>XINS For Mac and Linux</Program_Name>
+		<Program_Version>2.2</Program_Version>
+		<Program_Release_Month>12</Program_Release_Month>
+		<Program_Release_Day>23</Program_Release_Day>
+		<Program_Release_Year>2008</Program_Release_Year>
+		<Program_Cost_Dollars>0</Program_Cost_Dollars>
+		<Program_Cost_Other_Code />
+		<Program_Cost_Other />
+		<Program_Type>Freeware</Program_Type>
+		<Program_Release_Status>New Release</Program_Release_Status>
+		<Program_Install_Support>Install and Uninstall</Program_Install_Support>
+		<Program_OS_Support>Unix,Linux,Mac Other,Mac OS X</Program_OS_Support>
+		<Program_Language>English</Program_Language>
+		<Program_Change_Info />
+		<Program_Specific_Category>Development Tools</Program_Specific_Category>
+		<Program_Category_Class>Development::Components &amp; Libraries</Program_Category_Class>
+		<Program_Categories>Web Services tools</Program_Categories>
+		<Program_System_Requirements>Java, Ant</Program_System_Requirements>
+		<Includes_JAVA_VM>N</Includes_JAVA_VM>
+		<Includes_VB_Runtime>N</Includes_VB_Runtime>
+		<Includes_DirectX>N</Includes_DirectX>
+		<File_Info>
+			<Filename_Versioned>xins-2.2.tgz</Filename_Versioned>
+			<Filename_Previous />
+			<Filename_Generic>xins-2.2.tgz</Filename_Generic>
+			<Filename_Long>xins-2.2.tgz</Filename_Long>
+			<File_Size_Bytes>3191503</File_Size_Bytes>
+			<File_Size_K>3116</File_Size_K>
+			<File_Size_MB>3.0</File_Size_MB>
+		</File_Info>
+		<Expire_Info>
+			<Has_Expire_Info>N</Has_Expire_Info>
+			<Expire_Count />
+			<Expire_Based_On>Days</Expire_Based_On>
+			<Expire_Other_Info />
+			<Expire_Month />
+			<Expire_Day />
+			<Expire_Year />
+		</Expire_Info>
+	</Program_Info>
+	<Program_Descriptions>
+		<English>
+			<Keywords>xins,java,web services,framework,soap,wsdl,rest,xml-rpc,ajax,free,open source,json,library</Keywords>
+			<Char_Desc_45>Java Web Services framework.</Char_Desc_45>
+			<Char_Desc_80>Java Web Services framework that accepts REST, SOAP, JSON-RPC and XML-RPC.</Char_Desc_80>
+			<Char_Desc_250>XINS is a Web Services framework. APIs are defined in a simple XML format. Then the specifications in HTML, the WSDL file, the Java client and server side code are generated from the specifications. APIs accept SOAP, REST, XML-RPC, JSON and more.</Char_Desc_250>
+			<Char_Desc_450>XINS is a Web Services framework. APIs are defined in a simple XML format. Then the specifications in HTML and OpenDocument format, the test forms, the WSDL, the Java client and Java server side code are generated from the specifications. APIs accept SOAP, REST, XML-RPC, Yahoo! JSON, JSON-RPC and more. Java, PHP, Perl and Ajax client examples are provided. XINS has also commands to generate unit tests, stubs or to run the API.</Char_Desc_450>
+			<Char_Desc_2000>XINS is a Web Services framework. XINS is a technology used to define, create and invoke remote APIs. APIs are defined in a simple XML format. Then the specifications in HTML and in OpenDocument format, the test forms, the WSDL included the XML Schema, the Java client and server side code are generated from the specifications. APIs accept SOAP, REST, XML-RPC, Yahoo! JSON, JSON-RPC and more. Java, PHP, Perl and Ajax examples are provided. XINS has also command to generate unit tests, stubs or to run the API. XINS main focus is simplicity and usability.</Char_Desc_2000>
+		</English>
+	</Program_Descriptions>
+	<Web_Info>
+		<Application_URLs>
+			<Application_Info_URL>http://xins.sourceforge.net/</Application_Info_URL>
+			<Application_Order_URL />
+			<Application_Screenshot_URL>http://xins.sourceforge.net/primers/xins-primer-response.png</Application_Screenshot_URL>
+			<Application_Icon_URL />
+			<Application_XML_File_URL>http://xins.sourceforge.net/xins_mac_linux_pad.xml</Application_XML_File_URL>
+		</Application_URLs>
+		<Download_URLs>
+			<Primary_Download_URL>http://downloads.sourceforge.net/project/xins/xins/2.2/xins-2.2.tgz?use_mirror=cdnetworks-us-2&ts=1280884238&r=http://xins.sourceforge.net/</Primary_Download_URL>
+			<Secondary_Download_URL>http://downloads.sourceforge.net/project/xins/xins/2.2/xins-2.2.tgz?use_mirror=switch&ts=1280884277&r=http://sourceforge.net/projects/xins/files/xins/2.2/xins-2.2.tgz/download</Secondary_Download_URL>
+			<Additional_Download_URL_1></Additional_Download_URL_1>
+			<Additional_Download_URL_2></Additional_Download_URL_2>
+		</Download_URLs>
+	</Web_Info>
+	<Permissions>
+		<Distribution_Permissions>Copyright 2003-2009, Online Breedband B.V.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</Distribution_Permissions>
+		<EULA>Copyright 2003-2009, Online Breedband B.V.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</EULA>
+	</Permissions>
+	<ASP>
+		<ASP_FORM>Y</ASP_FORM>
+		<ASP_Member>N</ASP_Member>
+		<ASP_Member_Number />
+	</ASP>
+</XML_DIZ_INFO>

@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: primer.html,v 1.5 2009/03/23 16:04:27 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>XINS - Primer</title>
+		<link rel="stylesheet" type="text/css" href="../style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<script src="../functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>XINS<span class="nodisplay"> - </span><span id="subtitle">Primer</span></h1>
+
+		<div id="root">
+			<div id="sidebar">
+				<script src="write_togglemenu.js" type="text/javascript"></script>
+				<ul id="menu">
+					<li                 ><a title="Front page of the XINS website"                                           href="../index.html">Home Page</a></li>
+					<li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.exe?download">Download Installer</a></li>
+					<li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="http://prdownloads.sf.net/xins/xins-%%STABLE_VERSION%%.tgz?download">Download TAR GZ</a></li>
+					<li class="newgroup"><a title="Screenshots"                                                              href="http://sourceforge.net/project/screenshots.php?group_id=71598">Screenshots</a></li>
+					<li class="active"  ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="../documentation.html">Documentation</a></li>
+					<li                 ><a title="Demonstration Page"                                                       href="../demo.html">Demo</a></li>
+					<li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531817">RFE Database</a></li>
+					<li                 ><a title="XINS Bug Report Database"                                                 href="http://sourceforge.net/tracker/?group_id=71598&amp;atid=531814">Bug Database</a></li>
+					<li                 ><a title="Information regarding the 'xins-users' mailing list"                      href="https://lists.sourceforge.net/lists/listinfo/xins-users">Mailing List</a></li>
+					<li class="newgroup"><a title="Various links"                                                            href="../links.html">Links</a></li>
+				</ul>
+			</div>
+
+			<div id="content">
+				<div class="section">
+					<h2 id="intro">Introduction</h2>
+					<p>This article takes you by the hand and lets you create your first XINS application. Consider it your 'Hello World' exercise for XINS.</p>
+					<p>The exercise should take you about 15 minutes.</p>
+
+					<h3>Prerequisites</h3>
+					<p>In order to finish this tutorial successfully, you are expected to:</p>
+					<ul>
+						<li>have XINS installed (see the <a href="install.html">installation guide</a>);</li>
+						<li>have some knowledge regarding the syntax of Java</li>
+					</ul>
+
+					<h3>Overview of contents</h3>
+					<p>This article is divided in the following short sections:</p>
+					<ul>
+						<li><a href="#write_definitions">1. Write definitions</a> (4 steps)</li>
+						<li><a href="#generating_the_basics">2. Generate code and docs</a> (2 steps)</li>
+						<li><a href="#browse_docs">3. Browse some generated documentation</a> (5 steps)</li>
+						<li><a href="#run_empty_shell">4. Run the empty web application</a> (5 steps)</li>
+						<li><a href="#write_implementation_code">5. Write implementation code</a> (3 steps)</li>
+						<li><a href="#finally">6. Finally</a></li>
+					</ul>
+				</div>
+
+				<div class="section">
+					<h2 id="write_definitions">1. Write definitions</h2>
+					<p>In XINS, an application (called <em>API</em> in XINS terminology) is always part of one project. Every function is again part of one API.</p>
+					<p>Let's define a project, containing one API, containing one function.</p>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step1">
+							<td class="step">Step&nbsp;1.</td>
+							<td>Create a directory named <code>MyProject</code> in a directory of your choice. This directory will contain all files for the project.</td>
+						</tr>
+						<tr id="step2">
+							<td class="step">Step&nbsp;2.</td>
+							<td>In this directory, create a file named <code>xins-project.xml</code>, with the following content:
+								<div class="indent"><pre>&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE project PUBLIC
+"-//XINS//DTD XINS Project 1.4//EN"
+"http://www.xins.org/dtd/xins-project_1_4.dtd"&gt;
+
+&lt;project name="MyProject" domain="com.mycompany"&gt;
+&lt;/project&gt;</pre></div>
+								<p class="note">Note: Make sure you indeed have the <code>&lt;/project&gt;</code> end tag on a separate line.</p></td>
+						</tr>
+						<tr id="step3">
+							<td class="step">Step&nbsp;3.</td>
+							<td>Open a command prompt (on Windows) or a terminal window (on other systems).
+								<p>In the <code>MyProject</code> directory, execute "<code>xins create-api</code>". Now you will be presented with some questions. Give the following answers:</p>
+								<blockquote><table>
+									<tr>
+										<th>Question</th>
+										<th>Answer</th>
+									</tr>
+									<tr>
+										<td>API name?</td>
+										<td><code>myapi</code></td>
+									</tr>
+									<tr>
+										<td>API description?</td>
+										<td><code>My first XINS API</code></td>
+									</tr>
+									<tr>
+										<td>Want an implementation?</td>
+										<td><code>y</code> (for <em>yes</em>)</td>
+									</tr>
+									<tr>
+										<td>Want to define environments?</td>
+										<td><code>y</code> (for <em>yes</em>)</td>
+									</tr>
+									<tr>
+										<td>Function name?</td>
+										<td><code>SayHello</code></td>
+									</tr>
+									<tr>
+										<td>Function description?</td>
+										<td><code>Greets the caller</code></td>
+									</tr>
+								</table></blockquote>
+
+								<p>Since an API should contain at least one function, you are also requested to provide the name and description of a first function.</p>
+								<p>Now have a look at your <code>MyProject</code> directory. Notice that two new subdirectories have been created:</p>
+								<ul>
+									<li><code>apis</code> for all source files, including definitions and code;</li>
+									<li><code>build</code> for all temporary files.</li>
+								</ul>
+								<p>Additionally, the contents of the <code>xins-project.xml</code> file has been expanded.</p>
+								<p class="note">Note: Study the generated definition files to get a better understanding of them.</p></td>
+						</tr>
+						<tr id="step4">
+							<td class="step">Step&nbsp;4.</td>
+							<td>Edit the file <code>apis/myapi/spec/SayHello.fnc</code>. Replace the file contents with the following:
+								<div class="indent"><pre>&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE function PUBLIC
+"-//XINS//DTD Function 1.4//EN"
+"http://www.xins.org/dtd/function_1_4.dtd"&gt;
+
+&lt;function name="SayHello"&gt;
+   &lt;description&gt;Greets the caller&lt;/description&gt;
+   &lt;input&gt;
+      &lt;param name="name" required="true"&gt;
+         &lt;description&gt;Name of the person to greet&lt;/description&gt;
+      &lt;/param&gt;
+   &lt;/input&gt;
+   &lt;output&gt;
+      &lt;param name="greeting" required="true"&gt;
+         &lt;description&gt;Actual greeting for the caller.&lt;/description&gt;
+      &lt;/param&gt;
+   &lt;/output&gt;
+&lt;/function&gt;
+</pre></div>
+                  Now you gave your function one input parameter "<code>name</code>" and an output parameter "<code>greeting</code>". Both are marked as mandatory.</td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="section">
+					<h2 id="generating_the_basics">2. Generate code and docs</h2>
+					<p>You now have your definitions ready. That was not so hard. But you may wonder what you can do with it. Actually, quite a lot already! From this definitions you can make XINS generate:</p>
+					<ul>
+						<li>HTML documentation with test forms;</li>
+						<li><acronym title="OpenDocument Format">ODF</acronym> documentation for use in OpenOffice.org;</li>
+						<li>server-side code, with Javadoc documentation;</li>
+						<li>client-side code, with Javadoc documentation;</li>
+						<li>an empty-shell web application in the form of a WAR file;</li>
+						<li>etc.</li>
+					</ul>
+
+					<p>Let's generate all of the above mentioned:</p>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step5">
+							<td class="step">Step&nbsp;5.</td>
+							<td>From the <code>MyProject</code> directory, first run the command <code>xins help</code> to get a list of available XINS commands. You should see something like this:
+								<div class="indent"><pre>[echo] Generic targets:
+[echo] - version             Prints the version of XINS.
+[echo] - help                Prints this message.
+[echo] - all                 Generates everything.
+[echo] - clean               Removes all generated files.
+[echo] - specdocs            Generates all specification docs.
+[echo] - wars                Generates all WAR files.
+[echo] - capis               Generates all CAPI JAR files.
+[echo] - javadoc-capis       Generates all CAPI Javadoc.
+[echo]
+[echo] The following commands assist in authoring specifications:
+[echo] - create-api          Generates a new api specification file.
+[echo] - create-function     Generates a new function specification file.
+[echo] - create-rcd          Generates a new error code specification
+[echo]                       file.
+[echo] - create-type         Generates a new type specification file.
+[echo] - create-example      Generates a new example for a function.
+[echo] - create-logdoc       Generates the basic logdoc files for an API.
+[echo]
+[echo] The following targets are specific for a single API,
+[echo] replace &lt;api&gt; with the name of an existing API:
+[echo] - run-&lt;api&gt;           Runs the WAR file for the API.
+[echo] - war-&lt;api&gt;           Creates the WAR file for the API.
+[echo] - specdocs-&lt;api&gt;      Generates all specification docs for the API.
+[echo] - javadoc-api-&lt;api&gt;   Generates Javadoc for the server API
+[echo]                       implementation.
+[echo] - server-&lt;api&gt;        Generates the WAR file, the API Javadoc for
+[echo]                       the server side and the specdocs for the API.
+[echo] - jar-&lt;api&gt;           Generates and compiles the CAPI classes.
+[echo] - javadoc-capi-&lt;api&gt;  Generates the Javadoc for the CAPI classes.
+[echo] - client-&lt;api&gt;        Generates the CAPI JAR file and the
+[echo]                       corresponding Javadoc.
+[echo] - clean-&lt;api&gt;         Cleans everything for the API.
+[echo] - rebuild-&lt;api&gt;       Regenerates everything for the API.
+[echo] - all-&lt;api&gt;           Generates everything for the API.
+[echo] - wsdl-&lt;api&gt;          Generates the WSDL for the API.
+[echo] - stub-&lt;api&gt;          Generates the stub for the API.
+[echo] - test-&lt;api&gt;          Generates (if needed) and runs the tests.
+[echo] - opendoc-&lt;api&gt;       Generates the specifications in Opendoc format for the API.
+[echo]
+[echo] APIs in this project are:
+[echo] "myapi"</pre></div></td>
+						</tr>
+
+						<tr id="step6">
+							<td class="step">Step&nbsp;6.</td>
+							<td>From the same directory, now run "<code>xins all</code>" to generate everything for all our APIs, under the <code>build</code> directory.
+								<p class="note">Since we have only one API, this is effectively the same as executing "<code>xins all-myapi</code>".</p></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="section">
+					<h2 id="browse_docs">3. Browse some generated documentation</h2>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step7">
+							<td class="step">Step&nbsp;7.</td>
+							<td>Now, with a web browser, check out the <code>build/specdocs/index.html</code> file to see the generated HTML documentation. You are first presented with an overview of all APIs:
+								<div class="indent"><img src="xins-primer-specdocs-index.png" alt="Screenshot of the API Index page in the generated HTML documentation" /></div></td>
+						</tr>
+						<tr id="step8">
+							<td class="step">Step&nbsp;8.</td>
+							<td>Click on the <em>myapi</em> link to view the specification overview for your API:
+								<div class="indent"><img src="xins-primer-specdocs-api.png" alt="Screenshot of the API overview page in the generated HTML documentation" /></div></td>
+						</tr>
+						<tr id="step9">
+							<td class="step">Step&nbsp;9.</td>
+							<td>Click on the <em>SayHello</em> link to see the specifications for the function:
+								<div class="indent"><img src="xins-primer-specdocs-function.png" alt="Screenshot of the function overview page in the generated HTML documentation" /></div></td>
+						</tr>
+						<tr id="step10">
+							<td class="step">Step&nbsp;10.</td>
+							<td>Click on the link labeled <em>Test Form</em> (on the top) to view a page that allows you to test your API using your browser.
+								<div class="indent"><img src="xins-primer-testform.png" alt="Screenshot of test form" /></div></td>
+						</tr>
+						<tr id="step11">
+							<td class="step">Step&nbsp;11.</td>
+							<td>Open the <code>build/javadoc-api/myapi/index.html</code> file in your browser to see the Javadoc documentation for the server-side code:
+								<div class="indent"><img src="xins-primer-javadoc-api.png" alt="Screenshot of the generated Javadoc API documentation" /></div>
+								<p class="note">Note: Only the <code>SayHelloImpl</code> class is relevant at this point. We will modify only the source code for this class and leave the other classes untouched. In fact all the other classes will be overwritten by XINS.</p>
+								<p class="note">Note: Client-side code is also generated, but that is left outside the scope of this tutorial. If you are interested, then you can open <code>build/javadoc-capi/myapi/index.html</code> in your browser to see the Javadoc documentation for the client-side code.</p></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="section">
+					<h2 id="run_empty_shell">4. Run the empty web application</h2>
+					<p>You've seen enough documentation. Let's see if we can run the XINS API implementation already. Remember that we have generated an empty-shell web application.</p>
+					<p>In order to run this empty-shell implementation, the only thing you still need is a so-called <em>runtime properties file</em>. This file defines how the API should behave at runtime. If you change this file while the application runs, the changes will be picked up automatically.</p>
+
+					<table border="0" class="dothis" width="100%">
+						<tr id="step12">
+							<td class="step">Step&nbsp;12.</td>
+							<td>In your <code>MyProject</code> directory, create a new file named <code>xins.properties</code>, with the following in it:
+								<div class="indent"><pre>org.xins.server.config.reload=10
+org.xins.server.acl=allow 0.0.0.0/0 *
+log4j.rootLogger=INFO, console
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%-4c{1} %p %m%n
+log4j.logger.org.xins.server.runtime.tx.3540=OFF</pre></div>
+								The first line defines that the file is monitored for changes, once every 10 seconds.<br />The second one allows all IP addresses to invoke any function in the API.<br />The next 4 lines configure the logging subsystem so it prints log messages to the console.<br />The last line disables duplicate transaction logs, only logging the long form.</td>
+						</tr>
+						<tr id="step13">
+							<td class="step">Step&nbsp;13.</td>
+							<td>From the <code>MyProject</code> directory, run the command:
+								<div class="indent"><pre>xins -Dorg.xins.server.config=xins.properties run-myapi</pre></div>
+								to start a simple web server that runs the WAR application. The <code>org.xins.server.config</code> property indicates which file contains the properties to use at runtime.
+								<p>After starting, you should see some log messages:</p>
+								<div class="indent"><img src="xins-primer-console-start.png" alt="Screenshot of console after starting the simple web server" /></div>
+								<p class="note">Note: Observe that each log message has a unique number, for easy parsing. Refer to the <a href="http://xins.sourceforge.net/logdoc.html">Logdoc documentation</a> to see which log messages are available and what their numbers are.</p>
+								<p class="note">Note: The WAR file is located under <code>build/webapps/myapi/</code> and can be deployed in any modern servlet container, including JBoss, WebSphere, WebLogic, Tomcat, Jetty, Resin, Orion, etc. Just make sure the <code>org.xins.server.config</code> property is passed to the <acronym title="Java Virtual Machine">JVM</acronym>.</p></td>
+						</tr>
+						<tr id="step14">
+							<td class="step">Step&nbsp;14.</td>
+							<td>With your browser, return to the testform. Fill in nothing in the text field labeled <em>name</em> and then click on <em>Submit</em>.
+                     			<p>Remember that the parameter <code>name</code> was marked as required? If you do not specify it, XINS will return the errorcode <code>_InvalidRequest</code>:</p>
+								<div class="indent"><img src="xins-primer-InvalidRequest.png" alt="Screenshot of the response, with an _InvalidRequest error code" /></div></td>
+						</tr>
+						<tr id="step15">
+							<td class="step">Step&nbsp;15.</td>
+							<td>Go back to the test form. Now fill in your name in the text field and click <em>Submit</em>.
+								<br />XINS now returns you the errorcode <code>_InvalidResponse</code>:
+								<div class="indent"><img src="xins-primer-InvalidResponse.png" alt="Screenshot of the response, with an _InvalidResponse error code" /></div>
+								Reason is that the empty-shell implementation does not return the greeting, although it was marked as a required output parameter in the specification for the function.
+								<p>Notice that the requests are logged to the console:</p>
+								<div class="indent"><img src="xins-primer-console-requests.png" alt="Screenshot of the console showing 2 requests" /></div></td>
+						</tr>
+						<tr id="step16">
+							<td class="step">Step&nbsp;16.</td>
+							<td>Stop the running web server. Typically: just press Ctrl-C.</td>
+						</tr>
+					</table>
+					<p>Notice that the server-side code you write is not bothered with invalid requests. The XINS framework will handle them automatically and return an <code>_InvalidRequest</code> to the caller. Vice versa, the server-side code is running within a sandbox to protect the caller from invalid responses; the framework notifies the caller of such errors by returning an <code>_InvalidResponse</code> error code.</p>
+				</div>
+
+				<div class="section">
+					<h2 id="write_implementation_code">5. Write implementation code</h2>
+					<p>That's all you get without writing code. If you want an actual greeting, then you will actually have to write a few Java statements:</p>
+					<table border="0" class="dothis" width="100%">
+						<tr id="step17">
+							<td class="step">Step&nbsp;17.</td>
+							<td>Edit the file <code>apis/myapi/impl/com/mycompany/myapi/api/SayHelloImpl.java</code>. The skeleton you see was generated by XINS when you ran the command <code>xins all</code>.
+								<p>Replace the <em>TODO</em> comment in the <code>call(Request)</code> method by the following code snippet:</p>
+								<div class="indent"><pre>result.setGreeting("Hello " + request.getName() + '.');</pre></div></td>
+						</tr>
+						<tr id="step18">
+							<td class="step">Step&nbsp;18.</td>
+							<td>From the <code>MyProject</code> directory, run the command:
+								<div class="indent"><pre>xins -Dorg.xins.server.config=xins.properties run-myapi</pre></div>
+								as before. This will recompile the <code>SayHelloImpl.java</code> class and then start the web server again.</td>
+						</tr>
+						<tr id="step19">
+							<td class="step">Step&nbsp;19.</td>
+							<td>Go back to the test form and -as in <a href="#step15">step 15</a>- fill in your name in the text field and click <code>Submit</code>. This time, you should receive a proper greeting:
+								<div class="indent"><img src="xins-primer-response.png" alt="Screenshot of the response, with a greeting to the caller" /></div></td>
+						</tr>
+					</table>
+					<p>Congratulations! You have defined, implemented, run and tested your very first XINS API!</p>
+				</div>
+
+				<div class="section">
+					<h2 id="finally">6. Finally</h2>
+					<p>This article is a very basic introduction to server-side XINS. If you want to learn more about types, custom error codes, client-side load-balancing and fail-over, diagnostic context identifiers, function examples, data sections, SOAP support, XML-RPC support, etc. then have a look at the <a href="http://xins.sourceforge.net/guide/">XINS User Guide</a>.</p>
+					<p>If you start using XINS, make sure you subscribe to the <a href="http://xins.sourceforge.net/lists.html"><em>xins-users</em> mailing list</a>. Please post your comments or questions there.</p>
+					<p>Other sources of information include:</p>
+					<ul>
+						<li><a href="http://en.wikipedia.org/wiki/XINS">Wikipedia page</a></li>
+						<li><a href="faq.html">Frequently Asked Questions</a></li>
+						<li>Presentation: <a href="../presentations/xins_intro.pdf">Short XINS introduction</a> (PDF)</li>
+						<li>Presentation: <a href="../presentations/frameworks_and_xins.pdf">Frameworks and XINS</a> (PDF)</li>
+			   		</ul>
+				</div>
+			</div>
+		</div>
+
+		<div id="footer">
+			<div class="links"><a href="http://validator.w3.org/check/referer">Valid XHTML 1.1</a></div>
+			<a href="http://sourceforge.net/projects/xins"><img src="http://sourceforge.net/sflogo.php?group_id=71598" alt="Powered by SourceForge"/></a>
+		</div>
+	</body>
+</html>

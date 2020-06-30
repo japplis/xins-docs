@@ -1,0 +1,81 @@
+[ ] - Execute xins all-allinone with the network cable unplugged.
+[ ] - Execute xins run-allinone and call the API also with the network cable unplugged.
+[ ] - Run unit tests with Java 1.5, Java 6 and Java 7.
+[ ] - Test with lastest Eclipse and NetBeans release.
+[ ] - Test on Windows XP and Linux.
+
+[ ] ---
+XSLT calling convention:
+0. Do not specify whether the cache is enabled. The default is 'true', so
+make sure the logs say it's indeed enabled (at INFO level). Then try it and
+confirm the cache is used. That should also become apparent from the logs
+(at least when DEBUG is enabled).
+
+1. Set the cache to enabled. Make sure the logs say it's indeed enabled (at
+INFO level). Then try it and confirm the cache is used. That should also
+become apparent from the logs (at least when DEBUG is enabled).
+
+2. Set the cache to disabled. Make sure the logs say it's indeed disabled
+(at INFO level). Then try it and confirm the cache is not used. That should
+also become apparent from the logs (at least when DEBUG is enabled).
+
+3. Try to set the cache enabled property to an invalid value. Make sure the
+initialization of the framework fails.
+
+4. Set the XSLT template location to various valid and invalid values.
+
+[ ] ---
+ACL:
+1. Have a xins.properties file with the ACL setting:
+
+      deny 127.0.0.1/24 *
+
+   Start a XINS API implementation.
+   Confirm that localhost is denied access.
+
+2. Create a file called "acl.txt" in the directory where the servlet
+   container is started. Put the following in it:
+
+      # comment should be ignored
+      deny 127.0.0.0/25 *
+      # another comment to be ignored
+
+3. Change the ACL setting in the xins.properties file to:
+
+      file acl.txt;allow 127.0.0.1/24 *
+
+   Wait until the framework re-initializes.
+   Confirm that it is the rule "deny 127.0.0.5/25 *" that takes precedence
+   over the rule in the xins.properties file.
+
+4. Change the ACL setting in the acl.txt file to:
+
+      deny 10.0.0.1 *
+
+   Confirm that localhost is now allowed access.
+
+[ ] ---
+No build version in web.xml:
+1. Deploy any API.
+
+2. Change the web.xml in the WAR file. Remove the XINS build version. Put it
+   in the WAR file again. Deploy the API.
+
+3. Check the log. Confirm that there is a warning in there because the XINS
+   build version is not set.
+
+[ ] ---
+Re-initialization:
+* Have an API implementation with a function that takes a long time to
+  re-initialize (for example, 120 seconds). Make the file reload interval
+  significantly smaller, for example 6 seconds.
+
+Confirm the following:
+
+1. During the re-initialization, the file watcher should be suspended. The
+   framework should not try to re-initialize while already in a
+   re-initialization process.
+
+2. During re-initialization, any call to the framework should return a special
+   HTTP status code that indicates that no calls are handled. Test with both a
+   meta-function (such as _NoOp) and with a regular function.

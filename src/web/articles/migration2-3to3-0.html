@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: migration2-3to3-0.html,v 1.8 2012/10/20 08:27:27 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>XINS - Migration from XINS 2.3 to XINS 3.0</title>
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+        <script src="../functions.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <h1>XINS<span class="nodisplay"> - </span>
+            <span id="subtitle">Migration from XINS 2.3 to XINS 3.0</span>
+        </h1>
+        <h2>Introduction</h2>
+        XINS 3.0 is not directly compatible with XINS 2.3. 
+        The main reason is a simplification of the API.
+        Most of the changes to make your code work with 3.0 is by doing replacements 
+        <h2>Replacements</h2>
+        <ul>
+            <li>Replace <span class="note">PropertyReader</span> with <strong>Map&lt;String, String&gt;</strong>.</li>
+            <li>Replace <span class="note">org.xins.common.xml</span>.Element with <strong>org.w3c.dom</strong>.Element<br/>
+                You may want to use org.xins.common.xml.ElementList to help you.</li>
+            <li>Replace <span class="note">ipAddress()</span> with <strong>backpack().get(BackpackConstants.IP)</strong>.</li>
+            <li>Replace <span class="note">Calling convertion protected void convertResultImpl(FunctionResult      xinsResult,
+                    HttpServletResponse httpResponse,
+                    HttpServletRequest  httpRequest)</span> with
+                protected void convertResultImpl(FunctionResult      xinsResult,
+                HttpServletResponse httpResponse,
+                <strong>Map&lt;String, Object&gt; backpack</strong>).
+                You can look at the XINS calling conventions for some examples.
+            </li>
+            <li>For custom calling convention, the FunctionRequest has changed of constructor arguments
+                from <span class="note">String, PropertyReader, org.xins.xml.Element</span> to <span class="note">String, Map&lt;String, String&gt;, org.w3c.dom.Element</span></li>
+            <li>Remove DTD validation from logdoc xml files</li>
+            <li>Add the attributes <span class="note">domain</span> and <span class="note">public</span> to the log element.</li>
+            <li>For the XML, the method Element.getAttribute() returns a empty string instead of null now. Note that the Java Element class has a hasAttribute() method.</li>
+        </ul>
+    </body>
+</html>
