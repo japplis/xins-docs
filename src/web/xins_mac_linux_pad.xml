@@ -13,7 +13,7 @@
 		<State_Province />
 		<Zip_Postal_Code />
 		<Country>The Netherlands</Country>
-		<Company_WebSite_URL>http://xins.sourceforge.net</Company_WebSite_URL>
+		<Company_WebSite_URL>https://www.xins.org</Company_WebSite_URL>
 		<Contact_Info>
 			<Author_First_Name>Anthony</Author_First_Name>
 			<Author_Last_Name>Goubard</Author_Last_Name>
@@ -85,11 +85,11 @@
 	</Program_Descriptions>
 	<Web_Info>
 		<Application_URLs>
-			<Application_Info_URL>http://xins.sourceforge.net/</Application_Info_URL>
+			<Application_Info_URL>https://www.xins.org</Application_Info_URL>
 			<Application_Order_URL />
-			<Application_Screenshot_URL>http://xins.sourceforge.net/primers/xins-primer-response.png</Application_Screenshot_URL>
+			<Application_Screenshot_URL>https://www.xins.org/primers/xins-primer-response.png</Application_Screenshot_URL>
 			<Application_Icon_URL />
-			<Application_XML_File_URL>http://xins.sourceforge.net/xins_mac_linux_pad.xml</Application_XML_File_URL>
+			<Application_XML_File_URL>https://www.xins.org/xins_mac_linux_pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
 			<Primary_Download_URL>http://downloads.sourceforge.net/project/xins/xins/2.2/xins-2.2.tgz?use_mirror=cdnetworks-us-2&ts=1280884238&r=http://xins.sourceforge.net/</Primary_Download_URL>

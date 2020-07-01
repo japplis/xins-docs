@@ -154,7 +154,7 @@
         <itemizedlist>
           <listitem>
             <para>Download <ulink
-            url="http://prdownloads.sourceforge.net/xins/xins-3.0.exe?download">xins-3.0.exe</ulink>
+            url="https://github.com/japplis/xins/releases/download/3.1/xins-3.1.exe">xins-3.1.exe</ulink>
             and execute it. A new directory <filename>c:\Program
             Files\xins</filename> is created.</para>
           </listitem>
@@ -175,13 +175,13 @@
         <itemizedlist>
           <listitem>
             <para>Download <ulink
-            url="http://prdownloads.sourceforge.net/xins/xins-3.0.tgz?download">XINS
-            3.0</ulink>.</para>
+            url="https://github.com/japplis/xins/releases/download/3.1/xins-3.1.tgz">XINS
+            3.1</ulink>.</para>
           </listitem>
 
           <listitem>
             <para>Unpack the downloaded file (
-            <filename>xins-3.0.tgz</filename>) to a directory.</para>
+            <filename>xins-3.1.tgz</filename>) to a directory.</para>
           </listitem>
 
           <listitem>
@@ -789,7 +789,7 @@ import com.mycompany.myproject.types.Gender;
       added in XINS 1.4.0. This package provides you with some objects which
       facilitates the call to remote API asynchronously. For more information,
       read the article published at <ulink
-      url="http://xins.sourceforge.net/asynchronous.html">http://xins.sourceforge.net/asynchronous.html</ulink>.</para>
+      url="https://www.xins.org/asynchronous.html">https://www.xins.org/asynchronous.html</ulink>.</para>
 
       <para>As of XINS 1.5.0, it is also possible to call the API without
       using the HTTP connection but directly as a function call. You just need
@@ -2184,7 +2184,7 @@ rcsversion="$Revision: 1.106 $" rcsdate="$Date: 2013/01/23 10:00:59 $"&gt;
       <para>Note that when the specification documentation (specdocs) is
       generated the HTML pages describing the logging message is also
       generated. You can see the XINS logdoc at <ulink
-      url="http://xins.sourceforge.net/logdoc.html">http://xins.sourceforge.net/logdoc.html</ulink>.</para>
+      url="https://www.xins.org/logdoc.html">https://www.xins.org/logdoc.html</ulink>.</para>
     </sect2>
 
     <sect2 id="configure.logs">
@@ -3718,7 +3718,7 @@ String firstName = _sharedObject.getFirstName(request.getLastName());</programli
 
       <para>More information on how to create your own calling convention is
       provided in the <ulink
-      url="http://xins.sourceforge.net/ccprimer.html">calling convention
+      url="https://www.xins.org/ccprimer.html">calling convention
       primer</ulink>.</para>
 
       <para>You can also look at the <literal>fileupload</literal> API
@@ -4235,7 +4235,7 @@ String firstName = _sharedObject.getFirstName(request.getLastName());</programli
         <para><command>xins checkstyle</command></para>
 
         <para>Description: Checks the source code for compliance to the <ulink
-        url="http://xins.sourceforge.net/XINS%20Java%20Coding%20Conventions%20-%20v1.0%20-%20July%202006.pdf">Java
+        url="https://www.xins.org/XINS%20Java%20Coding%20Conventions%20-%20v1.0%20-%20July%202006.pdf">Java
         coding convention</ulink>. It also perform some analisys of the
         code.</para>
 
@@ -4505,7 +4505,7 @@ String firstName = _sharedObject.getFirstName(request.getLastName());</programli
     <title>Performances</title>
 
     <para>XINS performances are regularly measured. An <ulink
-    url="http://xins.sourceforge.net/articles/performance.html">old article
+    url="https://www.xins.org/articles/performance.html">old article
     about XINS performance</ulink> shows that XINS could be even faster than
     the competition.</para>
 
@@ -4686,33 +4686,33 @@ capi.setXINSCallConfig(config);
       </itemizedlist>
 
       <para>On the website <ulink
-      url="http://www.xins.org/documentation.html">http://www.xins.org/documentation.html</ulink>,
+      url="https://www.xins.org/documentation.html">https://www.xins.org/documentation.html</ulink>,
       the following extra documentation is available</para>
 
       <itemizedlist>
         <listitem>
           <para>A document to help you <ulink
-          url="http://xins.sourceforge.net/articles/migration2-3to3-0.html">migrate
+          url="https://www.xins.org/articles/migration2-3to3-0.html">migrate
           API</ulink> written for XINS 2.3 or lower to XINS 3.0.</para>
         </listitem>
 
         <listitem>
           <para>Articles over <ulink
-          url="http://xins.sourceforge.net/articles/asynchronous.html">Asynchronious
+          url="https://www.xins.org/articles/asynchronous.html">Asynchronious
           calls</ulink>, <ulink
-          url="http://xins.sourceforge.net/articles/resultcaching.html">Result
+          url="https://www.xins.org/articles/resultcaching.html">Result
           caching</ulink>, API implementation with <ulink
-          url="http://xins.sourceforge.net/articles/scripting.html">scripting
+          url="https://www.xins.org/articles/scripting.html">scripting
           languages</ulink> and <ulink
-          url="http://xins.sourceforge.net/articles/performance.html">XINS
+          url="https://www.xins.org/articles/performance.html">XINS
           performance</ulink>.</para>
         </listitem>
 
         <listitem>
           <para>Presentations of XINS for <ulink
-          url="http://xins.sourceforge.net/presentations/xins_intro.pdf">managements</ulink>
+          url="https://www.xins.org/presentations/xins_intro.pdf">managements</ulink>
           and <ulink
-          url="http://xins.sourceforge.net/presentations/frameworks_and_xins.pdf">developers</ulink>.</para>
+          url="https://www.xins.org/presentations/frameworks_and_xins.pdf">developers</ulink>.</para>
         </listitem>
       </itemizedlist>
     </sect2>

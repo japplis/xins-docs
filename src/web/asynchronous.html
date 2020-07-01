@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- $Id: asynchronous.html,v 1.14 2007/09/14 11:19:24 agoubard Exp $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>XINS - Asynchronous calls</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+		<script src="functions.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>XINS<span class="nodisplay"> - </span>
+			<span id="subtitle">Asynchronous calls (by <a href="mailto:agoubard@users.sourceforge.net">Anthony Goubard</a>)</span>
+		</h1>
+
+		<div id="root">
+
+			<div id="sidebar">
+				<script src="write_togglemenu.js" type="text/javascript"></script>
+        <ul id="menu">
+          <li                 ><a title="Front page of the XINS website"                                           href="index.html">Home Page</a></li>
+          <li class="newgroup"><a title="Complete distribution, including source and docs, as a Windows installer" href="https://github.com/japplis/xins/releases/download/3.1/xins-3.1.exe">Download Win Installer</a></li>
+          <li                 ><a title="Complete distribution, including source and docs, as a gzip-ed TAR file"  href="https://github.com/japplis/xins/releases/download/3.1/xins-3.1.tgz">Download TAR GZ</a></li>
+          <li                 ><a title="XINS documentation (manuals, Javadoc, articles, presentations, ...)"      href="documentation.html">Documentation</a></li>
+          <li                 ><a title="Demonstration Page"                                                       href="demo.html">Demo</a></li>
+          <li class="newgroup"><a title="XINS RFE (&quot;Request For Enhancement&quot;) Database"                  href="https://www.github.com/japplis/xins">GitHub repository</a></li>
+          <li class="newgroup"><a title="Various links"                                                            href="links.html">Links</a></li>
+        </ul>
+			</div>
+
+			<div id="content">
+				<div class="section">
+					<h2 id="intro">Introduction</h2>
+XINS has primarily been designed to execute calls synchronously and most of the time it's what you need.
+But there are some situations where you want the call to be asynchronous. For example:
+<ol>
+<li>You have to call several APIs or several functions at the same time.</li>
+<li>You do not expect any answer from the call or the answer is not important and you ignore errors.</li>
+<li>You don't want to wait for the answer because the call can take a lot of time.</li>
+<li>You want to call several functions and handle the results
+as you receive them.</li>
+<li>You want to call an API from a graphical user interface but you don't want the
+user interface to freeze during the call.</li>
+</ol>
+<p/>
+				</div>
+
+				<div class="section">
+					<h2 id="parallel">Parallel calls (Solution for 1. and 2.)</h2>
+The first case is when an action calls several independent XINS functions. Then it would be more
+efficient if it was done in parallel.<br/>
+The solution is to execute the calls in separated threads and then to call the
+<a href='http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Thread.html#join()'>Thread.join()</a> method
+on all started threads in order to wait for the threads to finish before continuing the program.
+<p/>
+Let's take the example where we want the details of a customer,
+for which, we need to call 2 functions, one to get the address details and another
+one to ask the account details.
+<div class="indent"><pre>// Create the Client API. The CAPI will be used to call the API.
+CAPI capi = new CAPI(descriptor);
+
+int customerId = 12345654;
+
+// Create and start the thread that calls the AccountDetails function
+AccountDetailsThread callThread = new AccountDetailsThread(capi, customerId);
+callAccountDetails.start();
+
+// You don't need to create another thread to call the address details,
+// just use the current thread
+AddressDetailsResult addressDetails = capi.callAddressDetails(customerId);
+
+// Wait for the AccountDetails function to finish (if it has not finished yet)
+// If you are not interested in the response of the call,
+// you can remove the call to the join() method
+callAccountDetails.join();
+
+AccountDetailsResult accountDetails = null;
+if (callAccountDetails.getException() != null) {
+   throw callAccountDetails.getException();
+} else {
+   accountDetails = callAccountDetails.getResult();
+}
+
+// Congratulation! At this point, you have the address and account details.
+
+
+/**
+ * Thread that calls the AccountDetails function.
+ */
+class AccountDetailsThread extends Thread {
+
+   private CAPI _capi;
+   private int _id;
+   private Exception _exception;
+   private AccountDetailsResult _result;
+
+   AccountDetailsThread(CAPI capi, int id {
+      _capi = capi;
+      _id = id;
+   }
+
+   public void run() {
+      try {
+         _result = _capi.callAccountDetails(_id);
+      } catch (Exception ex) {
+         _exception = ex;
+      }
+   }
+
+   public Exception getException() {
+      return _exception;
+   }
+
+   public AccountDetailsResult getResult() {
+      return _result;
+   }
+}</pre></div>
+<!--a href="CustomerDetails.java">Download source code</a-->
+					<p/>
+If you needed to make a third call then you would need to create another thread class.
+<p/>
+If you have a lot of parallel calls to execute, you may consider using the more generic
+<a href="http://xins.sourceforge.net/j2h/latest/org/xins/client/async/CallCAPIThread.java.html">CallCAPIThread</a> class
+(<a href="http://xins.sourceforge.net/javadoc/latest/org/xins/client/async/CallCAPIThread.html">javadoc</a>).
+				</div>
+
+				<div class="section">
+					<h2 id="listener">Get notified of the result (Solution for 3. and 4.)</h2>
+Another case of asynchronous calls is when you want to call an API and get notified
+when the answer is received.<br/>
+This can be done with listeners. The listeners will get invoked when the result is received.<br/>
+This function is provided by a new
+<a href="http://xins.sourceforge.net/javadoc/latest/org/xins/client/async/package-summary.html">org.xins.client.async</a>
+package.
+This package is part of XINS as of XINS 1.4.
+<p/>
+The package contains the following classes:
+<ul>
+  <li>AsynchronousCall: Class where you register the listener and perform the call.</li>
+  <li>CallListener: Interface for a listener that is notified when a call finishes (either successfully or not).</li>
+  <li>CallSucceededEvent: Event received when the call succeeded.</li>
+  <li>CallFailedEvent: Event received when the call failed.</li>
+</ul>
+Let's see an example on how to use these classes:
+<div class="indent"><pre>
+/**
+ * Adds credits to a customer.
+ */
+class AddCreditsClient implements CallListener {
+
+   public AddCreditsClient(CAPI capi, int credits, int customerID) {
+      AsynchronousCall asyncCall = new AsynchronousCall();
+
+      // Register this call in order to be notified when the result arrives
+      asyncCall.addCallListener(this);
+      AddCreditsRequest request = new AddCreditsRequest();
+      request.setCustomerID(customerID);
+      request.setCreditsToAdd(credits);
+
+      // Start the call in a separate thread
+      asyncCall.call(capi, request);
+   }
+
+   public void callSucceeded(CallSucceededEvent event) {
+      AddCreditsResult result = (AddCreditsResult) event.getResult();
+      AddCreditsRequest request = (AddCreditsRequest) event.getRequest();
+
+      // Here we just show the result, but we could have logged the information
+      // or stored it in a database.
+      System.out.println("Customer N\u00b0 " + request.getCustomerID() +
+            " has been credited. His new credit is $" +
+            result.getCustomerCredit() + ".");
+   }
+
+   public void callFailed(CallFailedEvent event) {
+      AddCreditsRequest request = (AddCreditsRequest) event.getRequest();
+
+      // The reason why the call failed
+      Exception exception = event.getException();
+
+      // Depending on the error, we show a different message
+      if (exception instanceof UnsuccessfulXINSCallException) {
+         System.err.println("Failed to credit the customer N\u00b0 " +
+               request.getCustomerID() + ". Error on server side: " +
+               ((UnsuccessfulXINSCallException) exception).getErrorCode());
+      } else {
+         System.err.println("Failed to credit the customer N\u00b0 " +
+               request.getCustomerID() + ". Reason: " +
+               event.getException().getMessage());
+      }
+   }
+}</pre>
+</div>
+<!--a href="AddCreditsClient.java">Download source code</a-->
+					<p/>
+				</div>
+
+				<div class="section">
+					<h2 id="eventthread">Call in user interface (Solution for 5.)</h2>
+Another case where asynchronous call is needed is when you want to call a function
+after an action on a Swing user interface (like clicking on a button).<br/>
+Because Swing is single threaded the user interface will freeze (typically showing a grey rectangle)
+until the event finishes. This can take up to several seconds, depending on the
+network and the API function.<p/>
+ If you don't need to update the user interface with
+the result, you could use one of the two previous solutions. But if you want to update
+the user interface with the result, you will need to do it on the event dispatch thread.<p/>
+Sun has developed a class named
+<a href="http://java.sun.com/docs/books/tutorial/uiswing/misc/example-1dot4/SwingWorker.java">SwingWorker</a>
+ to deal with this issue. This class will
+be available in the upcoming Java SE 6 and is already available for download for
+older Java versions.<p/>
+More information and examples on how to use it are available at:
+<a href="http://java.sun.com/docs/books/tutorial/uiswing/misc/threads.html#SwingWorker">http://java.sun.com/docs/books/tutorial/uiswing/misc/threads.html#SwingWorker</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
